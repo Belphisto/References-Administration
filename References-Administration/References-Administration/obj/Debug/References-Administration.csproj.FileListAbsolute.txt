@@ -39,3 +39,13 @@ E:\Лена документы\GitHub\References-Administration\References-Admin
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References-Administration.exe
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References-Administration.pdb
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.StartForm.resources
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.DepartmentForm.resources
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.Configuration.ConfigurationManager.dll
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.Security.AccessControl.dll
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.Security.Permissions.dll
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.Security.Principal.Windows.dll
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.Configuration.ConfigurationManager.xml
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.Security.AccessControl.xml
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.Security.Permissions.xml
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.Security.Principal.Windows.xml
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.EditDepartmentForm.resources

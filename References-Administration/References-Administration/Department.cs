@@ -11,7 +11,7 @@ namespace References_Administration
     {
         private int _id;
         private string _name;
-        private int _parentID;
+        private int? _parentID;
 
         // Свойства класса
         public int ID
@@ -26,10 +26,16 @@ namespace References_Administration
             set { _name = value; }
         }
 
-        public int ParentID
+        public int? ParentID
         {
             get { return _parentID; }
             set { _parentID = value; }
+        }
+
+        // Метод ToString() для получения строкового представления объекта
+        public override string ToString()
+        {
+            return $"Department ID: {_id}, Name: {_name}, Parent ID: {_parentID}";
         }
 
         // CRUD операции
@@ -47,7 +53,7 @@ namespace References_Administration
         }
 
         // Чтение данных подразделения по его идентификатору
-        public void Read(NpgsqlConnection connection, int departmentID)
+        /*public void Read(NpgsqlConnection connection, int departmentID)
         {
             string query = "SELECT * FROM department WHERE id = @DepartmentID";
 
@@ -65,7 +71,53 @@ namespace References_Administration
                     }
                 }
             }
+        }*/
+        public static Department Read(NpgsqlConnection connection, int departmentID)
+        {
+            Department department = null;
+            string query = "SELECT * FROM department WHERE id = @DepartmentID";
+
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@DepartmentID", departmentID);
+
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        department = new Department();
+                        department.ID = (int)reader["id"];
+                        department.Name = reader["name"].ToString();
+                        department.ParentID = (int)reader["parent_id"];
+                    }
+                }
+            }
+            return department;
         }
+
+        public static Department Read(NpgsqlConnection connection, string departmentName)
+        {
+            Department department = null;
+            string query = "SELECT * FROM department WHERE name = @DepartmentName";
+
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@DepartmentName", departmentName);
+
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        department = new Department();
+                        department.ID = (int)reader["id"];
+                        department.Name = reader["name"].ToString();
+                        department.ParentID = (int)reader["parent_id"];
+                    }
+                }
+            }
+            return department;
+        }
+
 
         // Обновление данных подразделения
         public void Update(NpgsqlConnection connection)
