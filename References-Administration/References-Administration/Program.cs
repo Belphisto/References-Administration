@@ -17,7 +17,9 @@ namespace References_Administration
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             LogToFile.Activate();
+            Log.WriteLog($"Программа запущена");
             Application.Run(new StartForm());
+            Log.WriteLog($"Работа программы завершена");
         }
     }
 }

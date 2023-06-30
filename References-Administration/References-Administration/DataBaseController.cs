@@ -22,6 +22,7 @@ namespace References_Administration
         {
             string connectionString = "Host=localhost;Username=postgres;Password=admin;Database=References_Administration";
             connection = new NpgsqlConnection(connectionString);
+            Log.WriteLog($"DataBaseController/DataBaseController()/ соединение {connection} открыто успешно ");
             connection.Open();
         }
 
@@ -30,40 +31,8 @@ namespace References_Administration
             if (connection != null && connection.State == ConnectionState.Open)
             {
                 connection.Close();
+                Log.WriteLog($"DataBaseController/CloseConnection()/ соединение {connection} завершено успешно ");
             }
-        }
-
-        public List<Department> GetDepartments()
-        {
-            List<Department> departments = new List<Department>();
-
-            string query = "SELECT * FROM department";
-            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
-            {
-                using (NpgsqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Department department = new Department();
-                        department.ID = (int)reader["id"];
-                        department.Name = reader["name"].ToString();
-                        // Проверка на значение NULL
-                        if (!reader.IsDBNull(reader.GetOrdinal("parent_id")))
-                        {
-                            department.ParentID = (int)reader["parent_id"];
-                        }
-                        else
-                        {
-                            department.ParentID = null;
-                        }
-
-                        departments.Add(department);
-                        Log.WriteLog($"department {department} add to List<Department> departments ");
-                    }
-                }
-            }
-
-            return departments;
         }
     }
 }

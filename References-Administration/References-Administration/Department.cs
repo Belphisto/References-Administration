@@ -38,6 +38,7 @@ namespace References_Administration
             return $"Department ID: {_id}, Name: {_name}, Parent ID: {_parentID}";
         }
 
+
         // CRUD операции
         // Создание нового подразделения
         public void Create(NpgsqlConnection connection)
@@ -53,7 +54,7 @@ namespace References_Administration
         }
 
         // Чтение данных подразделения по его идентификатору
-        public static Department Read(NpgsqlConnection connection, int departmentID)
+        public static Department Read(NpgsqlConnection connection, int? departmentID)
         {
             Department department = null;
             string query = "SELECT * FROM department WHERE id = @DepartmentID";
@@ -69,7 +70,7 @@ namespace References_Administration
                         department = new Department();
                         department.ID = (int)reader["id"];
                         department.Name = reader["name"].ToString();
-                        department.ParentID = (int)reader["parent_id"];
+                        department.ParentID = (int?)reader["parent_id"];
                     }
                 }
             }
@@ -129,6 +130,26 @@ namespace References_Administration
                 using (NpgsqlCommand updateCommand = new NpgsqlCommand(updateQuery, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@NewParentID", parentID);
+                    updateCommand.Parameters.AddWithValue("@DepartmentID", _id);
+                    updateCommand.ExecuteNonQuery();
+                }
+
+                // если пользователь относится к удаляемому подразделению, переместить пользователя в подразделение родителя
+                string updateClientsQuery = "UPDATE client SET id_department = @NewDepartmentID WHERE id_department = @DepartmentID";
+                using (NpgsqlCommand updateCommand = new NpgsqlCommand(updateClientsQuery, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@NewDepartmentID", parentID);
+                    updateCommand.Parameters.AddWithValue("@DepartmentID", _id);
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+            else 
+            {
+                // если пользователь относится к удаляемому подразделению без родителя, пользователь не относится ни к какому подразделению
+                string updateClientsQuery = "UPDATE client SET id_department = @NewDepartmentID WHERE id_department = @DepartmentID";
+                using (NpgsqlCommand updateCommand = new NpgsqlCommand(updateClientsQuery, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@NewDepartmentID", null);
                     updateCommand.Parameters.AddWithValue("@DepartmentID", _id);
                     updateCommand.ExecuteNonQuery();
                 }

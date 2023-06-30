@@ -25,7 +25,7 @@ namespace References_Administration
 
         private void Directory_Click(object sender, EventArgs e)
         {
-            var directory = new ClientForm();
+            var directory = new ClientsForm();
             directory.ShowDialog(this);
         }
     }

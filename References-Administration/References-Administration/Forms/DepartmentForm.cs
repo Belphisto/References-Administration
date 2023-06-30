@@ -27,9 +27,7 @@ namespace References_Administration
             dataBase = new DataBaseController();
 
             // Получить данные из базы данных
-            //List<Department> departments = dataBase.GetDepartments();
-            departments = dataBase.GetDepartments();
-            Log.WriteLog(departments[0].ToString());
+            departments = DepartmentController.GetDepartments(dataBase.Connection);
             // Заполнить TreeView
             FillTreeView(departments);
 
@@ -76,7 +74,7 @@ namespace References_Administration
 
             // Получить данные из базы данных
             //var departments = dataBase.GetDepartments();
-            departments = dataBase.GetDepartments();
+            departments = DepartmentController.GetDepartments(dataBase.Connection);
 
             // Заполнить TreeView
             FillTreeView(departments);

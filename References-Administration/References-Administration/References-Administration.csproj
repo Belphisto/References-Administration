@@ -113,6 +113,20 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs" />
+    <Compile Include="ClientController.cs" />
+    <Compile Include="Forms\EditClientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditClientForm.Designer.cs">
+      <DependentUpon>EditClientForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ClientsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ClientsForm.Designer.cs">
+      <DependentUpon>ClientsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Config.cs" />
     <Compile Include="DataBaseController.cs" />
     <Compile Include="Department.cs" />
@@ -122,12 +136,6 @@
     </Compile>
     <Compile Include="Forms\EditDepartmentForm.Designer.cs">
       <DependentUpon>EditDepartmentForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ClientForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ClientForm.Designer.cs">
-      <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\DepartmentForm.cs">
       <SubType>Form</SubType>
@@ -144,6 +152,12 @@
     <Compile Include="Forms\StartForm.Designer.cs">
       <DependentUpon>StartForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\EditClientForm.resx">
+      <DependentUpon>EditClientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ClientsForm.resx">
+      <DependentUpon>ClientsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditDepartmentForm.resx">
       <DependentUpon>EditDepartmentForm.cs</DependentUpon>
     </EmbeddedResource>

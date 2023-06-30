@@ -18,7 +18,7 @@ namespace References_Administration
         //конструктор для формы редактирования объекта
         public EditDepartmentForm(Department department, DataBaseController dataBase)
         {
-            Log.WriteLog($"Форма для редактирования открыта");
+            Log.WriteLog($" EditDepartmentForm : Form/EditDepartmentForm(Department department, DataBaseController dataBase)/ Форма для редактирования открыта");
             InitializeComponent();
             _department = department;
             _dataBase = dataBase;
@@ -30,7 +30,7 @@ namespace References_Administration
         // конструктор для формы создания объекта
         public EditDepartmentForm(DataBaseController dataBase)
         {
-            Log.WriteLog($"Форма для редактирования открыта");
+            Log.WriteLog($"EditDepartmentForm : Form/ EditDepartmentForm(DataBaseController dataBase)/ Форма для создания открыта");
             InitializeComponent();
             _department = new Department(); 
             _dataBase = dataBase;
@@ -41,8 +41,7 @@ namespace References_Administration
         private void EditDepartmentForm_Load(object sender, EventArgs e)
         {
             // Загрузить данные всех подразделений
-            List<Department> departments = _dataBase.GetDepartments();
-            Log.WriteLog($"EditDepartmentForm_Load: количество отделений для выбора родительского элемента = {departments.Count}");
+            List<Department> departments = DepartmentController.GetDepartments(_dataBase.Connection);
             
             // Заполнить ListBox названиями подразделений
             foreach (Department department in departments)
@@ -51,7 +50,6 @@ namespace References_Administration
                 else
                 {
                     DepartmentsNameListBox.Items.Add(department.Name);
-                    Log.WriteLog($"EditDepartmentForm_Load:DepartmentsNameListBox.Items.Add(department.Name) {department.Name}");
                 }
             }
         }
@@ -77,10 +75,12 @@ namespace References_Administration
                     _department.ParentID = selectedParent.ID;
                 }
                 _department.Update(_dataBase.Connection);
+                Log.WriteLog($"EditDepartmentForm : Form/SaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_department} произошло успешно");
                 this.Close();
             }
             else
             {
+                Log.WriteLog($"EditDepartmentForm : Form/SaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_department} не удалось");
                 MessageBox.Show("Название подразделения не может быть пустым!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
@@ -96,10 +96,12 @@ namespace References_Administration
                 Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
                 _department.ParentID = selectedParent.ID;
                 _department.Create(_dataBase.Connection);
+                Log.WriteLog($"EditDepartmentForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта {_department} произошло успешно");
                 this.Close();
             } 
             else
             {
+                Log.WriteLog($"EditDepartmentForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта не удалось");
                 MessageBox.Show("Не все поля заполнены!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
