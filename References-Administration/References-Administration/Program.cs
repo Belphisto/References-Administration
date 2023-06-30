@@ -16,6 +16,7 @@ namespace References_Administration
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            LogToFile.Activate();
             Application.Run(new StartForm());
         }
     }

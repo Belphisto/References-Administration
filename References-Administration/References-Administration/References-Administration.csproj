@@ -116,10 +116,11 @@
     <Compile Include="Config.cs" />
     <Compile Include="DataBaseController.cs" />
     <Compile Include="Department.cs" />
-    <Compile Include="EditDepartmentForm.cs">
+    <Compile Include="DepartmentController.cs" />
+    <Compile Include="Forms\EditDepartmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditDepartmentForm.Designer.cs">
+    <Compile Include="Forms\EditDepartmentForm.Designer.cs">
       <DependentUpon>EditDepartmentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ClientForm.cs">
@@ -143,7 +144,7 @@
     <Compile Include="Forms\StartForm.Designer.cs">
       <DependentUpon>StartForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="EditDepartmentForm.resx">
+    <EmbeddedResource Include="Forms\EditDepartmentForm.resx">
       <DependentUpon>EditDepartmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DepartmentForm.resx">

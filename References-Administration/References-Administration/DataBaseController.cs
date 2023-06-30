@@ -35,8 +35,6 @@ namespace References_Administration
 
         public List<Department> GetDepartments()
         {
-            LogToFile.Activate();
-
             List<Department> departments = new List<Department>();
 
             string query = "SELECT * FROM department";

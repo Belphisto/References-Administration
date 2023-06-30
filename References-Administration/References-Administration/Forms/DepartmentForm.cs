@@ -102,7 +102,7 @@ namespace References_Administration
                 Department selectedDepartment = selectedNode.Tag as Department;
 
                 // Проверить, что объект Department не равен null
-                if (selectedDepartment != null)
+                if (selectedDepartment != null && selectedDepartment.ID != 1)
                 {
                     // Открыть новую форму для редактирования выбранного объекта Department
                     EditDepartmentForm editForm = new EditDepartmentForm(selectedDepartment, dataBase);
@@ -121,12 +121,36 @@ namespace References_Administration
 
         private void AddDepartmentButton_Click(object sender, EventArgs e)
         {
-
+            EditDepartmentForm editForm = new EditDepartmentForm(dataBase);
+            Log.WriteLog("Открыта форма для добавления подразделения;");
+            editForm.ShowDialog();
+            // Обновить данные в дереве TreeView после редактирования
+            UpdateTreeView();
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
+            // Получить выбранный узел в дереве TreeView
+            TreeNode selectedNode = treeView.SelectedNode;
 
+            // Проверить, что узел выбран
+            if (selectedNode != null)
+            {
+                Log.WriteLog("Элемент выбран");
+                // Получить объект Department из Tag выбранного узла
+                Department selectedDepartment = selectedNode.Tag as Department;
+
+                // Проверить, что объект Department не равен null
+                if (selectedDepartment != null && selectedDepartment.ID != 1)
+                {
+                    selectedDepartment.Delete(dataBase.Connection);
+                    // Обновить данные в дереве TreeView после редактирования
+                    UpdateTreeView();
+                }
+
+                Log.WriteLog("selectedDepartment = null;");
+            }
+            Log.WriteLog("Элемент не выбран");
         }
     }
 }

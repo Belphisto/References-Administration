@@ -35,6 +35,7 @@ namespace References_Administration
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.DepartmentsNameListBox = new System.Windows.Forms.ListBox();
+            this.CreateButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // SaveButton
@@ -88,14 +89,25 @@ namespace References_Administration
             this.DepartmentsNameListBox.FormattingEnabled = true;
             this.DepartmentsNameListBox.Location = new System.Drawing.Point(71, 188);
             this.DepartmentsNameListBox.Name = "DepartmentsNameListBox";
-            this.DepartmentsNameListBox.Size = new System.Drawing.Size(577, 30);
+            this.DepartmentsNameListBox.Size = new System.Drawing.Size(577, 134);
             this.DepartmentsNameListBox.TabIndex = 5;
+            // 
+            // CreateButton
+            // 
+            this.CreateButton.Location = new System.Drawing.Point(293, 362);
+            this.CreateButton.Name = "CreateButton";
+            this.CreateButton.Size = new System.Drawing.Size(113, 31);
+            this.CreateButton.TabIndex = 6;
+            this.CreateButton.Text = "Создать";
+            this.CreateButton.UseVisualStyleBackColor = true;
+            this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
             // EditDepartmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.CreateButton);
             this.Controls.Add(this.DepartmentsNameListBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -117,5 +129,6 @@ namespace References_Administration
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListBox DepartmentsNameListBox;
+        private System.Windows.Forms.Button CreateButton;
     }
 }

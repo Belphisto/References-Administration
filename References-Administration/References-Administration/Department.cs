@@ -53,25 +53,6 @@ namespace References_Administration
         }
 
         // Чтение данных подразделения по его идентификатору
-        /*public void Read(NpgsqlConnection connection, int departmentID)
-        {
-            string query = "SELECT * FROM department WHERE id = @DepartmentID";
-
-            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@DepartmentID", departmentID);
-
-                using (NpgsqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        _id = (int)reader["id"];
-                        _name = reader["name"].ToString();
-                        _parentID = (int)reader["parent_id"];
-                    }
-                }
-            }
-        }*/
         public static Department Read(NpgsqlConnection connection, int departmentID)
         {
             Department department = null;
@@ -95,6 +76,7 @@ namespace References_Administration
             return department;
         }
 
+        // Чтение данных подразделения по его наименованию
         public static Department Read(NpgsqlConnection connection, string departmentName)
         {
             Department department = null;
@@ -111,7 +93,7 @@ namespace References_Administration
                         department = new Department();
                         department.ID = (int)reader["id"];
                         department.Name = reader["name"].ToString();
-                        department.ParentID = (int)reader["parent_id"];
+                        department.ParentID = reader["parent_id"] != DBNull.Value ? (int?)Convert.ToInt32(reader["parent_id"]) : null;
                     }
                 }
             }
@@ -137,13 +119,27 @@ namespace References_Administration
         // Удаление подразделения по его идентификатору
         public void Delete(NpgsqlConnection connection)
         {
-            string query = "DELETE FROM department WHERE id = @DepartmentID";
+            // Получить идентификатор родительского подразделения
+            int? parentID = this.ParentID;
 
-            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            // Обновить ссылки на родителя в дочерних подразделениях
+            if (parentID != null)
             {
-                command.Parameters.AddWithValue("@DepartmentID", _id);
+                string updateQuery = "UPDATE department SET parent_id = @NewParentID WHERE parent_id = @DepartmentID";
+                using (NpgsqlCommand updateCommand = new NpgsqlCommand(updateQuery, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@NewParentID", parentID);
+                    updateCommand.Parameters.AddWithValue("@DepartmentID", _id);
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
 
-                command.ExecuteNonQuery();
+            // Удалить текущее подразделение из базы данных
+            string deleteQuery = "DELETE FROM department WHERE id = @DepartmentID";
+            using (NpgsqlCommand deleteCommand = new NpgsqlCommand(deleteQuery, connection))
+            {
+                deleteCommand.Parameters.AddWithValue("@DepartmentID", _id);
+                deleteCommand.ExecuteNonQuery();
             }
         }
     }
