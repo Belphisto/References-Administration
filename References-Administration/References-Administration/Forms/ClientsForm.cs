@@ -115,6 +115,9 @@ namespace References_Administration
 
         private void RefreshDataGridView()
         {
+            clients = ClientController.GetClients(dataBase.Connection);
+            totalClients = clients.Count;
+            departments = DepartmentController.GetDepartments(dataBase.Connection);
             // Очистить dataGridView1
             dataGridView1.DataSource = null;
             dataGridView1.Rows.Clear();
