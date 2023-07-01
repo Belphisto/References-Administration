@@ -13,7 +13,8 @@ namespace References_Administration
     public partial class ClientsForm : Form
     {
         private const int pageSize = 20;
-        private static int totalClients;
+        private int currentPage = 1;
+        private int totalClients;
         private DataBaseController dataBase;
         private List<Client> clients;
         private List<Department> departments;
@@ -27,6 +28,11 @@ namespace References_Administration
             dataGridView1.ReadOnly = true;
             bindingNavigator1.AddNewItem.Enabled = true;
             bindingNavigator1.DeleteItem.Enabled = true;
+            //bindingNavigatorMoveNextItem.Enabled = true;
+            //bindingNavigatorMovePreviousItem.Enabled = true;
+            //bindingNavigatorPositionItem.Enabled = true;
+            //bindingNavigatorCountItem.Enabled = true;
+
             //bindingNavigator1.BindingSource = bindingSource1;
             //bindingSource1.CurrentChanged += new System.EventHandler(bindingSource1_CurrentChanged);
             //bindingSource1.DataSource = new PageOffsetList();
@@ -43,7 +49,7 @@ namespace References_Administration
             clients = ClientController.GetClients(dataBase.Connection);
             totalClients = clients.Count;
             departments = DepartmentController.GetDepartments(dataBase.Connection);
-
+            //ShowCurrentPage();
             // Заполнить таблицу данными клиентов
             // Преобразовать список клиентов только с нужными полями в анонимный тип
             var clientsData = clients.Select(c => new
@@ -57,28 +63,12 @@ namespace References_Administration
             dataGridView1.DataSource = clientsData;
         }
 
-        private void bindingSource1_CurrentChanged(object sender, EventArgs e)
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // The desired page has changed, so fetch the page of records using the "Current" offset 
-            int offset = (int)bindingSource1.Current;
-            //var records = new List<Record>();
-            // for (int i = offset; i < offset + pageSize && i < totalRecords; i++)
-            //records.Add(new Record { Index = i });
-            dataGridView1.DataSource = clients;
-        }
-
-        class PageOffsetList : System.ComponentModel.IListSource
-        {
-            public bool ContainsListCollection { get; protected set; }
-
-            public System.Collections.IList GetList()
-            {
-                // Return a list of page offsets based on "totalClients" and "pageSize"
-                var pageOffsets = new List<int>();
-                for (int offset = 0; offset < totalClients; offset += pageSize)
-                    pageOffsets.Add(offset);
-                return pageOffsets;
-            }
+            // Закрыть подключение к базе данных при закрытии формы
+            Log.WriteLog("Закрыть подключение к базе данных при закрытии формы;");
+            dataBase.CloseConnection();
+            base.OnFormClosing(e);
         }
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
@@ -135,5 +125,63 @@ namespace References_Administration
             // Заполнить таблицу данными клиентов
             dataGridView1.DataSource = clientsData;
         }
+
+        private void ShowCurrentPage()
+        {
+            // Определить индекс первого и последнего элементов текущей страницы
+            int startIndex = (currentPage - 1) * pageSize;
+            int endIndex = Math.Min(startIndex + pageSize - 1, totalClients - 1);
+
+            // Получить подмножество клиентов для текущей страницы
+            var clientsSubset = clients.Skip(startIndex).Take(pageSize).ToList();
+
+            // Преобразовать список клиентов только с нужными полями в анонимный тип
+            var clientsData = clientsSubset.Select(c => new
+            {
+                Login = c.Login,
+                FullName = c.FullName,
+                Department = c.GetDepartmentName(dataBase.Connection, c.DepartmentID)
+            }).ToList();
+
+            // Очистить dataGridView1
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
+            // Заполнить таблицу данными клиентов
+            dataGridView1.DataSource = clientsData;
+
+            // Обновить надпись с информацией о текущей странице
+            bindingNavigatorPositionItem.Text = string.Format(" {0}", currentPage);
+            bindingNavigatorCountItem.Text = string.Format("{0}",GetTotalPages());
+        }
+
+        private void bindingNavigatorMoveNextItem_Click(object sender, EventArgs e)
+        {
+            // Перейти к следующей странице, если она существует
+            if (currentPage < GetTotalPages())
+            {
+                currentPage++;
+                ShowCurrentPage();
+            }
+        }
+
+        private void bindingNavigatorMovePreviousItem_Click(object sender, EventArgs e)
+        {
+            // Перейти к предыдущей странице, если она существует
+            if (currentPage > 1)
+            {
+                currentPage--;
+                ShowCurrentPage();
+            }
+        }
+
+        private int GetTotalPages()
+        {
+            // Рассчитать общее число страниц на основе общего числа элементов и размера страницы
+            return (int)Math.Ceiling((double)totalClients / pageSize);
+        }
+
+
     }
 }

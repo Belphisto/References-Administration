@@ -83,6 +83,7 @@ namespace References_Administration
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             // Закрыть подключение к базе данных при закрытии формы
+            Log.WriteLog("Закрыть подключение к базе данных при закрытии формы;");
             dataBase.CloseConnection();
             base.OnFormClosing(e);
         }
@@ -100,7 +101,8 @@ namespace References_Administration
                 Department selectedDepartment = selectedNode.Tag as Department;
 
                 // Проверить, что объект Department не равен null
-                if (selectedDepartment != null && selectedDepartment.ID != 1)
+                //if (selectedDepartment != null && selectedDepartment.ID != 1)
+                if (selectedDepartment != null)
                 {
                     // Открыть новую форму для редактирования выбранного объекта Department
                     EditDepartmentForm editForm = new EditDepartmentForm(selectedDepartment, dataBase);
@@ -139,8 +141,9 @@ namespace References_Administration
                 Department selectedDepartment = selectedNode.Tag as Department;
 
                 // Проверить, что объект Department не равен null
+                //if (selectedDepartment != null && selectedDepartment.ID != 1)
                 if (selectedDepartment != null && selectedDepartment.ID != 1)
-                {
+                    {
                     selectedDepartment.Delete(dataBase.Connection);
                     // Обновить данные в дереве TreeView после редактирования
                     UpdateTreeView();

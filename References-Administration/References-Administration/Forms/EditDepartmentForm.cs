@@ -88,13 +88,17 @@ namespace References_Administration
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if (DepartmentsNameListBox.SelectedItem != null && NameTextBox.Text != null)
+            if ( NameTextBox.Text != null)
             {
+                if (DepartmentsNameListBox.SelectedItem != null)
+                {
+                    string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
+                    Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
+                    _department.ParentID = selectedParent.ID;
+                }
                 _department.Name = NameTextBox.Text;
                 // Получить выбранное название подразделения
-                string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-                Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
-                _department.ParentID = selectedParent.ID;
+                
                 _department.Create(_dataBase.Connection);
                 Log.WriteLog($"EditDepartmentForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта {_department} произошло успешно");
                 this.Close();
@@ -102,7 +106,7 @@ namespace References_Administration
             else
             {
                 Log.WriteLog($"EditDepartmentForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта не удалось");
-                MessageBox.Show("Не все поля заполнены!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Название подразделения не заполнено!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
         }

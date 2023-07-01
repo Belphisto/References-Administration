@@ -109,18 +109,22 @@ namespace References_Administration
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if (DepartmentsNameListBox.SelectedItem != null && LoginTextBox.Text != "" && FullName.Text != "" && PasswordTextBox.Text != "")
+            if ( LoginTextBox.Text != "" && FullName.Text != "" && PasswordTextBox.Text != "")
             {
+                if (DepartmentsNameListBox.SelectedItem != null)
+                {
+                    // Получить выбранное название подразделения
+                    string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
+                    Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
+                    _client.DepartmentID = selectedParent.ID;
+                }
+                //else { _client.DepartmentID = null; }
                 if (PasswordTextBox.Text == PasswordRetryTextBox.Text)
                 {
                     _client.FullName = FullName.Text;
                     _client.Login = LoginTextBox.Text;
                     _client.PasswordHash = ClientController.HashPassword(PasswordRetryTextBox.Text);
 
-                    // Получить выбранное название подразделения
-                    string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-                    Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
-                    _client.DepartmentID = selectedParent.ID;
                     try
                     {
                         _client.Create(_dataBase.Connection);
@@ -154,5 +158,7 @@ namespace References_Administration
                 MessageBox.Show("Не все поля заполнены!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
     }
 }
