@@ -26,6 +26,10 @@ namespace References_Administration
             labelLogin.Visible = false;
             LoginTextBox.Visible = false;
 
+            PasswordTextBox.PasswordChar = '*';
+            PasswordRetryTextBox.PasswordChar = '*';
+            LastPasswordTextBox.PasswordChar = '*';
+
             FullName.Text = _client.FullName;
 
 
@@ -42,6 +46,10 @@ namespace References_Administration
             LastPasswordLabel.Visible = false;
             LastPasswordTextBox.Visible = false;
             this.Load += EditClientForm_Load;
+
+            PasswordTextBox.PasswordChar = '*';
+            PasswordRetryTextBox.PasswordChar = '*';
+            LastPasswordTextBox.PasswordChar = '*';
         }
 
         private void EditClientForm_Load(object sender, EventArgs e)
