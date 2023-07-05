@@ -103,14 +103,15 @@ namespace References_Administration
         public static List<string> GetUserRoles(NpgsqlConnection connection, Client client)
         {
             List<string> roles = new List<string>();
-            string query = "SELECT * FROM role";
+            string query = "SELECT r.name FROM role r JOIN userrole ur ON ur.roleid = r.id JOIN client c ON c.id = ur.userid WHERE c.id = @ClientID";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ClientID", client.ID);
                 using (NpgsqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        roles.Add(reader["name"].ToString());
+                        roles.Add(reader["r.name"].ToString());
                     }
                 }
             }
@@ -120,9 +121,10 @@ namespace References_Administration
         public static List<string> GetMissingRoles(NpgsqlConnection connection, Client client)
         {
             List<string> roles = new List<string>();
-            string query = "SELECT * FROM role";
+            string query = "SELECT r.name FROM role r WHERE r.id NOT IN( SELECT ur.roleid FROM userrole ur WHERE ur.userid = @ClientID);";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ClientID", client.ID);
                 using (NpgsqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())

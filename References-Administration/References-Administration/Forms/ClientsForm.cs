@@ -64,9 +64,6 @@ namespace References_Administration
             dataGridView1.DataSource = clientsData;
 
             // Загрузить все роли
-            //List<string> roles = RoleController.GetRoles(dataBase.Connection);
-
-            // Заполнить ListBox названиями подразделений
             RefreshRolesView();
         }
 
@@ -133,18 +130,6 @@ namespace References_Administration
             dataGridView1.DataSource = clientsData;
         }
 
-        private void RefreshRolesView()
-        {
-            comboBoxEditRole.Items.Clear();
-            List<string> roles = RoleController.GetRoles(dataBase.Connection);
-            // Заполнить ListBox названиями подразделений
-            foreach (string role in roles)
-            {
-                comboBoxEditRole.Items.Add(role);
-
-            }
-        }
-
         private void ShowCurrentPage()
         {
             // Определить индекс первого и последнего элементов текущей страницы
@@ -203,7 +188,16 @@ namespace References_Administration
 
         private void buttonEditRole_Click(object sender, EventArgs e)
         {
-
+            if (comboBoxEditRole.SelectedItem != null && textBoxNewRole.Text != "")
+            {
+                string lastrole = comboBoxEditRole.SelectedItem.ToString();
+                string newrole = textBoxNewRole.Text;
+                RoleController.Update(dataBase.Connection, lastrole, newrole);
+                MessageBox.Show("роль обновлена успешно", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                comboBoxEditRole.SelectedItem = null;
+                textBoxNewRole.Text = "";
+                RefreshRolesView();
+            }
         }
 
         private void buttonDeleteRole_Click(object sender, EventArgs e)
@@ -214,6 +208,7 @@ namespace References_Administration
                 RoleController.Delete(dataBase.Connection, role);
                 MessageBox.Show("роль удалена", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 comboBoxEditRole.SelectedItem = null;
+
                 RefreshRolesView();
             }
             else
@@ -232,6 +227,7 @@ namespace References_Administration
                     RoleController.Create(dataBase.Connection, newRole);
                     MessageBox.Show("роль создана", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     RefreshRolesView();
+                    textBoxNewRole.Text = "";
                 }
                 else { MessageBox.Show("Роль не может быть пустой", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -239,6 +235,60 @@ namespace References_Administration
             {
                 MessageBox.Show("такая роль уже существует", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void RefreshRolesView()
+        {
+            comboBoxEditRole.Items.Clear();
+            List<string> roles = RoleController.GetRoles(dataBase.Connection);
+            // Заполнить ListBox названиями подразделений
+            foreach (string role in roles)
+            {
+                comboBoxEditRole.Items.Add(role);
+            }
+        }
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            DataGridViewRow selectedRow = dataGridView1.CurrentRow;
+            // Проверяем, есть ли выбранная строка в dataGridView1
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                // Получаем выбранного клиента из выбранной строки
+                Client selectedClient = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
+
+                // Вызываем методы RefreshRolesToAddView и RefreshRolesToRemoveView
+                RefreshRolesToAddView(selectedClient);
+                RefreshRolesToRemoveView(selectedClient);
+            }
+        }
+
+        private void RefreshRolesToAddView(Client client)
+        {
+            checkedListBoxDeletedRoles.Items.Clear();
+            List<string> roles = RoleController.GetUserRoles(dataBase.Connection, client);
+            foreach (string role in roles)
+            {
+                checkedListBoxDeletedRoles.Items.Add(role);
+            }
+        }
+        private void RefreshRolesToRemoveView(Client client)
+        {
+            checkedListBoxAddingRoles.Items.Clear();
+            List<string> roles = RoleController.GetMissingRoles(dataBase.Connection, client);
+            foreach (string role in roles)
+            {
+                checkedListBoxAddingRoles.Items.Add(role);
+            }
+        }
+
+        private void buttonDeleteUserRole_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonAddUserRole_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

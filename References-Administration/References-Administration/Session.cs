@@ -34,7 +34,6 @@ namespace References_Administration
         public List<string> Roles
         {
             get { return _roles; }
-            set { _roles = value; }
         }
 
         public Client User
