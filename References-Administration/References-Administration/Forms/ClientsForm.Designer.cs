@@ -46,6 +46,13 @@ namespace References_Administration
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripEditButton = new System.Windows.Forms.ToolStripButton();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.buttonCreateRole = new System.Windows.Forms.Button();
+            this.buttonDeleteRole = new System.Windows.Forms.Button();
+            this.buttonEditRole = new System.Windows.Forms.Button();
+            this.buttonChangeUserRole = new System.Windows.Forms.Button();
+            this.checkedListBoxUserRoles = new System.Windows.Forms.CheckedListBox();
+            this.comboBoxEditRole = new System.Windows.Forms.ComboBox();
+            this.textBoxNewRole = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
@@ -187,11 +194,80 @@ namespace References_Administration
             this.toolStripEditButton.Text = "Редактировать";
             this.toolStripEditButton.Click += new System.EventHandler(this.toolStripEditButton_Click);
             // 
+            // buttonCreateRole
+            // 
+            this.buttonCreateRole.Location = new System.Drawing.Point(656, 151);
+            this.buttonCreateRole.Name = "buttonCreateRole";
+            this.buttonCreateRole.Size = new System.Drawing.Size(133, 29);
+            this.buttonCreateRole.TabIndex = 2;
+            this.buttonCreateRole.Text = "Создать роль";
+            this.buttonCreateRole.UseVisualStyleBackColor = true;
+            this.buttonCreateRole.Click += new System.EventHandler(this.buttonCreateRole_Click);
+            // 
+            // buttonDeleteRole
+            // 
+            this.buttonDeleteRole.Location = new System.Drawing.Point(655, 28);
+            this.buttonDeleteRole.Name = "buttonDeleteRole";
+            this.buttonDeleteRole.Size = new System.Drawing.Size(133, 29);
+            this.buttonDeleteRole.TabIndex = 3;
+            this.buttonDeleteRole.Text = "Удалить роль";
+            this.buttonDeleteRole.UseVisualStyleBackColor = true;
+            this.buttonDeleteRole.Click += new System.EventHandler(this.buttonDeleteRole_Click);
+            // 
+            // buttonEditRole
+            // 
+            this.buttonEditRole.Location = new System.Drawing.Point(655, 90);
+            this.buttonEditRole.Name = "buttonEditRole";
+            this.buttonEditRole.Size = new System.Drawing.Size(133, 29);
+            this.buttonEditRole.TabIndex = 4;
+            this.buttonEditRole.Text = "Редактировать роль";
+            this.buttonEditRole.UseVisualStyleBackColor = true;
+            this.buttonEditRole.Click += new System.EventHandler(this.buttonEditRole_Click);
+            // 
+            // buttonChangeUserRole
+            // 
+            this.buttonChangeUserRole.Location = new System.Drawing.Point(655, 356);
+            this.buttonChangeUserRole.Name = "buttonChangeUserRole";
+            this.buttonChangeUserRole.Size = new System.Drawing.Size(133, 48);
+            this.buttonChangeUserRole.TabIndex = 5;
+            this.buttonChangeUserRole.Text = "Обновить роли пользователя";
+            this.buttonChangeUserRole.UseVisualStyleBackColor = true;
+            // 
+            // checkedListBoxUserRoles
+            // 
+            this.checkedListBoxUserRoles.FormattingEnabled = true;
+            this.checkedListBoxUserRoles.Location = new System.Drawing.Point(656, 241);
+            this.checkedListBoxUserRoles.Name = "checkedListBoxUserRoles";
+            this.checkedListBoxUserRoles.Size = new System.Drawing.Size(132, 109);
+            this.checkedListBoxUserRoles.TabIndex = 6;
+            // 
+            // comboBoxEditRole
+            // 
+            this.comboBoxEditRole.FormattingEnabled = true;
+            this.comboBoxEditRole.Location = new System.Drawing.Point(656, 63);
+            this.comboBoxEditRole.Name = "comboBoxEditRole";
+            this.comboBoxEditRole.Size = new System.Drawing.Size(133, 21);
+            this.comboBoxEditRole.TabIndex = 8;
+            // 
+            // textBoxNewRole
+            // 
+            this.textBoxNewRole.Location = new System.Drawing.Point(656, 125);
+            this.textBoxNewRole.Name = "textBoxNewRole";
+            this.textBoxNewRole.Size = new System.Drawing.Size(133, 20);
+            this.textBoxNewRole.TabIndex = 9;
+            // 
             // ClientsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBoxNewRole);
+            this.Controls.Add(this.comboBoxEditRole);
+            this.Controls.Add(this.checkedListBoxUserRoles);
+            this.Controls.Add(this.buttonChangeUserRole);
+            this.Controls.Add(this.buttonEditRole);
+            this.Controls.Add(this.buttonDeleteRole);
+            this.Controls.Add(this.buttonCreateRole);
             this.Controls.Add(this.bindingNavigator1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "ClientsForm";
@@ -224,5 +300,12 @@ namespace References_Administration
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripButton toolStripEditButton;
+        private System.Windows.Forms.Button buttonCreateRole;
+        private System.Windows.Forms.Button buttonDeleteRole;
+        private System.Windows.Forms.Button buttonEditRole;
+        private System.Windows.Forms.Button buttonChangeUserRole;
+        private System.Windows.Forms.CheckedListBox checkedListBoxUserRoles;
+        private System.Windows.Forms.ComboBox comboBoxEditRole;
+        private System.Windows.Forms.TextBox textBoxNewRole;
     }
 }

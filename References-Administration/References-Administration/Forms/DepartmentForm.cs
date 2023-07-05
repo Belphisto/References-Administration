@@ -144,12 +144,18 @@ namespace References_Administration
                 //if (selectedDepartment != null && selectedDepartment.ID != 1)
                 if (selectedDepartment != null && selectedDepartment.ID != 1)
                     {
-                    selectedDepartment.Delete(dataBase.Connection);
-                    // Обновить данные в дереве TreeView после редактирования
-                    UpdateTreeView();
-                }
-
-                Log.WriteLog("selectedDepartment = null;");
+                    try
+                    {
+                        DepartmentController.Delete(dataBase.Connection, selectedDepartment);
+                        // Обновить данные в дереве TreeView после редактирования
+                        UpdateTreeView();
+                        Log.WriteLog("selectedDepartment = null;");
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        MessageBox.Show("Невозможно удалить подразделение, так как существуют связанные пользователи.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                } 
             }
             Log.WriteLog("Элемент не выбран");
         }

@@ -71,10 +71,10 @@ namespace References_Administration
                     // Получить выбранное название подразделения
                     string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
 
-                    Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
+                    Department selectedParent = DepartmentController.Read(_dataBase.Connection, selectedDepartmentName);
                     _department.ParentID = selectedParent.ID;
                 }
-                _department.Update(_dataBase.Connection);
+                DepartmentController.Update(_dataBase.Connection, _department);
                 Log.WriteLog($"EditDepartmentForm : Form/SaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_department} произошло успешно");
                 this.Close();
             }
@@ -93,13 +93,13 @@ namespace References_Administration
                 if (DepartmentsNameListBox.SelectedItem != null)
                 {
                     string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-                    Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
+                    Department selectedParent = DepartmentController.Read(_dataBase.Connection, selectedDepartmentName);
                     _department.ParentID = selectedParent.ID;
                 }
                 _department.Name = NameTextBox.Text;
                 // Получить выбранное название подразделения
-                
-                _department.Create(_dataBase.Connection);
+
+                DepartmentController.Create(_dataBase.Connection, _department);
                 Log.WriteLog($"EditDepartmentForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта {_department} произошло успешно");
                 this.Close();
             } 

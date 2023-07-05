@@ -15,73 +15,64 @@ namespace References_Administration
     {
         private DataBaseController dataBase;
         private Session session;
+
         public StartForm()
         {
             InitializeComponent();
-            
             session = Session.GetInstance();
+            ShowLoginControls(session.IsAuthenticated);
+        }
 
-            labelLogin.Visible = true;
-            labelPassword.Visible = true;
-            LogintextBox.Visible = true;
-            PasswordtextBox.Visible = true;
+        private void ShowLoginControls(bool isLogin)
+        {
+            labelLogin.Visible = !isLogin;
+            labelPassword.Visible = !isLogin;
+            LogintextBox.Visible = !isLogin;
+            PasswordtextBox.Visible = !isLogin;
             PasswordtextBox.PasswordChar = '*';
-            authorizationButton.Visible = true;
-            buttonLogOut.Visible = false;
-            labelCurrentSession.Visible = false;
+            authorizationButton.Visible = !isLogin;
+            buttonLogOut.Visible = isLogin;
+            labelCurrentSession.Visible = isLogin;
+            if (isLogin) labelCurrentSession.Text = $"Вы вошли как {session.GetName()}";
+            LogintextBox.Text = string.Empty;
+            PasswordtextBox.Text = string.Empty;
         }
 
         private void Administration_Click(object sender, EventArgs e)
         {
-           var department = new DepartmentForm();
-           department.ShowDialog(this);
+            var departmentForm = new DepartmentForm();
+            departmentForm.ShowDialog(this);
         }
 
         private void Directory_Click(object sender, EventArgs e)
         {
-            var directory = new ClientsForm();
-            directory.ShowDialog(this);
+            var clientsForm = new ClientsForm();
+            clientsForm.ShowDialog(this);
         }
 
         private void authorizationButton_Click(object sender, EventArgs e)
         {
             dataBase = new DataBaseController();
             string login = LogintextBox.Text;
-            string password_hash = ClientController.HashPassword(PasswordtextBox.Text);
-            Client currentClient = new Client();
-            
-                currentClient = Client.Read(dataBase.Connection, login);
-                if (currentClient != null && currentClient.PasswordHash == password_hash)
-                {
-                    session.Login(currentClient);
-                    labelLogin.Visible = false;
-                    labelPassword.Visible = false;
-                    LogintextBox.Visible = false;
-                    PasswordtextBox.Visible = false;
-                    authorizationButton.Visible = false;
-                    buttonLogOut.Visible = true;
-                    labelCurrentSession.Visible = true;
-                    labelCurrentSession.Text = $"Вы вошли как {session.GetName()}"; 
-                }
-                else
-                {
-                    MessageBox.Show($"Неверный логин или пароль! \n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            string passwordHash = ClientController.HashPassword(PasswordtextBox.Text);
+            Client currentClient = ClientController.Read(dataBase.Connection, login);
+
+            if (currentClient != null && currentClient.PasswordHash == passwordHash)
+            {
+                session.Login(currentClient);
+                ShowLoginControls(session.IsAuthenticated);
+            }
+            else
+            {
+                MessageBox.Show("Неверный логин или пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonLogOut_Click(object sender, EventArgs e)
         {
             session.Logout();
-            labelLogin.Visible = true;
-            labelPassword.Visible = true;
-            LogintextBox.Visible = true;
-            PasswordtextBox.Visible = true;
-            authorizationButton.Visible = true;
-            buttonLogOut.Visible = false;
-            labelCurrentSession.Visible = false;
-            LogintextBox.Text = string.Empty;
-            PasswordtextBox.Text = string.Empty;
-
+            ShowLoginControls(session.IsAuthenticated);
         }
     }
+
 }

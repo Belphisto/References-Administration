@@ -152,6 +152,7 @@
     <Compile Include="Forms\StartForm.Designer.cs">
       <DependentUpon>StartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoleController.cs" />
     <Compile Include="Session.cs" />
     <EmbeddedResource Include="Forms\EditClientForm.resx">
       <DependentUpon>EditClientForm.cs</DependentUpon>

@@ -18,6 +18,7 @@ namespace References_Administration
         private DataBaseController dataBase;
         private List<Client> clients;
         private List<Department> departments;
+        //private List<string> roles;
 
         public ClientsForm()
         {
@@ -61,6 +62,12 @@ namespace References_Administration
 
             // Заполнить таблицу данными клиентов
             dataGridView1.DataSource = clientsData;
+
+            // Загрузить все роли
+            //List<string> roles = RoleController.GetRoles(dataBase.Connection);
+
+            // Заполнить ListBox названиями подразделений
+            RefreshRolesView();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -84,8 +91,8 @@ namespace References_Administration
             DataGridViewRow selectedRow = dataGridView1.CurrentRow;
             if (selectedRow != null)
             {
-                Client editClient = Client.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
-                editClient.Delete(dataBase.Connection);
+                Client editClient = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
+                ClientController.Delete(dataBase.Connection, editClient); 
                 // Обновить данные в dataGridView1
                 RefreshDataGridView();
             }
@@ -96,7 +103,7 @@ namespace References_Administration
             DataGridViewRow selectedRow = dataGridView1.CurrentRow;
             if (selectedRow != null)
             {
-                Client editClient = Client.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
+                Client editClient = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
                 EditClientForm editForm = new EditClientForm(editClient, dataBase);
                 editForm.ShowDialog();
                 RefreshDataGridView();
@@ -124,6 +131,18 @@ namespace References_Administration
 
             // Заполнить таблицу данными клиентов
             dataGridView1.DataSource = clientsData;
+        }
+
+        private void RefreshRolesView()
+        {
+            comboBoxEditRole.Items.Clear();
+            List<string> roles = RoleController.GetRoles(dataBase.Connection);
+            // Заполнить ListBox названиями подразделений
+            foreach (string role in roles)
+            {
+                comboBoxEditRole.Items.Add(role);
+
+            }
         }
 
         private void ShowCurrentPage()
@@ -182,6 +201,44 @@ namespace References_Administration
             return (int)Math.Ceiling((double)totalClients / pageSize);
         }
 
+        private void buttonEditRole_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void buttonDeleteRole_Click(object sender, EventArgs e)
+        {
+            if (comboBoxEditRole.SelectedItem != null)
+            {
+                string role = comboBoxEditRole.SelectedItem.ToString();
+                RoleController.Delete(dataBase.Connection, role);
+                MessageBox.Show("роль удалена", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                comboBoxEditRole.SelectedItem = null;
+                RefreshRolesView();
+            }
+            else
+            {
+                MessageBox.Show("Выберите роль из списка суещствующих", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonCreateRole_Click(object sender, EventArgs e)
+        {
+            string newRole = textBoxNewRole.Text;
+            try
+            {
+                if (newRole != "")
+                {
+                    RoleController.Create(dataBase.Connection, newRole);
+                    MessageBox.Show("роль создана", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    RefreshRolesView();
+                }
+                else { MessageBox.Show("Роль не может быть пустой", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("такая роль уже существует", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

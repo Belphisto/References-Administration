@@ -24,7 +24,7 @@ namespace References_Administration
                         client.ID = (int)reader["id"];
                         client.FullName = reader["fullname"].ToString();
                         client.Login = reader["login"].ToString();
-                        client.DepartmentID = (int?)reader["id_department"];
+                        client.DepartmentID = (int)reader["id_department"];
                         client.PasswordHash = reader["password_hash"].ToString();
                         clients.Add(client);
                         Log.WriteLog($"ClientController/GetClients(NpgsqlConnection connection)/ department {client} add to List<Client> clients ");
@@ -42,6 +42,103 @@ namespace References_Administration
                 byte[] hashBytes = sha256.ComputeHash(inputBytes);
                 string hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
                 return hash;
+            }
+        }
+
+        // CRUD операции
+        // Создание нового пользователя
+        public static void Create(NpgsqlConnection connection, Client client)
+        {
+            string query = "INSERT INTO client (fullname, login, password_hash, id_department) VALUES (@Fullname, @Login, @Password_hash, @Id_department)";
+
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Fullname", client.FullName);
+                command.Parameters.AddWithValue("@Login", client.Login);
+                command.Parameters.AddWithValue("@Password_hash", client.PasswordHash);
+                command.Parameters.AddWithValue("@Id_department", client.DepartmentID);
+                command.ExecuteNonQuery();
+            }
+        }
+
+        // Чтение данных пользователя по его идентификатору
+        public static Client Read(NpgsqlConnection connection, int id)
+        {
+            Client client = null;
+            string query = "SELECT * FROM client WHERE id = @ClientID";
+
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ClientID", id);
+
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        client = new Client();
+                        client.ID = (int)reader["id"];
+                        client.FullName = reader["fullname"].ToString();
+                        client.Login = reader["login"].ToString();
+                        client.PasswordHash = reader["password_hash"].ToString();
+                        client.DepartmentID = (int)reader["id_department"];
+                    }
+                }
+            }
+            return client;
+        }
+
+        // Чтение данных подразделения по его наименованию
+
+        public static Client Read(NpgsqlConnection connection, string clientLogin)
+        {
+            Client client = null;
+            string query = "SELECT * FROM client WHERE login = @ClientLogin";
+
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ClientLogin", clientLogin);
+
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        client = new Client();
+                        client.ID = (int)reader["id"];
+                        client.FullName = reader["fullname"].ToString();
+                        client.Login = reader["login"].ToString();
+                        client.PasswordHash = reader["password_hash"].ToString();
+                        client.DepartmentID = (int)reader["id_department"];
+                    }
+                }
+            }
+            return client;
+        }
+
+
+        // Обновление данных подразделения
+        public static void Update(NpgsqlConnection connection, Client client)
+        {
+            string query = "UPDATE client SET fullname = @Fullname, password_hash = @Password_hash, id_department = @Department_ID WHERE id = @ClientID";
+
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ClientID", client.ID);
+                command.Parameters.AddWithValue("@Fullname", client.FullName);
+                command.Parameters.AddWithValue("@Password_hash", client.PasswordHash);
+                command.Parameters.AddWithValue("@Department_ID", client.DepartmentID);
+                command.ExecuteNonQuery();
+            }
+        }
+
+        // Удаление пользователя по его идентификатору
+        public static void Delete(NpgsqlConnection connection, Client client)
+        {
+            // Удалить текущего пользователя из базы данных
+            string deleteQuery = "DELETE FROM client WHERE id = @ClientID";
+            using (NpgsqlCommand deleteCommand = new NpgsqlCommand(deleteQuery, connection))
+            {
+                deleteCommand.Parameters.AddWithValue("@ClientID", client.ID) ;
+                deleteCommand.ExecuteNonQuery();
             }
         }
     }

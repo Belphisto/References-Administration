@@ -12,6 +12,7 @@ namespace References_Administration
         private bool _isAuthenticated = false;
         //private string username;
         private Client _client;
+        private List<string> _roles;
 
         private Session() { }
         public static Session GetInstance()
@@ -29,10 +30,13 @@ namespace References_Administration
         {
             return _client.Login;
         }
-        //public string Username
-        //{
-        //    get { return username; }
-        //}
+
+        public List<string> Roles
+        {
+            get { return _roles; }
+            set { _roles = value; }
+        }
+
         public Client User
         {
             get { return _client; }
@@ -40,19 +44,15 @@ namespace References_Administration
 
         public void Login(Client client)
         {
-            // Здесь вы можете добавить логику проверки аутентификации,
-            // например, проверить имя пользователя и пароль в базе данных или другом источнике.
-
-            // Предположим, что аутентификация успешна и имя пользователя верное.
+            // аутентификация успешна
             _isAuthenticated = true;
             this._client = client;
         }
 
         public void Logout()
         {
-            // Выполните все необходимые операции для завершения сеанса пользователя.
+            // завершения сеанса пользователя.
             _isAuthenticated = false;
-            //username = null;
             _instance = null;
             _client = null;
         }

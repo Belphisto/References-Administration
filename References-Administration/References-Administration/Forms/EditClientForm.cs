@@ -54,13 +54,17 @@ namespace References_Administration
 
         private void EditClientForm_Load(object sender, EventArgs e)
         {
-            // Загрузить данные всех подразделений
-            List<Department> departments = DepartmentController.GetDepartments(_dataBase.Connection);
-
-            // Заполнить ListBox названиями подразделений
-            foreach (Department department in departments)
+            // Проверить, содержит ли уже список подразделений элементы
+            if (DepartmentsNameListBox.Items.Count == 0)
             {
-                DepartmentsNameListBox.Items.Add(department.Name);
+                // Загрузить данные всех подразделений
+                List<Department> departments = DepartmentController.GetDepartments(_dataBase.Connection);
+
+                // Заполнить ListBox названиями подразделений
+                foreach (Department department in departments)
+                {
+                    DepartmentsNameListBox.Items.Add(department.Name);
+                }
             }
         }
 
@@ -82,7 +86,7 @@ namespace References_Administration
                         // Получить выбранное название подразделения
                         string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
 
-                        Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
+                        Department selectedParent = DepartmentController.Read(_dataBase.Connection, selectedDepartmentName);
                         _client.DepartmentID = selectedParent.ID;
                     }
                     if (PasswordTextBox.Text != "")
@@ -103,7 +107,7 @@ namespace References_Administration
                     Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_client} не удалось");
                     MessageBox.Show("Поле ФИО не может быть пустым!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                _client.Update(_dataBase.Connection);
+                ClientController.Update(_dataBase.Connection, _client);
                 Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_client} произошло успешно");
                 this.Close();
             }
@@ -117,15 +121,13 @@ namespace References_Administration
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if ( LoginTextBox.Text != "" && FullName.Text != "" && PasswordTextBox.Text != "")
+            if ( LoginTextBox.Text != "" && FullName.Text != "" && PasswordTextBox.Text != "" && DepartmentsNameListBox.SelectedItem != null)
             {
-                if (DepartmentsNameListBox.SelectedItem != null)
-                {
-                    // Получить выбранное название подразделения
-                    string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-                    Department selectedParent = Department.Read(_dataBase.Connection, selectedDepartmentName);
-                    _client.DepartmentID = selectedParent.ID;
-                }
+
+               // Получить выбранное название подразделения
+               string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
+               Department selectedParent = DepartmentController.Read(_dataBase.Connection, selectedDepartmentName);
+               _client.DepartmentID = selectedParent.ID;
                 //else { _client.DepartmentID = null; }
                 if (PasswordTextBox.Text == PasswordRetryTextBox.Text)
                 {
@@ -135,7 +137,7 @@ namespace References_Administration
 
                     try
                     {
-                        _client.Create(_dataBase.Connection);
+                        ClientController.Create(_dataBase.Connection, _client);
                         Log.WriteLog($"EditClientForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта {_client} произошло успешно");
                         this.Close();
                     }
