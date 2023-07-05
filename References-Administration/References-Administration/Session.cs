@@ -34,6 +34,7 @@ namespace References_Administration
         public List<string> Roles
         {
             get { return _roles; }
+            set => _roles = value;
         }
 
         public Client User
@@ -41,12 +42,14 @@ namespace References_Administration
             get { return _client; }
         }
 
-        public void Login(Client client)
+        public void Login(Client client, List<string> Roles)
         {
             // аутентификация успешна
             _isAuthenticated = true;
+            _roles = Roles;
             this._client = client;
         }
+
 
         public void Logout()
         {
@@ -54,6 +57,7 @@ namespace References_Administration
             _isAuthenticated = false;
             _instance = null;
             _client = null;
+            _roles = null;
         }
     }
 }

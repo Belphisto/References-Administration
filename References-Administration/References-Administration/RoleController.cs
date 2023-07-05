@@ -111,7 +111,7 @@ namespace References_Administration
                 {
                     while (reader.Read())
                     {
-                        roles.Add(reader["r.name"].ToString());
+                        roles.Add(reader["name"].ToString());
                     }
                 }
             }

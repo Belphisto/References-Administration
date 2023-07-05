@@ -283,12 +283,31 @@ namespace References_Administration
 
         private void buttonDeleteUserRole_Click(object sender, EventArgs e)
         {
-
+            DataGridViewRow selectedRow = dataGridView1.CurrentRow;
+            Client client_deleterole = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
+            //List<string> selectedItems = new List<string>();
+            foreach (var item in checkedListBoxDeletedRoles.CheckedItems)
+            {
+                string selectedItem = item.ToString();
+                //selectedItems.Add(selectedItem);
+                RoleController.RemoveRoleFromClient(dataBase.Connection, selectedItem, client_deleterole);
+            }
+            RefreshRolesToRemoveView(client_deleterole);
+            RefreshRolesToAddView(client_deleterole);
         }
 
         private void buttonAddUserRole_Click(object sender, EventArgs e)
         {
-
+            DataGridViewRow selectedRow = dataGridView1.CurrentRow;
+            Client client_addrole = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
+            foreach (var item in checkedListBoxAddingRoles.CheckedItems)
+            {
+                string selectedItem = item.ToString();
+                //selectedItems.Add(selectedItem);
+                RoleController.AddRoleToClient(dataBase.Connection, selectedItem, client_addrole);
+            }
+            RefreshRolesToRemoveView(client_addrole);
+            RefreshRolesToAddView(client_addrole);
         }
     }
 }

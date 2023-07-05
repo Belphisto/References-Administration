@@ -33,7 +33,7 @@ namespace References_Administration
             authorizationButton.Visible = !isLogin;
             buttonLogOut.Visible = isLogin;
             labelCurrentSession.Visible = isLogin;
-            if (isLogin) labelCurrentSession.Text = $"Вы вошли как {session.GetName()}";
+            if (isLogin) labelCurrentSession.Text = $"Вы вошли как {session.GetName()} роли {session.Roles.Count}";
             LogintextBox.Text = string.Empty;
             PasswordtextBox.Text = string.Empty;
         }
@@ -59,8 +59,9 @@ namespace References_Administration
 
             if (currentClient != null && currentClient.PasswordHash == passwordHash)
             {
-                session.Login(currentClient);
+                session.Login(currentClient, RoleController.GetUserRoles(dataBase.Connection, currentClient));
                 ShowLoginControls(session.IsAuthenticated);
+                //session.Roles = RoleController.GetUserRoles(dataBase.Connection, currentClient);
             }
             else
             {

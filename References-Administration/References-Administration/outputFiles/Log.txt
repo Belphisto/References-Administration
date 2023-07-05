@@ -2182,3 +2182,118 @@ LogInfo: 05.07.2023 / 15:33:19 / DepartmentController/GetDepartments(NpgsqlConne
 LogInfo: 05.07.2023 / 15:33:27 / Закрыть подключение к базе данных при закрытии формы;
 LogInfo: 05.07.2023 / 15:33:27 / DataBaseController/CloseConnection()/ соединение Npgsql.NpgsqlConnection завершено успешно 
 LogInfo: 05.07.2023 / 15:33:27 / Работа программы завершена
+LogInfo: 05.07.2023 / 16:09:56 / Программа запущена
+LogInfo: 05.07.2023 / 16:09:58 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:09:59 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 1, Name: Ivanov Ivan Ivanovich, Login: IvanovII, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:09:59 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 8, Name: Ivanov Ivan Ivanovich, Login: IvanovIIG, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:09:59 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 10, Name: Test, Login: Test, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:09:59 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 11, Name: Test2, Login: Test2, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:09:59 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 14, Name: T, Login: T, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:09:59 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 15, Name: T, Login: TT, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:09:59 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:09:59 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:09:59 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:09:59 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:09:59 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:09:59 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:10:10 / Закрыть подключение к базе данных при закрытии формы;
+LogInfo: 05.07.2023 / 16:10:10 / DataBaseController/CloseConnection()/ соединение Npgsql.NpgsqlConnection завершено успешно 
+LogInfo: 05.07.2023 / 16:10:11 / Работа программы завершена
+LogInfo: 05.07.2023 / 16:16:18 / Программа запущена
+LogInfo: 05.07.2023 / 16:16:19 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:16:20 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 1, Name: Ivanov Ivan Ivanovich, Login: IvanovII, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:20 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 8, Name: Ivanov Ivan Ivanovich, Login: IvanovIIG, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:20 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 10, Name: Test, Login: Test, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:20 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 11, Name: Test2, Login: Test2, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:20 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 14, Name: T, Login: T, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:20 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 15, Name: T, Login: TT, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:20 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:20 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:20 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:20 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:20 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:20 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:31 / Закрыть подключение к базе данных при закрытии формы;
+LogInfo: 05.07.2023 / 16:16:31 / DataBaseController/CloseConnection()/ соединение Npgsql.NpgsqlConnection завершено успешно 
+LogInfo: 05.07.2023 / 16:16:32 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:16:32 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 1, Name: Ivanov Ivan Ivanovich, Login: IvanovII, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:32 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 8, Name: Ivanov Ivan Ivanovich, Login: IvanovIIG, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:32 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 10, Name: Test, Login: Test, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:32 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 11, Name: Test2, Login: Test2, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:32 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 14, Name: T, Login: T, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:32 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 15, Name: T, Login: TT, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:16:32 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:32 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:32 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:32 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:32 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:16:32 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:17:09 / Программа запущена
+LogInfo: 05.07.2023 / 16:17:11 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:17:11 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 1, Name: Ivanov Ivan Ivanovich, Login: IvanovII, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:17:11 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 8, Name: Ivanov Ivan Ivanovich, Login: IvanovIIG, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:17:11 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 10, Name: Test, Login: Test, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:17:11 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 11, Name: Test2, Login: Test2, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:17:11 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 14, Name: T, Login: T, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:17:11 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 15, Name: T, Login: TT, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:17:11 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:17:11 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:17:11 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:17:11 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:17:11 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:17:11 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:17:19 / Закрыть подключение к базе данных при закрытии формы;
+LogInfo: 05.07.2023 / 16:17:19 / DataBaseController/CloseConnection()/ соединение Npgsql.NpgsqlConnection завершено успешно 
+LogInfo: 05.07.2023 / 16:17:20 / Работа программы завершена
+LogInfo: 05.07.2023 / 16:25:18 / Программа запущена
+LogInfo: 05.07.2023 / 16:25:22 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:25:25 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:25:25 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 1, Name: Ivanov Ivan Ivanovich, Login: IvanovII, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:25:25 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 8, Name: Ivanov Ivan Ivanovich, Login: IvanovIIG, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:25:25 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 10, Name: Test, Login: Test, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:25:25 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 11, Name: Test2, Login: Test2, Department ID: 2 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:25:25 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 14, Name: T, Login: T, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:25:25 / ClientController/GetClients(NpgsqlConnection connection)/ department ID: 15, Name: T, Login: TT, Department ID: 8 add to List<Client> clients 
+LogInfo: 05.07.2023 / 16:25:25 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:25:25 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:25:25 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:25:25 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:25:25 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:25:25 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:25:31 / Закрыть подключение к базе данных при закрытии формы;
+LogInfo: 05.07.2023 / 16:25:31 / DataBaseController/CloseConnection()/ соединение Npgsql.NpgsqlConnection завершено успешно 
+LogInfo: 05.07.2023 / 16:25:35 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:25:37 / Работа программы завершена
+LogInfo: 05.07.2023 / 16:25:45 / Программа запущена
+LogInfo: 05.07.2023 / 16:25:48 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:27:10 / Программа запущена
+LogInfo: 05.07.2023 / 16:27:12 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:27:17 / Работа программы завершена
+LogInfo: 05.07.2023 / 16:31:02 / Программа запущена
+LogInfo: 05.07.2023 / 16:31:05 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 05.07.2023 / 16:31:05 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:05 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:05 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:05 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:05 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:05 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:53 / Элемент выбран
+LogInfo: 05.07.2023 / 16:31:53 /  EditDepartmentForm : Form/EditDepartmentForm(Department department, DataBaseController dataBase)/ Форма для редактирования открыта
+LogInfo: 05.07.2023 / 16:31:53 / selectedDepartment != null;
+LogInfo: 05.07.2023 / 16:31:53 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:53 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:53 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:53 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:53 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:31:53 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:32:36 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:32:36 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:32:36 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:32:36 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:32:36 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:32:36 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 05.07.2023 / 16:32:36 / selectedDepartment = null;
+LogInfo: 05.07.2023 / 16:32:36 / Элемент не выбран
+LogInfo: 05.07.2023 / 16:32:58 / Закрыть подключение к базе данных при закрытии формы;
+LogInfo: 05.07.2023 / 16:32:58 / DataBaseController/CloseConnection()/ соединение Npgsql.NpgsqlConnection завершено успешно 
+LogInfo: 05.07.2023 / 16:32:58 / Работа программы завершена
