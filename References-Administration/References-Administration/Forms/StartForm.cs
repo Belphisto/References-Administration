@@ -74,6 +74,12 @@ namespace References_Administration
             session.Logout();
             ShowLoginControls(session.IsAuthenticated);
         }
+
+        private void buttonEvents_Click(object sender, EventArgs e)
+        {
+            var eventsForm = new EventsForm();
+            eventsForm.ShowDialog(this);
+        }
     }
 
 }

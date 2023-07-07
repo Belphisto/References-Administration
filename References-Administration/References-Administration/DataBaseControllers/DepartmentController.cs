@@ -121,10 +121,24 @@ namespace References_Administration
         // Удаление подразделения по его идентификатору
         public static void Delete(NpgsqlConnection connection, Department department)
         {
-            // Получить идентификатор родительского подразделения
+            // Проверить, есть ли пользователи, относящиеся к текущему подразделению
+            CheckUsers(connection, department);
+
+            // Обновить связи родительского подразделения
+            UpdateParentDepartments(connection, department);
+
+            // Удалить связи с совещательными залами
+            DepartmentHollController.RemoveDepartmentMeetingRooms(connection, department);
+
+            // Удалить текущее подразделение
+            RemoveDepartment(connection, department);
+        }
+
+        // Проверить, есть ли пользователи, относящиеся к текущему подразделению
+        private static void CheckUsers(NpgsqlConnection connection, Department department)
+        {
             int? parentID = department.ParentID;
 
-            // Проверить, есть ли пользователи, относящиеся к текущему подразделению
             string checkUsersQuery = "SELECT COUNT(*) FROM client WHERE id_department = @DepartmentID";
             using (NpgsqlCommand checkUsersCommand = new NpgsqlCommand(checkUsersQuery, connection))
             {
@@ -133,12 +147,16 @@ namespace References_Administration
 
                 if (parentID == null && usersCount > 0)
                 {
-                    // Если у подразделения нет родителя и есть пользователи, не разрешаем удаление подразделения
                     throw new InvalidOperationException("Невозможно удалить подразделение, так как к нему привязаны пользователи.");
                 }
             }
+        }
 
-            // Обновить ссылки на родителя в дочерних подразделениях
+        // Обновить связи родительского подразделения
+        private static void UpdateParentDepartments(NpgsqlConnection connection, Department department)
+        {
+            int? parentID = department.ParentID;
+
             string updateQuery = "UPDATE department SET parent_id = @NewParentID WHERE parent_id = @DepartmentID";
             using (NpgsqlCommand updateCommand = new NpgsqlCommand(updateQuery, connection))
             {
@@ -146,17 +164,11 @@ namespace References_Administration
                 updateCommand.Parameters.AddWithValue("@DepartmentID", department.ID);
                 updateCommand.ExecuteNonQuery();
             }
+        }
 
-            // Обновить привязку пользователей к родительскому подразделению
-            string updateClientsQuery = "UPDATE client SET id_department = @NewDepartmentID WHERE id_department = @DepartmentID";
-            using (NpgsqlCommand updateCommand = new NpgsqlCommand(updateClientsQuery, connection))
-            {
-                updateCommand.Parameters.AddWithValue("@NewDepartmentID", parentID);
-                updateCommand.Parameters.AddWithValue("@DepartmentID", department.ID);
-                updateCommand.ExecuteNonQuery();
-            }
-
-            // Удалить текущее подразделение из базы данных
+        // Удалить текущее подразделение
+        private static void RemoveDepartment(NpgsqlConnection connection, Department department)
+        {
             string deleteQuery = "DELETE FROM department WHERE id = @DepartmentID";
             using (NpgsqlCommand deleteCommand = new NpgsqlCommand(deleteQuery, connection))
             {
@@ -164,5 +176,7 @@ namespace References_Administration
                 deleteCommand.ExecuteNonQuery();
             }
         }
+
+
     }
 }

@@ -94,7 +94,7 @@ namespace References_Administration
                 {
                     if (checkedListBoxDepartments.Items.Count > 1)
                     {
-                        HollController.RemoveDepartment(_dataBase.Connection, department.ID, _holl.ID);
+                        DepartmentHollController.RemoveDepartment(_dataBase.Connection, department, _holl);
                     }
                     else
                     {
@@ -114,7 +114,7 @@ namespace References_Administration
                 Department department = item as Department;
                 if (department != null)
                 {
-                    HollController.AddDepatrment(_dataBase.Connection, department.ID, _holl.ID);
+                    DepartmentHollController.AddDepatrment(_dataBase.Connection, department, _holl);
                 }
             }
             ShowDepartment();

@@ -38,11 +38,12 @@ namespace References_Administration
             this.labelPassword = new System.Windows.Forms.Label();
             this.buttonLogOut = new System.Windows.Forms.Button();
             this.labelCurrentSession = new System.Windows.Forms.Label();
+            this.buttonEvents = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DepartmentButton
             // 
-            this.DepartmentButton.Location = new System.Drawing.Point(277, 97);
+            this.DepartmentButton.Location = new System.Drawing.Point(277, 48);
             this.DepartmentButton.Name = "DepartmentButton";
             this.DepartmentButton.Size = new System.Drawing.Size(197, 56);
             this.DepartmentButton.TabIndex = 0;
@@ -52,7 +53,7 @@ namespace References_Administration
             // 
             // DirectoryButton
             // 
-            this.DirectoryButton.Location = new System.Drawing.Point(277, 193);
+            this.DirectoryButton.Location = new System.Drawing.Point(277, 125);
             this.DirectoryButton.Name = "DirectoryButton";
             this.DirectoryButton.Size = new System.Drawing.Size(197, 56);
             this.DirectoryButton.TabIndex = 1;
@@ -121,11 +122,22 @@ namespace References_Administration
             this.labelCurrentSession.TabIndex = 8;
             this.labelCurrentSession.Text = "Логин";
             // 
+            // buttonEvents
+            // 
+            this.buttonEvents.Location = new System.Drawing.Point(277, 200);
+            this.buttonEvents.Name = "buttonEvents";
+            this.buttonEvents.Size = new System.Drawing.Size(197, 56);
+            this.buttonEvents.TabIndex = 9;
+            this.buttonEvents.Text = "Совещания";
+            this.buttonEvents.UseVisualStyleBackColor = true;
+            this.buttonEvents.Click += new System.EventHandler(this.buttonEvents_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonEvents);
             this.Controls.Add(this.labelCurrentSession);
             this.Controls.Add(this.buttonLogOut);
             this.Controls.Add(this.labelPassword);
@@ -153,5 +165,6 @@ namespace References_Administration
         private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.Button buttonLogOut;
         private System.Windows.Forms.Label labelCurrentSession;
+        private System.Windows.Forms.Button buttonEvents;
     }
 }

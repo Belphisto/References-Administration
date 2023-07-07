@@ -128,63 +128,22 @@ namespace References_Administration
         // Удаление совещательного зала по его идентификатору
         public static void Delete(NpgsqlConnection connection, Holl holl)
         {
-            // Удаление всех event, связанных с этим совещательным залом
-            string deleteEventQuery = "DELETE FROM event WHERE MeetingRoomId = @MeetingRoomId;";
-            using (NpgsqlCommand deleteEventCommand = new NpgsqlCommand(deleteEventQuery, connection))
-            {
-                deleteEventCommand.Parameters.AddWithValue("@MeetingRoomId", holl.ID);
-                deleteEventCommand.ExecuteNonQuery();
-            }
-
-            // Удалить все записи в таблице department_meetingroom, связанные с выбранным meetingroom.
-            string deleteDepartment_meetingroomQuery = "DELETE FROM department_meetingroom WHERE MeetingRoomId = @MeetingRoomId;";
-            using (NpgsqlCommand deleteDepartment_meetingroomCommand = new NpgsqlCommand(deleteDepartment_meetingroomQuery, connection))
-            {
-                deleteDepartment_meetingroomCommand.Parameters.AddWithValue("@MeetingRoomId", holl.ID);
-                deleteDepartment_meetingroomCommand.ExecuteNonQuery();
-            }
-
-            // Удалить все записи в таблице equipment, связанные с выбранным meetingroom.
-            string deleteEquipmentQuery = "DELETE FROM equipment WHERE MeetingRoomId = @MeetingRoomId;";
-            using (NpgsqlCommand deleteEquipmentCommand = new NpgsqlCommand(deleteEquipmentQuery, connection))
-            {
-                deleteEquipmentCommand.Parameters.AddWithValue("@MeetingRoomId", holl.ID);
-                deleteEquipmentCommand.ExecuteNonQuery();
-            }
-
-            // Удалить текущее подразделение из базы данных
-            string deleteQuery = "DELETE FROM meetingroom WHERE Id = @MeetingRoomId;";
-            using (NpgsqlCommand deleteCommand = new NpgsqlCommand(deleteQuery, connection))
-            {
-                deleteCommand.Parameters.AddWithValue("@MeetingRoomId", holl.ID);
-                deleteCommand.ExecuteNonQuery();
-            }
+            EventController.DeleteEvents(connection, holl);
+            DepartmentHollController.RemoveDepartmentMeetingRooms(connection, holl);
+            EquipmentController.DeleteEquipment(connection, holl);
+            DeleteMeetingRoom(connection, holl);
         }
 
-        // 
-
-        public static void AddDepatrment(NpgsqlConnection connection, int id_department, int id_holl)
+        // Удаление совещательного зала
+        private static void DeleteMeetingRoom(NpgsqlConnection connection, Holl holl)
         {
-            string query = "INSERT INTO department_meetingroom (departmentid, meetingroomid) VALUES (@IdDepartmnet, @IdHoll)";
-            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            string deleteMeetingRoomQuery = "DELETE FROM meetingroom WHERE Id = @MeetingRoomId";
+            using (NpgsqlCommand deleteMeetingRoomCommand = new NpgsqlCommand(deleteMeetingRoomQuery, connection))
             {
-                command.Parameters.AddWithValue("@IdDepartmnet", id_department);
-                command.Parameters.AddWithValue("@IdHoll", id_holl);
-                command.ExecuteNonQuery();
+                deleteMeetingRoomCommand.Parameters.AddWithValue("@MeetingRoomId", holl.ID);
+                deleteMeetingRoomCommand.ExecuteNonQuery();
             }
         }
-
-        public static void RemoveDepartment(NpgsqlConnection connection, int id_department, int id_holl)
-        {
-            string query = "DELETE FROM department_meetingroom WHERE departmentid = @IdDepartmnet AND meetingroomid= @IdHoll";
-            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@IdDepartmnet", id_department);
-                command.Parameters.AddWithValue("@IdHoll", id_holl);
-                command.ExecuteNonQuery();
-            }
-        }
-
 
     }
 }

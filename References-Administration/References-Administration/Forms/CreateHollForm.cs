@@ -48,7 +48,7 @@ namespace References_Administration
                     Department department = item as Department;
                     if (department != null)
                     {
-                        HollController.AddDepatrment(_dataBase.Connection, department.ID, newHoll.ID);
+                        DepartmentHollController.AddDepatrment(_dataBase.Connection, department, newHoll);
                     }
                 }
 

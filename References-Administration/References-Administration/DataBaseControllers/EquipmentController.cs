@@ -51,5 +51,16 @@ namespace References_Administration
                 command.ExecuteNonQuery();
             }
         }
+
+        // Удаление всех записей в таблице equipment, связанных с совещательным залом
+        public static void DeleteEquipment(NpgsqlConnection connection, Holl holl)
+        {
+            string deleteEquipmentQuery = "DELETE FROM equipment WHERE MeetingRoomId = @MeetingRoomId";
+            using (NpgsqlCommand deleteEquipmentCommand = new NpgsqlCommand(deleteEquipmentQuery, connection))
+            {
+                deleteEquipmentCommand.Parameters.AddWithValue("@MeetingRoomId", holl.ID);
+                deleteEquipmentCommand.ExecuteNonQuery();
+            }
+        }
     }
 }
