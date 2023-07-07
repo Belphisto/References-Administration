@@ -51,3 +51,5 @@ E:\Лена документы\GitHub\References-Administration\References-Admin
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.EditDepartmentForm.resources
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.ClientsForm.resources
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.EditClientForm.resources
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.CreateHollForm.resources
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.EditHollForm.resources

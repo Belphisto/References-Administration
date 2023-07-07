@@ -55,7 +55,7 @@ namespace References_Administration
         }
 
         // Чтение данных подразделения по его идентификатору
-        public static Department Read(NpgsqlConnection connection, int? departmentID)
+        public static Department Read(NpgsqlConnection connection, int departmentID)
         {
             Department department = null;
             string query = "SELECT * FROM department WHERE id = @DepartmentID";

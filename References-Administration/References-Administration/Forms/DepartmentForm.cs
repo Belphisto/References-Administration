@@ -15,6 +15,7 @@ namespace References_Administration
     {
         private DataBaseController dataBase;
         private List<Department> departments;
+        private List<Holl> holls;
 
         public DepartmentForm()
         {
@@ -30,6 +31,7 @@ namespace References_Administration
             departments = DepartmentController.GetDepartments(dataBase.Connection);
             // Заполнить TreeView
             FillTreeView(departments);
+            FillHolls();
 
         }
 
@@ -46,6 +48,12 @@ namespace References_Administration
             {
                 treeView.Nodes.Add(node);
             }
+        }
+        private void FillHolls()
+        {
+            comboBoxHolls.Items.Clear();
+            holls = HollController.GetHolls(dataBase.Connection);
+            comboBoxHolls.Items.AddRange(holls.ToArray());
         }
 
         private List<TreeNode> CreateTreeNodes(List<Department> departments, int? parentID = null)
@@ -92,7 +100,7 @@ namespace References_Administration
         {
             // Получить выбранный узел в дереве TreeView
             TreeNode selectedNode = treeView.SelectedNode;
-            
+
             // Проверить, что узел выбран
             if (selectedNode != null)
             {
@@ -117,7 +125,7 @@ namespace References_Administration
             }
             Log.WriteLog("Элемент не выбран");
         }
-        
+
 
         private void AddDepartmentButton_Click(object sender, EventArgs e)
         {
@@ -143,7 +151,7 @@ namespace References_Administration
                 // Проверить, что объект Department не равен null
                 //if (selectedDepartment != null && selectedDepartment.ID != 1)
                 if (selectedDepartment != null && selectedDepartment.ID != 1)
-                    {
+                {
                     try
                     {
                         DepartmentController.Delete(dataBase.Connection, selectedDepartment);
@@ -155,9 +163,72 @@ namespace References_Administration
                     {
                         MessageBox.Show("Невозможно удалить подразделение, так как существуют связанные пользователи.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                } 
+                }
             }
             Log.WriteLog("Элемент не выбран");
         }
+
+        private void buttonCreateHoll_Click(object sender, EventArgs e)
+        {
+            CreateHollForm editForm = new CreateHollForm(dataBase);
+            editForm.ShowDialog();
+            FillHolls();
+        }
+
+        private void buttonShowDepartmentInHoll_Click(object sender, EventArgs e)
+        {
+            Holl selected = comboBoxHolls.SelectedItem as Holl;
+            if (selected != null)
+            {
+                List<Department> departments = HollController.GetDepartments(dataBase.Connection, selected);
+
+                StringBuilder message = new StringBuilder();
+                message.AppendLine("Подразделения:");
+                foreach (Department department in departments)
+                {
+                    message.AppendLine(department.Name);
+                }
+                MessageBox.Show(message.ToString(), "Подразделения", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Выберите совещательный зал из списка. Если список пуст - сначала создайте совещательный зал", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonDeleteHoll_Click(object sender, EventArgs e)
+        {
+            Holl selected = comboBoxHolls.SelectedItem as Holl;
+            if (selected != null)
+            {
+
+                HollController.Delete(dataBase.Connection, selected);
+                MessageBox.Show("Совещательный зал был удален вместе с оборудованием, относящимся к нему, а также мероприятиями", "Удалено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                FillHolls();
+            }
+            else
+            {
+                MessageBox.Show("Выберите совещательный зал из списка. Если список пуст - сначала создайте совещательный зал", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonEditHoll_Click(object sender, EventArgs e)
+        {
+            Holl selected = comboBoxHolls.SelectedItem as Holl;
+            if (selected != null)
+            {
+
+                EditHollForm editForm = new EditHollForm(dataBase, selected) ;
+                Log.WriteLog("Открыта форма для добавления подразделения;");
+                editForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Выберите совещательный зал из списка. Если список пуст - сначала создайте совещательный зал", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
+
+
     }
 }

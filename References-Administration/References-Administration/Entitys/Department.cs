@@ -39,7 +39,19 @@ namespace References_Administration
             return $"Department ID: {_id}, Name: {_name}, Parent ID: {_parentID}";
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
 
-        
+            Department other = (Department)obj;
+            return _id == other._id;
+        }
+
+        public override int GetHashCode()
+        {
+            return _id.GetHashCode();
+        }
+
     }
 }

@@ -40,7 +40,7 @@ namespace References_Administration
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(535, 362);
+            this.SaveButton.Location = new System.Drawing.Point(535, 372);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(113, 31);
             this.SaveButton.TabIndex = 0;
@@ -50,7 +50,7 @@ namespace References_Administration
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(71, 362);
+            this.CancelButton.Location = new System.Drawing.Point(71, 372);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(113, 31);
             this.CancelButton.TabIndex = 1;
@@ -60,7 +60,7 @@ namespace References_Administration
             // 
             // NameTextBox
             // 
-            this.NameTextBox.Location = new System.Drawing.Point(71, 85);
+            this.NameTextBox.Location = new System.Drawing.Point(71, 95);
             this.NameTextBox.Multiline = true;
             this.NameTextBox.Name = "NameTextBox";
             this.NameTextBox.Size = new System.Drawing.Size(577, 33);
@@ -69,7 +69,7 @@ namespace References_Administration
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(77, 60);
+            this.label1.Location = new System.Drawing.Point(77, 69);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(164, 13);
             this.label1.TabIndex = 3;
@@ -78,7 +78,7 @@ namespace References_Administration
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(77, 149);
+            this.label2.Location = new System.Drawing.Point(77, 178);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 13);
             this.label2.TabIndex = 4;
@@ -87,14 +87,14 @@ namespace References_Administration
             // DepartmentsNameListBox
             // 
             this.DepartmentsNameListBox.FormattingEnabled = true;
-            this.DepartmentsNameListBox.Location = new System.Drawing.Point(71, 188);
+            this.DepartmentsNameListBox.Location = new System.Drawing.Point(71, 204);
             this.DepartmentsNameListBox.Name = "DepartmentsNameListBox";
             this.DepartmentsNameListBox.Size = new System.Drawing.Size(577, 134);
             this.DepartmentsNameListBox.TabIndex = 5;
             // 
             // CreateButton
             // 
-            this.CreateButton.Location = new System.Drawing.Point(293, 362);
+            this.CreateButton.Location = new System.Drawing.Point(293, 372);
             this.CreateButton.Name = "CreateButton";
             this.CreateButton.Size = new System.Drawing.Size(113, 31);
             this.CreateButton.TabIndex = 6;
