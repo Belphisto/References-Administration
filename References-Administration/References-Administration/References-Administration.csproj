@@ -179,7 +179,7 @@
     </Compile>
     <Compile Include="DataBaseControllers\RoleController.cs" />
     <Compile Include="Entitys\Session.cs" />
-    <Compile Include="Status.cs" />
+    <Compile Include="Entitys\Status.cs" />
     <EmbeddedResource Include="Forms\EditHollForm.resx">
       <DependentUpon>EditHollForm.cs</DependentUpon>
     </EmbeddedResource>

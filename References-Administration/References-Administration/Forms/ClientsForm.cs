@@ -51,6 +51,7 @@ namespace References_Administration
             totalClients = clients.Count;
             departments = DepartmentController.GetDepartments(dataBase.Connection);
             //ShowCurrentPage();
+
             // Заполнить таблицу данными клиентов
             // Преобразовать список клиентов только с нужными полями в анонимный тип
             var clientsData = clients.Select(c => new

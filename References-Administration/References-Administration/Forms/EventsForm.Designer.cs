@@ -29,40 +29,33 @@ namespace References_Administration
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonCunfirmEvent = new System.Windows.Forms.Button();
             this.monthCalendar3 = new System.Windows.Forms.MonthCalendar();
             this.buttonCreateEvent = new System.Windows.Forms.Button();
             this.buttonCancelEvent = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelEventInfo = new System.Windows.Forms.Label();
             this.EventInfo = new System.Windows.Forms.Label();
             this.panelCreateEvent = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxNote = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.dateTimePickerStartTime = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePickerEndTime = new System.Windows.Forms.DateTimePicker();
-            this.buttonOK = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.label7 = new System.Windows.Forms.Label();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonOK = new System.Windows.Forms.Button();
+            this.dateTimePickerEndTime = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerStartTime = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxNote = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBoxEventInDay = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panelCreateEvent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 28);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(524, 571);
-            this.dataGridView1.TabIndex = 3;
             // 
             // textBox1
             // 
@@ -80,16 +73,18 @@ namespace References_Administration
             this.buttonCunfirmEvent.TabIndex = 9;
             this.buttonCunfirmEvent.Text = "Подтвердить мероприятие";
             this.buttonCunfirmEvent.UseVisualStyleBackColor = true;
+            this.buttonCunfirmEvent.Click += new System.EventHandler(this.buttonCunfirmEvent_Click);
             // 
             // monthCalendar3
             // 
-            this.monthCalendar3.Location = new System.Drawing.Point(587, 28);
+            this.monthCalendar3.Location = new System.Drawing.Point(587, 73);
             this.monthCalendar3.Name = "monthCalendar3";
             this.monthCalendar3.TabIndex = 2;
+            this.monthCalendar3.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar3_DateSelected);
             // 
             // buttonCreateEvent
             // 
-            this.buttonCreateEvent.Location = new System.Drawing.Point(587, 202);
+            this.buttonCreateEvent.Location = new System.Drawing.Point(587, 28);
             this.buttonCreateEvent.Name = "buttonCreateEvent";
             this.buttonCreateEvent.Size = new System.Drawing.Size(164, 33);
             this.buttonCreateEvent.TabIndex = 5;
@@ -116,14 +111,14 @@ namespace References_Administration
             this.label1.TabIndex = 8;
             this.label1.Text = "Комментарий";
             // 
-            // label2
+            // labelEventInfo
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(604, 252);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Выбрано мероприятие:";
+            this.labelEventInfo.AutoSize = true;
+            this.labelEventInfo.Location = new System.Drawing.Point(606, 271);
+            this.labelEventInfo.Name = "labelEventInfo";
+            this.labelEventInfo.Size = new System.Drawing.Size(125, 13);
+            this.labelEventInfo.TabIndex = 10;
+            this.labelEventInfo.Text = "Выбрано мероприятие:";
             // 
             // EventInfo
             // 
@@ -147,90 +142,32 @@ namespace References_Administration
             this.panelCreateEvent.Controls.Add(this.label4);
             this.panelCreateEvent.Controls.Add(this.textBoxNote);
             this.panelCreateEvent.Controls.Add(this.label3);
-            this.panelCreateEvent.Location = new System.Drawing.Point(12, 110);
+            this.panelCreateEvent.Location = new System.Drawing.Point(12, 381);
             this.panelCreateEvent.Name = "panelCreateEvent";
-            this.panelCreateEvent.Size = new System.Drawing.Size(760, 423);
+            this.panelCreateEvent.Size = new System.Drawing.Size(760, 587);
             this.panelCreateEvent.TabIndex = 12;
-            this.panelCreateEvent.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panelCreateEvent.Visible = false;
             // 
-            // label3
+            // checkedListBox1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(32, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Заметка";
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(35, 229);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(631, 94);
+            this.checkedListBox1.TabIndex = 13;
             // 
-            // textBoxNote
+            // label7
             // 
-            this.textBoxNote.Location = new System.Drawing.Point(35, 41);
-            this.textBoxNote.Name = "textBoxNote";
-            this.textBoxNote.Size = new System.Drawing.Size(631, 20);
-            this.textBoxNote.TabIndex = 1;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(32, 80);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(111, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Совещательный зал";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(35, 96);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(631, 21);
-            this.comboBox1.TabIndex = 3;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(80, 292);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(185, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Дата и время начала мероприятия";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(428, 292);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(212, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Дата и время завершения мероприятия";
-            // 
-            // dateTimePickerStartTime
-            // 
-            this.dateTimePickerStartTime.Location = new System.Drawing.Point(65, 317);
-            this.dateTimePickerStartTime.Name = "dateTimePickerStartTime";
-            this.dateTimePickerStartTime.Size = new System.Drawing.Size(219, 20);
-            this.dateTimePickerStartTime.TabIndex = 8;
-            // 
-            // dateTimePickerEndTime
-            // 
-            this.dateTimePickerEndTime.Location = new System.Drawing.Point(431, 317);
-            this.dateTimePickerEndTime.Name = "dateTimePickerEndTime";
-            this.dateTimePickerEndTime.Size = new System.Drawing.Size(219, 20);
-            this.dateTimePickerEndTime.TabIndex = 9;
-            // 
-            // buttonOK
-            // 
-            this.buttonOK.Location = new System.Drawing.Point(83, 367);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(154, 30);
-            this.buttonOK.TabIndex = 10;
-            this.buttonOK.Text = "Создать";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(32, 209);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(182, 13);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Выбрать требуемое оборудование";
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(454, 367);
+            this.buttonCancel.Location = new System.Drawing.Point(454, 440);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(154, 30);
             this.buttonCancel.TabIndex = 11;
@@ -238,57 +175,142 @@ namespace References_Administration
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // label7
+            // buttonOK
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(32, 136);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(182, 13);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "Выбрать требуемое оборудование";
+            this.buttonOK.Location = new System.Drawing.Point(83, 440);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(154, 30);
+            this.buttonOK.TabIndex = 10;
+            this.buttonOK.Text = "Создать";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // checkedListBox1
+            // dateTimePickerEndTime
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(35, 156);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(631, 94);
-            this.checkedListBox1.TabIndex = 13;
+            this.dateTimePickerEndTime.Location = new System.Drawing.Point(431, 390);
+            this.dateTimePickerEndTime.Name = "dateTimePickerEndTime";
+            this.dateTimePickerEndTime.Size = new System.Drawing.Size(219, 20);
+            this.dateTimePickerEndTime.TabIndex = 9;
+            // 
+            // dateTimePickerStartTime
+            // 
+            this.dateTimePickerStartTime.Location = new System.Drawing.Point(65, 390);
+            this.dateTimePickerStartTime.Name = "dateTimePickerStartTime";
+            this.dateTimePickerStartTime.Size = new System.Drawing.Size(219, 20);
+            this.dateTimePickerStartTime.TabIndex = 8;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(428, 365);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(212, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Дата и время завершения мероприятия";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(80, 365);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(185, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Дата и время начала мероприятия";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(35, 169);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(631, 21);
+            this.comboBox1.TabIndex = 3;
+            this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(32, 153);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(111, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Совещательный зал";
+            // 
+            // textBoxNote
+            // 
+            this.textBoxNote.Location = new System.Drawing.Point(35, 114);
+            this.textBoxNote.Name = "textBoxNote";
+            this.textBoxNote.Size = new System.Drawing.Size(631, 20);
+            this.textBoxNote.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(32, 98);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Заметка";
+            // 
+            // comboBoxEventInDay
+            // 
+            this.comboBoxEventInDay.FormattingEnabled = true;
+            this.comboBoxEventInDay.Location = new System.Drawing.Point(566, 247);
+            this.comboBoxEventInDay.Name = "comboBoxEventInDay";
+            this.comboBoxEventInDay.Size = new System.Drawing.Size(206, 21);
+            this.comboBoxEventInDay.TabIndex = 13;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(24, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(361, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Здесь будет информация обо всех мероприятиях на выбранный день";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(30, 72);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(519, 518);
+            this.dataGridView1.TabIndex = 15;
             // 
             // EventsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 611);
-            this.Controls.Add(this.panelCreateEvent);
-            this.Controls.Add(this.EventInfo);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.panelCreateEvent);
+            this.Controls.Add(this.comboBoxEventInDay);
+            this.Controls.Add(this.labelEventInfo);
+            this.Controls.Add(this.EventInfo);
             this.Controls.Add(this.buttonCunfirmEvent);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonCancelEvent);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.buttonCreateEvent);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.monthCalendar3);
             this.Name = "EventsForm";
             this.Text = "EventsForm";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panelCreateEvent.ResumeLayout(false);
             this.panelCreateEvent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button buttonCunfirmEvent;
         private System.Windows.Forms.MonthCalendar monthCalendar3;
         private System.Windows.Forms.Button buttonCreateEvent;
         private System.Windows.Forms.Button buttonCancelEvent;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelEventInfo;
         private System.Windows.Forms.Label EventInfo;
         private System.Windows.Forms.Panel panelCreateEvent;
         private System.Windows.Forms.TextBox textBoxNote;
@@ -303,5 +325,8 @@ namespace References_Administration
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.ComboBox comboBoxEventInDay;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
