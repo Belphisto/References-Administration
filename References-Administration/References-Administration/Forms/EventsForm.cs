@@ -15,8 +15,9 @@ namespace References_Administration
         private List<Holl> holls;
         private DataBaseController dataBase;
         private List<Event> events;
+        private Session _session;
 
-        public EventsForm()
+        public EventsForm(Session session)
         {
             InitializeComponent();
             dateTimePickerStartTime.Format = DateTimePickerFormat.Custom;
@@ -24,12 +25,18 @@ namespace References_Administration
             dateTimePickerEndTime.Format = DateTimePickerFormat.Custom;
             dateTimePickerEndTime.CustomFormat = "dd.MMMM.yyyy HH:mm:ss";
             panelCreateEvent.Visible = false;
+            // Запретить редактирование таблицы
+            dataGridView1.ReadOnly = true;
 
+            // Запретить добавление новых строк
+            dataGridView1.AllowUserToAddRows = false;
+
+            _session = session;
             // Подключение к базе данных
             dataBase = new DataBaseController();
             holls = HollController.GetHolls(dataBase.Connection);
             events = EventController.GetEvents(dataBase.Connection);
-            //RefreshEvents();
+            RefreshEvents();
 
             dataGridView1.Columns.Add("NoteColumn", "Note");
             dataGridView1.Columns.Add("CommentColumn", "Comment");
@@ -48,7 +55,7 @@ namespace References_Administration
                 DateTime eventDate = ev.StartTime.Date;
                 monthCalendar3.AddBoldedDate(eventDate); // Добавление даты в выделенные дни
             }
-            monthCalendar3.UpdateBoldedDates();
+            monthCalendar3.UpdateBoldedDates();  
         }
 
         private void ViewListHoll()
@@ -62,13 +69,13 @@ namespace References_Administration
         }
         private void ViewListEquipmentInHoll(Holl holl)
         {
-            checkedListBox1.Items.Clear();
+            checkedListBoxEquipments.Items.Clear();
             List <Equipment> equipments = EquipmentController.GetEquipments(dataBase.Connection, holl);
             foreach(var eq in equipments)
             {
-                checkedListBox1.Items.Add(eq);
+                checkedListBoxEquipments.Items.Add(eq);
             }
-            checkedListBox1.DisplayMember = "Name";
+            checkedListBoxEquipments.DisplayMember = "Name";
         }
 
         private void buttonCreateEvent_Click(object sender, EventArgs e)
@@ -87,12 +94,34 @@ namespace References_Administration
 
         private void buttonCancelEvent_Click(object sender, EventArgs e)
         {
-            //
+            Event selectedEvent = comboBoxEventInDay.SelectedItem as Event;
+            selectedEvent.Status = Status.Canceled;
+            if (textBoxComment.Text != "")
+            {
+                selectedEvent.Comment = textBoxComment.Text;
+                EventController.Update(dataBase.Connection, selectedEvent);
+                MessageBox.Show("Успешно\n ", "Мероприятие отменено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Введите комментарий отмены мероприятия\n ", "Не удается отменить мероприятия", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonCunfirmEvent_Click(object sender, EventArgs e)
         {
-            //
+            Event selectedEvent = comboBoxEventInDay.SelectedItem as Event;
+            selectedEvent.Status = Status.Confirmed;
+            if (textBoxComment.Text != "")
+            {
+                selectedEvent.Comment = textBoxComment.Text;
+                EventController.Update(dataBase.Connection, selectedEvent);
+                MessageBox.Show("Успешно\n ", "Мероприятие подтверждено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Введите комментарий подтверждения\n ", "Не удается подтвердить мероприятия", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -114,9 +143,14 @@ namespace References_Administration
                 if (EventController.IsEventTimeAvailable(newEvent, EventController.GetEvents(dataBase.Connection, selectedHoll)))
                 {
                     EventController.Create(dataBase.Connection, newEvent);
+                    newEvent.ID = EventController.GetLastCreatedID(dataBase.Connection);
+                    foreach(Equipment eq in checkedListBoxEquipments.CheckedItems)
+                    {
+                        EventEquipment.AddEquipment(dataBase.Connection, newEvent, eq);
+                    }
                     textBoxNote.Text = "";
                     comboBox1.SelectedItem = null;
-                    checkedListBox1.Items.Clear();
+                    checkedListBoxEquipments.Items.Clear();
                     panelCreateEvent.Visible = false;
                     RefreshEvents();
                 }
@@ -134,21 +168,39 @@ namespace References_Administration
             DateTime selectedDate = monthCalendar3.SelectionStart.Date;
             List<Event> eventsSelectedDate = EventController.GetEvents(dataBase.Connection, events, selectedDate);
             dataGridView1.Rows.Clear();
-            foreach (Event ev in eventsSelectedDate)
+            comboBoxEventInDay.Items.Clear();
+            comboBoxEventInDay.DisplayMember = "Note";
+            foreach (Event ev in events)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                row.CreateCells(dataGridView1);
+                if (ev.StartTime.Date == selectedDate.Date)
+                {
+                    // Ваш код для заполнения dataGridView1 и comboBoxEventInDay
+                    DataGridViewRow row = new DataGridViewRow();
+                    row.CreateCells(dataGridView1);
 
-                row.Cells[0].Value = ev.Note;
-                row.Cells[1].Value = ev.Comment;
-                Holl current = HollController.Read(dataBase.Connection, ev.HollID);
-                row.Cells[2].Value = current.Name;
-                row.Cells[3].Value = ev.StartTime;
-                row.Cells[4].Value = ev.EndTime;
-                row.Cells[5].Value = ev.Status.ToString();
+                    row.Cells[0].Value = ev.Note;
+                    row.Cells[1].Value = ev.Comment;
+                    Holl current = HollController.Read(dataBase.Connection, ev.HollID);
+                    row.Cells[2].Value = current.Name;
+                    row.Cells[3].Value = ev.StartTime;
+                    row.Cells[4].Value = ev.EndTime;
+                    row.Cells[5].Value = ev.Status.ToString();
 
-                dataGridView1.Rows.Add(row);
+                    dataGridView1.Rows.Add(row);
+                    comboBoxEventInDay.Items.Add(ev);
+                    
+                }
+                
             }
+
+        }
+
+        private void comboBoxEventInDay_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Event selectedEvent = comboBoxEventInDay.SelectedItem as Event;
+            Holl holl = HollController.Read(dataBase.Connection, selectedEvent.HollID);
+            labelEventInfo.Text = selectedEvent.ToString(holl, EventEquipment.GetEquipmentInEvent(dataBase.Connection, selectedEvent));
+
         }
     }
 }

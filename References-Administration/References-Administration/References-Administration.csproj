@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="DataBaseControllers\DepartmentHollController.cs" />
     <Compile Include="DataBaseControllers\EventController.cs" />
+    <Compile Include="DataBaseControllers\EventEquipment.cs" />
     <Compile Include="Forms\EventsForm.cs">
       <SubType>Form</SubType>
     </Compile>

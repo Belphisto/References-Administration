@@ -34,6 +34,7 @@ namespace References_Administration
             buttonLogOut.Visible = isLogin;
             labelCurrentSession.Visible = isLogin;
             if (isLogin) labelCurrentSession.Text = $"Вы вошли как {session.GetName()} роли {session.Roles.Count}";
+            buttonEvents.Visible = isLogin;
             LogintextBox.Text = string.Empty;
             PasswordtextBox.Text = string.Empty;
         }
@@ -77,7 +78,7 @@ namespace References_Administration
 
         private void buttonEvents_Click(object sender, EventArgs e)
         {
-            var eventsForm = new EventsForm();
+            var eventsForm = new EventsForm(session);
             eventsForm.ShowDialog(this);
         }
     }

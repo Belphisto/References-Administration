@@ -29,7 +29,7 @@ namespace References_Administration
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxComment = new System.Windows.Forms.TextBox();
             this.buttonCunfirmEvent = new System.Windows.Forms.Button();
             this.monthCalendar3 = new System.Windows.Forms.MonthCalendar();
             this.buttonCreateEvent = new System.Windows.Forms.Button();
@@ -38,7 +38,7 @@ namespace References_Administration
             this.labelEventInfo = new System.Windows.Forms.Label();
             this.EventInfo = new System.Windows.Forms.Label();
             this.panelCreateEvent = new System.Windows.Forms.Panel();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBoxEquipments = new System.Windows.Forms.CheckedListBox();
             this.label7 = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
@@ -57,13 +57,13 @@ namespace References_Administration
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textBoxComment
             // 
-            this.textBox1.Location = new System.Drawing.Point(566, 435);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(206, 86);
-            this.textBox1.TabIndex = 6;
+            this.textBoxComment.Location = new System.Drawing.Point(566, 435);
+            this.textBoxComment.Multiline = true;
+            this.textBoxComment.Name = "textBoxComment";
+            this.textBoxComment.Size = new System.Drawing.Size(206, 86);
+            this.textBoxComment.TabIndex = 6;
             // 
             // buttonCunfirmEvent
             // 
@@ -114,7 +114,7 @@ namespace References_Administration
             // labelEventInfo
             // 
             this.labelEventInfo.AutoSize = true;
-            this.labelEventInfo.Location = new System.Drawing.Point(606, 271);
+            this.labelEventInfo.Location = new System.Drawing.Point(568, 271);
             this.labelEventInfo.Name = "labelEventInfo";
             this.labelEventInfo.Size = new System.Drawing.Size(125, 13);
             this.labelEventInfo.TabIndex = 10;
@@ -130,7 +130,7 @@ namespace References_Administration
             // 
             // panelCreateEvent
             // 
-            this.panelCreateEvent.Controls.Add(this.checkedListBox1);
+            this.panelCreateEvent.Controls.Add(this.checkedListBoxEquipments);
             this.panelCreateEvent.Controls.Add(this.label7);
             this.panelCreateEvent.Controls.Add(this.buttonCancel);
             this.panelCreateEvent.Controls.Add(this.buttonOK);
@@ -142,19 +142,19 @@ namespace References_Administration
             this.panelCreateEvent.Controls.Add(this.label4);
             this.panelCreateEvent.Controls.Add(this.textBoxNote);
             this.panelCreateEvent.Controls.Add(this.label3);
-            this.panelCreateEvent.Location = new System.Drawing.Point(12, 381);
+            this.panelCreateEvent.Location = new System.Drawing.Point(12, 12);
             this.panelCreateEvent.Name = "panelCreateEvent";
             this.panelCreateEvent.Size = new System.Drawing.Size(760, 587);
             this.panelCreateEvent.TabIndex = 12;
             this.panelCreateEvent.Visible = false;
             // 
-            // checkedListBox1
+            // checkedListBoxEquipments
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(35, 229);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(631, 94);
-            this.checkedListBox1.TabIndex = 13;
+            this.checkedListBoxEquipments.FormattingEnabled = true;
+            this.checkedListBoxEquipments.Location = new System.Drawing.Point(35, 229);
+            this.checkedListBoxEquipments.Name = "checkedListBoxEquipments";
+            this.checkedListBoxEquipments.Size = new System.Drawing.Size(631, 94);
+            this.checkedListBoxEquipments.TabIndex = 13;
             // 
             // label7
             // 
@@ -258,6 +258,7 @@ namespace References_Administration
             this.comboBoxEventInDay.Name = "comboBoxEventInDay";
             this.comboBoxEventInDay.Size = new System.Drawing.Size(206, 21);
             this.comboBoxEventInDay.TabIndex = 13;
+            this.comboBoxEventInDay.SelectionChangeCommitted += new System.EventHandler(this.comboBoxEventInDay_SelectionChangeCommitted);
             // 
             // label2
             // 
@@ -281,8 +282,6 @@ namespace References_Administration
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 611);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.panelCreateEvent);
             this.Controls.Add(this.comboBoxEventInDay);
             this.Controls.Add(this.labelEventInfo);
@@ -290,9 +289,11 @@ namespace References_Administration
             this.Controls.Add(this.buttonCunfirmEvent);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonCancelEvent);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxComment);
             this.Controls.Add(this.buttonCreateEvent);
             this.Controls.Add(this.monthCalendar3);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.label2);
             this.Name = "EventsForm";
             this.Text = "EventsForm";
             this.panelCreateEvent.ResumeLayout(false);
@@ -304,7 +305,7 @@ namespace References_Administration
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxComment;
         private System.Windows.Forms.Button buttonCunfirmEvent;
         private System.Windows.Forms.MonthCalendar monthCalendar3;
         private System.Windows.Forms.Button buttonCreateEvent;
@@ -324,7 +325,7 @@ namespace References_Administration
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBoxEquipments;
         private System.Windows.Forms.ComboBox comboBoxEventInDay;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView1;

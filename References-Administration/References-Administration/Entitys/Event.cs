@@ -57,5 +57,32 @@ namespace References_Administration
             get { return _comment; }
             set { _comment = value; }
         }
+
+        public string ToString(Holl holl, List<Equipment> eqs)
+        {
+            string output = $"Мероприятие: {_note} \n" +
+                $" В зале: {holl.Name} \n " +
+                $"Время начала: {_startDate} \n" +
+                $" Время завершения: {_endDate} \n " +
+                $"Статус мероприятия: {StatusExtensions.GetDescription(_status)} \n " +
+                $"Комментарий: {_comment}\n " +
+                $"Требуемое оборудование: \n";
+            foreach (var eq in eqs) output += $"    {eq.Name} \n";
+
+            return output;
+        }
+
+        public string ToString(Holl holl)
+        {
+            string output = $"Мероприятие: {_note} \n" +
+                $" В зале: {holl.Name} \n " +
+                $"Время начала: {_startDate} \n" +
+                $" Время завершения: {_endDate} \n " +
+                $"Статус мероприятия: {StatusExtensions.GetDescription(_status)} \n " +
+                $"Комментарий: {_comment}\n " +
+                $"Требуемое оборудование: нет \n";
+
+            return output;
+        }
     }
 }

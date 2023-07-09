@@ -31,6 +31,26 @@ namespace References_Administration
             return equipments;
         }
 
+        public static Equipment Read(NpgsqlConnection connection, int id)
+        {
+            Equipment equipment = new Equipment();
+            string query = "SELECT * FROM Equipment WHERE id = @Id"; 
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        equipment.ID = (int)reader["id"];
+                        equipment.Name = reader["name"].ToString();
+                        equipment.HollID = (int)reader["MeetingRoomId"];
+                    }
+                }
+            }
+            return equipment;
+        }
+
         public static void AddEquipment(NpgsqlConnection connection, string eq_name, int holl_id)
         {
             string query = "INSERT INTO equipment (name, meetingroomid) VALUES (@Name, @HollID)";

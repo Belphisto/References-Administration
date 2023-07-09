@@ -29,5 +29,10 @@ namespace References_Administration
             get { return _hollId; }
             set { _hollId = value; }
         }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

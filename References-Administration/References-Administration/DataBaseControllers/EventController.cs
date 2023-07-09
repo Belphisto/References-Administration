@@ -43,7 +43,7 @@ namespace References_Administration
             {
                 using (NpgsqlDataReader reader = command.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         var eventInHoll = new Event();
                         eventInHoll.ID = (int)reader["id"];
@@ -52,7 +52,7 @@ namespace References_Administration
                         eventInHoll.StartTime = (DateTime)reader["startdate"];
                         eventInHoll.EndTime = (DateTime)reader["enddate"];
                         eventInHoll.Status = (Status)Enum.Parse(typeof(Status), reader["status"].ToString());
-                        eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["parent_id"]) : null;
+                        eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["comment"]) : null;
                         eventsInHoll.Add(eventInHoll);
                     }
                 }
@@ -97,6 +97,29 @@ namespace References_Administration
                 command.Parameters.AddWithValue("@StartDate", planningEvent.StartTime);
                 command.Parameters.AddWithValue("@EndDate", planningEvent.EndTime);
                 command.Parameters.AddWithValue("@Status", planningEvent.Status.ToString());
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static int GetLastCreatedID(NpgsqlConnection connection)
+        {
+            string selectQuery = "SELECT lastval()";
+            using (NpgsqlCommand selectCommand = new NpgsqlCommand(selectQuery, connection))
+            {
+                int eventId = Convert.ToInt32(selectCommand.ExecuteScalar());
+                return eventId;
+            }
+        }
+
+        public static void Update(NpgsqlConnection connection, Event planningEvent)
+        {
+            string query = "UPDATE event SET comment = @Comment, status = @Status WHERE id = @EventId";
+
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Comment", planningEvent.Comment);
+                command.Parameters.AddWithValue("@Status", planningEvent.Status.ToString());
+                command.Parameters.AddWithValue("@EventId", planningEvent.ID);
                 command.ExecuteNonQuery();
             }
         }

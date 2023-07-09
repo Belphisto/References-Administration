@@ -2933,3 +2933,66 @@ LogInfo: 09.07.2023 / 16:01:00 / DataBaseController/DataBaseController()/ сое
 LogInfo: 09.07.2023 / 16:02:24 / Программа запущена
 LogInfo: 09.07.2023 / 16:02:25 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
 LogInfo: 09.07.2023 / 16:03:34 / Работа программы завершена
+LogInfo: 09.07.2023 / 22:44:52 / Программа запущена
+LogInfo: 09.07.2023 / 22:44:54 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:45:22 / Работа программы завершена
+LogInfo: 09.07.2023 / 22:46:01 / Программа запущена
+LogInfo: 09.07.2023 / 22:46:03 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:48:40 / Программа запущена
+LogInfo: 09.07.2023 / 22:48:42 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:49:29 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:50:18 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:53:34 / Программа запущена
+LogInfo: 09.07.2023 / 22:53:36 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:53:59 / Работа программы завершена
+LogInfo: 09.07.2023 / 22:54:31 / Программа запущена
+LogInfo: 09.07.2023 / 22:54:32 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:54:47 / Работа программы завершена
+LogInfo: 09.07.2023 / 22:55:41 / Программа запущена
+LogInfo: 09.07.2023 / 22:55:43 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:56:10 / Работа программы завершена
+LogInfo: 09.07.2023 / 22:56:40 / Программа запущена
+LogInfo: 09.07.2023 / 22:56:41 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:56:50 / Работа программы завершена
+LogInfo: 09.07.2023 / 22:58:17 / Программа запущена
+LogInfo: 09.07.2023 / 22:58:18 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:59:21 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 22:59:38 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:04:02 / Программа запущена
+LogInfo: 09.07.2023 / 23:04:05 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:04:17 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:05:25 / Программа запущена
+LogInfo: 09.07.2023 / 23:05:27 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:05:39 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:06:29 / Программа запущена
+LogInfo: 09.07.2023 / 23:06:31 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:06:39 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:07:33 / Программа запущена
+LogInfo: 09.07.2023 / 23:07:34 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:07:39 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:08:28 / Программа запущена
+LogInfo: 09.07.2023 / 23:08:29 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:08:35 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:10:09 / Программа запущена
+LogInfo: 09.07.2023 / 23:10:10 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:10:41 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:10:55 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:11:36 / Программа запущена
+LogInfo: 09.07.2023 / 23:11:38 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:11:43 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:11:52 / Программа запущена
+LogInfo: 09.07.2023 / 23:11:54 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:12:09 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:13:24 / Программа запущена
+LogInfo: 09.07.2023 / 23:13:25 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:13:38 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:21:26 / Программа запущена
+LogInfo: 09.07.2023 / 23:21:27 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:24:28 / Программа запущена
+LogInfo: 09.07.2023 / 23:24:33 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:24:35 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:25:44 / Работа программы завершена
+LogInfo: 09.07.2023 / 23:26:38 / Программа запущена
+LogInfo: 09.07.2023 / 23:26:46 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:26:47 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 09.07.2023 / 23:27:13 / Работа программы завершена
