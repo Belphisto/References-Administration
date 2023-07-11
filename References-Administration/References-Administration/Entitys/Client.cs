@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+
 
 namespace References_Administration
 {
@@ -14,6 +16,7 @@ namespace References_Administration
         private string _login;
         private int _departmentID;
         private string _passwordHash;
+        public string EmailAddress { get; set; }
 
         public int ID
         {
@@ -45,7 +48,7 @@ namespace References_Administration
         }
         public override string ToString()
         {
-            return $"ID: {_id}, Name: {_fullname}, Login: {_login}, Department ID: {_departmentID}";
+            return $"ID: {_id}, Name: {_fullname}, Login: {_login}, Email {EmailAddress},  Department ID: {_departmentID}";
         }
 
         public string GetDepartmentName(NpgsqlConnection connection, int id)
@@ -54,5 +57,7 @@ namespace References_Administration
             string name = department.Name;
             return name;
         }
+
+        
     }
 }

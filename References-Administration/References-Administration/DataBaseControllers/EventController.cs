@@ -27,7 +27,12 @@ namespace References_Administration
                         eventInHoll.StartTime = (DateTime)reader["startdate"];
                         eventInHoll.EndTime = (DateTime)reader["enddate"];
                         eventInHoll.Status = (Status)Enum.Parse(typeof(Status), reader["status"].ToString());
+<<<<<<< Updated upstream
                         eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["parent_id"]) : null;
+=======
+                        eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["comment"]) : null;
+                        eventInHoll.UserLogin = reader["client_login"].ToString();
+>>>>>>> Stashed changes
                         eventsInHoll.Add(eventInHoll);
                     }
                 }
@@ -52,6 +57,7 @@ namespace References_Administration
                         eventInHoll.StartTime = (DateTime)reader["startdate"];
                         eventInHoll.EndTime = (DateTime)reader["enddate"];
                         eventInHoll.Status = (Status)Enum.Parse(typeof(Status), reader["status"].ToString());
+                        eventInHoll.UserLogin = reader["client_login"].ToString();
                         eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["comment"]) : null;
                         eventsInHoll.Add(eventInHoll);
                     }
@@ -88,7 +94,7 @@ namespace References_Administration
 
         public static void Create(NpgsqlConnection connection, Event planningEvent)
         {
-            string query = "INSERT INTO event (note, meetingroomid, startdate, enddate, status) VALUES (@Note, @HollID, @StartDate, @EndDate, @Status)";
+            string query = "INSERT INTO event (note, meetingroomid, startdate, enddate, status, client_login) VALUES (@Note, @HollID, @StartDate, @EndDate, @Status, @Login)";
 
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
             {
@@ -97,7 +103,9 @@ namespace References_Administration
                 command.Parameters.AddWithValue("@StartDate", planningEvent.StartTime);
                 command.Parameters.AddWithValue("@EndDate", planningEvent.EndTime);
                 command.Parameters.AddWithValue("@Status", planningEvent.Status.ToString());
+                command.Parameters.AddWithValue("@Login", planningEvent.UserLogin.ToString());
                 command.ExecuteNonQuery();
+
             }
         }
 

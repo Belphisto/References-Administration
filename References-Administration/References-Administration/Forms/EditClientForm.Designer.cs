@@ -44,6 +44,8 @@ namespace References_Administration
             this.FullName = new System.Windows.Forms.TextBox();
             this.LastPasswordLabel = new System.Windows.Forms.Label();
             this.LastPasswordTextBox = new System.Windows.Forms.TextBox();
+            this.labelEmail = new System.Windows.Forms.Label();
+            this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // LoginTextBox
@@ -73,7 +75,7 @@ namespace References_Administration
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(56, 397);
+            this.CancelButton.Location = new System.Drawing.Point(56, 456);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(113, 31);
             this.CancelButton.TabIndex = 8;
@@ -83,7 +85,7 @@ namespace References_Administration
             // 
             // CreateButton
             // 
-            this.CreateButton.Location = new System.Drawing.Point(285, 397);
+            this.CreateButton.Location = new System.Drawing.Point(285, 456);
             this.CreateButton.Name = "CreateButton";
             this.CreateButton.Size = new System.Drawing.Size(113, 31);
             this.CreateButton.TabIndex = 9;
@@ -93,7 +95,7 @@ namespace References_Administration
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(516, 397);
+            this.SaveButton.Location = new System.Drawing.Point(516, 456);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(113, 31);
             this.SaveButton.TabIndex = 10;
@@ -178,11 +180,30 @@ namespace References_Administration
             this.LastPasswordTextBox.Size = new System.Drawing.Size(577, 33);
             this.LastPasswordTextBox.TabIndex = 19;
             // 
+            // labelEmail
+            // 
+            this.labelEmail.AutoSize = true;
+            this.labelEmail.Location = new System.Drawing.Point(53, 389);
+            this.labelEmail.Name = "labelEmail";
+            this.labelEmail.Size = new System.Drawing.Size(93, 13);
+            this.labelEmail.TabIndex = 20;
+            this.labelEmail.Text = " Почтовый адрес";
+            // 
+            // textBoxEmail
+            // 
+            this.textBoxEmail.Location = new System.Drawing.Point(52, 405);
+            this.textBoxEmail.Multiline = true;
+            this.textBoxEmail.Name = "textBoxEmail";
+            this.textBoxEmail.Size = new System.Drawing.Size(577, 33);
+            this.textBoxEmail.TabIndex = 21;
+            // 
             // EditClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 531);
+            this.Controls.Add(this.textBoxEmail);
+            this.Controls.Add(this.labelEmail);
             this.Controls.Add(this.LastPasswordTextBox);
             this.Controls.Add(this.LastPasswordLabel);
             this.Controls.Add(this.FullName);
@@ -222,5 +243,7 @@ namespace References_Administration
         private System.Windows.Forms.TextBox FullName;
         private System.Windows.Forms.Label LastPasswordLabel;
         private System.Windows.Forms.TextBox LastPasswordTextBox;
+        private System.Windows.Forms.Label labelEmail;
+        private System.Windows.Forms.TextBox textBoxEmail;
     }
 }

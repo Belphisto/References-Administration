@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
+using System.Net.Mail;
 
 namespace References_Administration
 {
@@ -44,6 +46,7 @@ namespace References_Administration
             dataGridView1.Columns.Add("StartDateColumn", "Start Date");
             dataGridView1.Columns.Add("EndDateColumn", "End Date");
             dataGridView1.Columns.Add("StatusColumn", "Status");
+            dataGridView1.Columns.Add("UserColumn", "User");
         }
 
         private void RefreshEvents()
@@ -100,7 +103,7 @@ namespace References_Administration
             {
                 selectedEvent.Comment = textBoxComment.Text;
                 EventController.Update(dataBase.Connection, selectedEvent);
-                MessageBox.Show("Успешно\n ", "Мероприятие отменено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Отмена мероприятия прошла успешно. Владельцу отправлено уведомление\n ", "Мероприятие отменено", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -116,7 +119,7 @@ namespace References_Administration
             {
                 selectedEvent.Comment = textBoxComment.Text;
                 EventController.Update(dataBase.Connection, selectedEvent);
-                MessageBox.Show("Успешно\n ", "Мероприятие подтверждено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Подтверждение мероприятия прошло успешно. Владельцу отправлено уведомление\n ", "Мероприятие подтверждено", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -131,6 +134,7 @@ namespace References_Administration
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            bool isEq = false;
             if (textBoxNote.Text != "" && comboBox1.SelectedItem != null && dateTimePickerStartTime.Value < dateTimePickerEndTime.Value)
             {
                 Event newEvent = new Event();
@@ -139,7 +143,9 @@ namespace References_Administration
                 newEvent.HollID = selectedHoll.ID;
                 newEvent.StartTime = dateTimePickerStartTime.Value;
                 newEvent.EndTime = dateTimePickerEndTime.Value;
-                newEvent.Status = Status.Scheduled;
+                newEvent.UserLogin = _session.User.Login;
+                if(checkedListBoxEquipments.CheckedItems.Count != 0) newEvent.Status = Status.Scheduled;
+                else newEvent.Status = Status.Confirmed;
                 if (EventController.IsEventTimeAvailable(newEvent, EventController.GetEvents(dataBase.Connection, selectedHoll)))
                 {
                     EventController.Create(dataBase.Connection, newEvent);
@@ -147,7 +153,14 @@ namespace References_Administration
                     foreach(Equipment eq in checkedListBoxEquipments.CheckedItems)
                     {
                         EventEquipment.AddEquipment(dataBase.Connection, newEvent, eq);
+                        isEq = true;
                     }
+                    
+                    if (isEq)
+                    {
+                        MessageBox.Show("После того, как техник проверит оборудование, вам придет ответ по электронной почте !\n ", "Статус мероприятия: запланировано", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    
                     textBoxNote.Text = "";
                     comboBox1.SelectedItem = null;
                     checkedListBoxEquipments.Items.Clear();
@@ -185,6 +198,7 @@ namespace References_Administration
                     row.Cells[3].Value = ev.StartTime;
                     row.Cells[4].Value = ev.EndTime;
                     row.Cells[5].Value = ev.Status.ToString();
+                    row.Cells[6].Value = ev.UserLogin.ToString();
 
                     dataGridView1.Rows.Add(row);
                     comboBoxEventInDay.Items.Add(ev);
@@ -200,7 +214,42 @@ namespace References_Administration
             Event selectedEvent = comboBoxEventInDay.SelectedItem as Event;
             Holl holl = HollController.Read(dataBase.Connection, selectedEvent.HollID);
             labelEventInfo.Text = selectedEvent.ToString(holl, EventEquipment.GetEquipmentInEvent(dataBase.Connection, selectedEvent));
+            if (selectedEvent.Status == Status.Confirmed) { buttonCunfirmEvent.Visible = false; }
+            else if (selectedEvent.Status == Status.Canceled) { buttonCancelEvent.Visible = false; }
+            else { buttonCunfirmEvent.Visible = true; buttonCancelEvent.Visible = true; }
+        }
 
+        private void buttonSM_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Создание объекта SmtpClient с настройками для сервера Yandex
+                SmtpClient smtpClient = new SmtpClient("smtp.yandex.ru", 587);
+                smtpClient.EnableSsl = true; // Включение SSL для шифрования соединения
+
+                // Аутентификация на сервере Yandex с помощью учетных данных отправителя
+                smtpClient.Credentials = new NetworkCredential("aniln0va@yandex.ru", "tuuhnmmsgqvqqven");
+
+                // Создание объекта MailMessage с информацией о письме
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress("aniln0va@yandex.ru");
+                mailMessage.To.Add("reciyo2227@mahmul.com");
+                mailMessage.Subject = "Тестовое письмо";
+                mailMessage.Body = "Привет, это тестовое письмо из моего приложения WinForms.";
+
+                // Отправка письма
+                smtpClient.Send(mailMessage);
+
+                // Освобождение ресурсов
+                mailMessage.Dispose();
+                smtpClient.Dispose();
+
+                MessageBox.Show("Письмо успешно отправлено.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка отправки письма: " + ex.Message);
+            }
         }
     }
 }

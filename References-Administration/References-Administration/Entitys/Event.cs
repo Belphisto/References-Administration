@@ -15,6 +15,7 @@ namespace References_Administration
         private DateTime _endDate;
         private Status _status;
         private string _comment;
+        public string UserLogin { get; set; }
 
         public int ID
         {

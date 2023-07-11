@@ -58,6 +58,7 @@ namespace References_Administration
             {
                 Login = c.Login,
                 FullName = c.FullName,
+                Email = c.EmailAddress,
                 Department = c.GetDepartmentName(dataBase.Connection, c.DepartmentID)
             }).ToList();
 
@@ -124,6 +125,7 @@ namespace References_Administration
             {
                 Login = c.Login,
                 FullName = c.FullName,
+                Email = c.EmailAddress,
                 Department = c.GetDepartmentName(dataBase.Connection, c.DepartmentID)
             }).ToList();
 

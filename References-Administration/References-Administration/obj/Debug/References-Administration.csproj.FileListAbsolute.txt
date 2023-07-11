@@ -54,3 +54,4 @@ E:\Лена документы\GitHub\References-Administration\References-Admin
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.CreateHollForm.resources
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.EditHollForm.resources
 E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\obj\Debug\References_Administration.EventsForm.resources
+E:\Лена документы\GitHub\References-Administration\References-Administration\References-Administration\bin\Debug\System.ComponentModel.Annotations.dll

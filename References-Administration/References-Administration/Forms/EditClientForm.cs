@@ -25,6 +25,8 @@ namespace References_Administration
             CreateButton.Visible = false; //скрыть кнопку для создания объекта
             labelLogin.Visible = false;
             LoginTextBox.Visible = false;
+            labelEmail.Visible = false;
+            textBoxEmail.Visible = false;
 
             PasswordTextBox.PasswordChar = '*';
             PasswordRetryTextBox.PasswordChar = '*';
@@ -121,7 +123,7 @@ namespace References_Administration
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if ( LoginTextBox.Text != "" && FullName.Text != "" && PasswordTextBox.Text != "" && DepartmentsNameListBox.SelectedItem != null)
+            if ( LoginTextBox.Text != "" && FullName.Text != "" && PasswordTextBox.Text != "" && DepartmentsNameListBox.SelectedItem != null && textBoxEmail.Text != "")
             {
 
                // Получить выбранное название подразделения
@@ -134,27 +136,32 @@ namespace References_Administration
                     _client.FullName = FullName.Text;
                     _client.Login = LoginTextBox.Text;
                     _client.PasswordHash = ClientController.HashPassword(PasswordRetryTextBox.Text);
-
-                    try
+                    if (ClientController.ValidEmail(textBoxEmail.Text))
                     {
-                        ClientController.Create(_dataBase.Connection, _client);
-                        Log.WriteLog($"EditClientForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта {_client} произошло успешно");
-                        this.Close();
+                        _client.EmailAddress = textBoxEmail.Text;
+                        try
+                        {
+                            ClientController.Create(_dataBase.Connection, _client);
+                            this.Close();
+                        }
+                        catch (Npgsql.PostgresException ex)
+                        {
+                            if (ex.SqlState == "23505")
+                            {
+                                // Обработка повторяющегося значения ключа
+                                MessageBox.Show("Пользователь с таким логином уже существует.");
+                            }
+                            else
+                            {
+                                // Обработка других ошибок PostgreSQL
+                                MessageBox.Show("Произошла ошибка при создании клиента: " + ex.Message);
+                            }
+                        }
                     }
-                    catch (Npgsql.PostgresException ex)
+                    else
                     {
-                        if (ex.SqlState == "23505")
-                        {
-                            // Обработка повторяющегося значения ключа
-                            MessageBox.Show("Пользователь с таким логином уже существует.");
-                        }
-                        else
-                        {
-                            // Обработка других ошибок PostgreSQL
-                            MessageBox.Show("Произошла ошибка при создании клиента: " + ex.Message);
-                        }
+                        MessageBox.Show("Введен некорректный почтовый адрес!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    
                 }
                 else
                 {
