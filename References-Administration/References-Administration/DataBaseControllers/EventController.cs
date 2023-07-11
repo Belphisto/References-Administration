@@ -27,7 +27,7 @@ namespace References_Administration
                         eventInHoll.StartTime = (DateTime)reader["startdate"];
                         eventInHoll.EndTime = (DateTime)reader["enddate"];
                         eventInHoll.Status = (Status)Enum.Parse(typeof(Status), reader["status"].ToString());
-                        eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["parent_id"]) : null;
+                        eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["comment"]) : null;
                         eventsInHoll.Add(eventInHoll);
                     }
                 }
