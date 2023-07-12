@@ -12,13 +12,12 @@ namespace References_Administration
 {
     public partial class EditClientForm : Form
     {
-        private Client _client;
-        private DataBaseController _dataBase;
+        private User _client;
+        private DataBase _dataBase;
 
         //конструктор для формы редактирования объекта
-        public EditClientForm(Client client, DataBaseController dataBase)
+        public EditClientForm(User client, DataBase dataBase)
         {
-            Log.WriteLog($" EditClientForm : Form/EditClientForm(Client client, DataBaseController dataBase)/ Форма для редактирования открыта");
             InitializeComponent();
             _client = client;
             _dataBase = dataBase;
@@ -38,11 +37,10 @@ namespace References_Administration
             this.Load += EditClientForm_Load;
         }
 
-        public EditClientForm(DataBaseController dataBase)
+        public EditClientForm(DataBase dataBase)
         {
-            Log.WriteLog($" EditClientForm : Form/EditClientForm(Client client, DataBaseController dataBase)/ Форма для редактирования открыта");
             InitializeComponent();
-            _client = new Client();
+            _client = new User();
             _dataBase = dataBase;
             SaveButton.Visible = false; //скрыть кнопку для сохранения редактированного объекта
             LastPasswordLabel.Visible = false;
@@ -60,10 +58,10 @@ namespace References_Administration
             if (DepartmentsNameListBox.Items.Count == 0)
             {
                 // Загрузить данные всех подразделений
-                List<Department> departments = DepartmentController.GetDepartments(_dataBase.Connection);
+                List<Division> departments = _dataBase.divisionController.GetDepartments();
 
                 // Заполнить ListBox названиями подразделений
-                foreach (Department department in departments)
+                foreach (var department in departments)
                 {
                     DepartmentsNameListBox.Items.Add(department.Name);
                 }
@@ -77,7 +75,7 @@ namespace References_Administration
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            if (ClientController.HashPassword(LastPasswordTextBox.Text) == _client.PasswordHash)
+            if(_dataBase.userController.HashPassword(LastPasswordTextBox.Text) == _client.PasswordHash)
             {
                 if (FullName.Text != "")
                 {
@@ -87,15 +85,14 @@ namespace References_Administration
                     {
                         // Получить выбранное название подразделения
                         string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-
-                        Department selectedParent = DepartmentController.Read(_dataBase.Connection, selectedDepartmentName);
+                        Division selectedParent = _dataBase.divisionController.Read(selectedDepartmentName);
                         _client.DepartmentID = selectedParent.ID;
                     }
                     if (PasswordTextBox.Text != "")
                     {
                         if (PasswordRetryTextBox.Text == PasswordTextBox.Text)
                         {
-                            _client.PasswordHash = ClientController.HashPassword(PasswordTextBox.Text);
+                            _client.PasswordHash = _dataBase.userController.HashPassword(PasswordTextBox.Text);
                         }
                         else
                         {
@@ -109,7 +106,7 @@ namespace References_Administration
                     Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_client} не удалось");
                     MessageBox.Show("Поле ФИО не может быть пустым!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                ClientController.Update(_dataBase.Connection, _client);
+                _dataBase.userController.UpdateClient(_client);
                 Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_client} произошло успешно");
                 this.Close();
             }
@@ -128,20 +125,20 @@ namespace References_Administration
 
                // Получить выбранное название подразделения
                string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-               Department selectedParent = DepartmentController.Read(_dataBase.Connection, selectedDepartmentName);
+                Division selectedParent = _dataBase.divisionController.Read(selectedDepartmentName);
                _client.DepartmentID = selectedParent.ID;
                 //else { _client.DepartmentID = null; }
                 if (PasswordTextBox.Text == PasswordRetryTextBox.Text)
                 {
                     _client.FullName = FullName.Text;
                     _client.Login = LoginTextBox.Text;
-                    _client.PasswordHash = ClientController.HashPassword(PasswordRetryTextBox.Text);
-                    if (ClientController.ValidEmail(textBoxEmail.Text))
+                    _client.PasswordHash = _dataBase.userController.HashPassword(PasswordRetryTextBox.Text);
+                    if ( _dataBase.userController.ValidEmail(textBoxEmail.Text))
                     {
                         _client.EmailAddress = textBoxEmail.Text;
                         try
                         {
-                            ClientController.Create(_dataBase.Connection, _client);
+                            _dataBase.userController.CreateClient(_client);
                             this.Close();
                         }
                         catch (Npgsql.PostgresException ex)

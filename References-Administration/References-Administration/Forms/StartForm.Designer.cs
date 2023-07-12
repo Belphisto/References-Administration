@@ -149,6 +149,7 @@ namespace References_Administration
             this.Controls.Add(this.DepartmentButton);
             this.Name = "StartForm";
             this.Text = "StartForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

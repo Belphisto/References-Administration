@@ -13,8 +13,8 @@ namespace References_Administration
 {
     public partial class DepartmentForm : Form
     {
-        private DataBaseController dataBase;
-        private List<Department> departments;
+        private DataBase _dataBase;
+        private List<Division> departments;
         private List<Holl> holls;
 
         public DepartmentForm()

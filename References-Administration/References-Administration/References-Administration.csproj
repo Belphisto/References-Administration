@@ -117,11 +117,22 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataBaseControllers\DepartmentHollController.cs" />
-    <Compile Include="DataBaseControllers\EventController.cs" />
-    <Compile Include="DataBaseControllers\EventEquipment.cs" />
-    <Compile Include="EmailSend\EmailSender.cs" />
-    <Compile Include="EmailSend\EmailSenderForm.cs" />
+    <Compile Include="DataBase\DataBase.cs" />
+    <Compile Include="DataBase\DataBaseConntection.cs" />
+    <Compile Include="Entitys\Equipment\EquipmentDataReader.cs" />
+    <Compile Include="Entitys\Equipment\EquipmentDataWriter.cs" />
+    <Compile Include="Entitys\Event\EventEquipmentDataReader.cs" />
+    <Compile Include="Entitys\Event\EventEquipmentDataWriter.cs" />
+    <Compile Include="Entitys\Event\EventDataReader.cs" />
+    <Compile Include="Entitys\Event\EventDataWriter.cs" />
+    <Compile Include="Entitys\Event\EventController.cs" />
+    <Compile Include="Entitys\Division\DivisionHollWriter.cs" />
+    <Compile Include="Entitys\Division\DivisionController.cs" />
+    <Compile Include="Entitys\Division\Division.cs" />
+    <Compile Include="Entitys\Division\DivisionDataReader.cs" />
+    <Compile Include="Entitys\Division\DivisionDataWriter.cs" />
+    <Compile Include="Entitys\EmailSend\EmailSender.cs" />
+    <Compile Include="Entitys\EmailSend\EmailSenderForm.cs" />
     <Compile Include="Forms\EventsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,11 +151,9 @@
     <Compile Include="Forms\CreateHollForm.Designer.cs">
       <DependentUpon>CreateHollForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entitys\Client.cs" />
-    <Compile Include="DataBaseControllers\ClientController.cs" />
-    <Compile Include="Entitys\Equipment.cs" />
-    <Compile Include="Entitys\Event.cs" />
-    <Compile Include="DataBaseControllers\EquipmentController.cs" />
+    <Compile Include="Entitys\Equipment\Equipment.cs" />
+    <Compile Include="Entitys\Event\Event.cs" />
+    <Compile Include="Entitys\Equipment\EquipmentController.cs" />
     <Compile Include="Forms\EditClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,10 +166,28 @@
     <Compile Include="Forms\ClientsForm.Designer.cs">
       <DependentUpon>ClientsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataBase\IDataBaseConnection.cs" />
+    <Compile Include="Entitys\Division\IDivisionDataReader.cs" />
+    <Compile Include="Entitys\Division\IDivisionDataWriter.cs" />
+    <Compile Include="Entitys\Division\IDivisionHollWriter.cs" />
+    <Compile Include="Entitys\Holl\HollDataReader.cs" />
+    <Compile Include="Entitys\Holl\HollDataWriter.cs" />
+    <Compile Include="Entitys\Holl\IHollDataReader.cs" />
+    <Compile Include="Entitys\Holl\IHollDataWriter.cs" />
+    <Compile Include="Entitys\Event\IEventDataReader.cs" />
+    <Compile Include="Entitys\Event\IEventDataWriter.cs" />
+    <Compile Include="Entitys\Equipment\IEquipmentDataReader.cs" />
+    <Compile Include="Entitys\Equipment\IEquipmentDataWriter.cs" />
+    <Compile Include="Entitys\Event\IEventEquipmentDataReader.cs" />
+    <Compile Include="Entitys\Event\IEventEquipmentDataWriter.cs" />
+    <Compile Include="Entitys\Role\IRoleDataReader.cs" />
+    <Compile Include="Entitys\Role\IRoleDataWriter.cs" />
+    <Compile Include="Entitys\Role\RoleDataReader.cs" />
+    <Compile Include="Entitys\Role\RoleDataWriter.cs" />
+    <Compile Include="Entitys\User\IUserDataReader.cs" />
+    <Compile Include="Entitys\User\IUserDataValid.cs" />
+    <Compile Include="Entitys\User\IUserDataWriter.cs" />
     <Compile Include="Logger\Config.cs" />
-    <Compile Include="DataBaseControllers\DataBaseController.cs" />
-    <Compile Include="Entitys\Department.cs" />
-    <Compile Include="DataBaseControllers\DepartmentController.cs" />
     <Compile Include="Forms\EditDepartmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,9 +200,9 @@
     <Compile Include="Forms\DepartmentForm.Designer.cs">
       <DependentUpon>DepartmentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entitys\Holl.cs" />
-    <Compile Include="DataBaseControllers\HollController.cs" />
-    <Compile Include="EmailSend\IEmailSender.cs" />
+    <Compile Include="Entitys\Holl\Holl.cs" />
+    <Compile Include="Entitys\Holl\HollController.cs" />
+    <Compile Include="Entitys\EmailSend\IEmailSender.cs" />
     <Compile Include="Logger\Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,9 +212,14 @@
     <Compile Include="Forms\StartForm.Designer.cs">
       <DependentUpon>StartForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataBaseControllers\RoleController.cs" />
+    <Compile Include="Entitys\Role\RoleController.cs" />
     <Compile Include="Entitys\Session.cs" />
     <Compile Include="Entitys\Status.cs" />
+    <Compile Include="Entitys\User\User.cs" />
+    <Compile Include="Entitys\User\UserController.cs" />
+    <Compile Include="Entitys\User\UserDataReader.cs" />
+    <Compile Include="Entitys\User\UserDataValid.cs" />
+    <Compile Include="Entitys\User\UserDataWriter.cs" />
     <EmbeddedResource Include="Forms\EditHollForm.resx">
       <DependentUpon>EditHollForm.cs</DependentUpon>
     </EmbeddedResource>

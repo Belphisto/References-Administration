@@ -13,54 +13,43 @@ namespace References_Administration
 {
     public partial class StartForm : Form
     {
-        private DataBaseController dataBase;
+        private DataBase _dataBase;
         private Session session;
 
         public StartForm()
         {
             InitializeComponent();
-            session = Session.GetInstance();
-            ShowLoginControls(session.IsAuthenticated);
-        }
 
-        private void ShowLoginControls(bool isLogin)
-        {
-            labelLogin.Visible = !isLogin;
-            labelPassword.Visible = !isLogin;
-            LogintextBox.Visible = !isLogin;
-            PasswordtextBox.Visible = !isLogin;
-            PasswordtextBox.PasswordChar = '*';
-            authorizationButton.Visible = !isLogin;
-            buttonLogOut.Visible = isLogin;
-            labelCurrentSession.Visible = isLogin;
-            if (isLogin) labelCurrentSession.Text = $"Вы вошли как {session.GetName()} роли {session.Roles.Count}";
-            buttonEvents.Visible = isLogin;
-            LogintextBox.Text = string.Empty;
-            PasswordtextBox.Text = string.Empty;
+            session = Session.GetInstance();
+            _dataBase = new DataBase();
+
+            ShowLoginControls(session.IsAuthenticated);
         }
 
         private void Administration_Click(object sender, EventArgs e)
         {
-            var departmentForm = new DepartmentForm();
+            var departmentForm = new DepartmentForm(_dataBase);
             departmentForm.ShowDialog(this);
         }
 
         private void Directory_Click(object sender, EventArgs e)
         {
-            var clientsForm = new ClientsForm();
+            var clientsForm = new ClientsForm(_dataBase);
             clientsForm.ShowDialog(this);
         }
 
         private void authorizationButton_Click(object sender, EventArgs e)
         {
-            dataBase = new DataBaseController();
             string login = LogintextBox.Text;
-            string passwordHash = ClientController.HashPassword(PasswordtextBox.Text);
-            Client currentClient = ClientController.Read(dataBase.Connection, login);
+            //string passwordHash = ClientController.HashPassword(PasswordtextBox.Text);
+            string passwordHash = _dataBase.userController.HashPassword(PasswordtextBox.Text);
+            //Client currentClient = ClientController.Read(dataBase.Connection, login);
+            User currentUser = _dataBase.userController.ReadClient(login);
 
-            if (currentClient != null && currentClient.PasswordHash == passwordHash)
+            if (currentUser != null && currentUser.PasswordHash == passwordHash)
             {
-                session.Login(currentClient, RoleController.GetUserRoles(dataBase.Connection, currentClient));
+                //session.Login(currentUser, RoleController.GetUserRoles(dataBase.Connection, currentUser));
+                session.Login(currentUser, _dataBase.roleController.GetUserRoles(currentUser));
                 ShowLoginControls(session.IsAuthenticated);
                 //session.Roles = RoleController.GetUserRoles(dataBase.Connection, currentClient);
             }
@@ -78,8 +67,29 @@ namespace References_Administration
 
         private void buttonEvents_Click(object sender, EventArgs e)
         {
-            var eventsForm = new EventsForm(session);
+            var eventsForm = new EventsForm(session, _dataBase);
             eventsForm.ShowDialog(this);
+        }
+
+        private void StartForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _dataBase.dataBaseConntection.CloseConnection();
+        }
+
+        private void ShowLoginControls(bool isLogin)
+        {
+            labelLogin.Visible = !isLogin;
+            labelPassword.Visible = !isLogin;
+            LogintextBox.Visible = !isLogin;
+            PasswordtextBox.Visible = !isLogin;
+            PasswordtextBox.PasswordChar = '*';
+            authorizationButton.Visible = !isLogin;
+            buttonLogOut.Visible = isLogin;
+            labelCurrentSession.Visible = isLogin;
+            if (isLogin) labelCurrentSession.Text = $"Вы вошли как {session.GetName()} роли {session.Roles.Count}";
+            buttonEvents.Visible = isLogin;
+            LogintextBox.Text = string.Empty;
+            PasswordtextBox.Text = string.Empty;
         }
     }
 

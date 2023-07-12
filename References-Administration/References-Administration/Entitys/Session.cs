@@ -11,7 +11,7 @@ namespace References_Administration
         private static Session _instance;
         private bool _isAuthenticated = false;
         //private string username;
-        private Client _client;
+        private User _client;
         private List<string> _roles;
 
         private Session() { }
@@ -43,12 +43,12 @@ namespace References_Administration
             return roles;
         }
 
-        public Client User
+        public User User
         {
             get { return _client; }
         }
 
-        public void Login(Client client, List<string> Roles)
+        public void Login(User client, List<string> Roles)
         {
             // аутентификация успешна
             _isAuthenticated = true;

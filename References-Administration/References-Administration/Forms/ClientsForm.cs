@@ -12,54 +12,37 @@ namespace References_Administration
 {
     public partial class ClientsForm : Form
     {
-        private const int pageSize = 20;
-        private int currentPage = 1;
-        private int totalClients;
-        private DataBaseController dataBase;
-        private List<Client> clients;
-        private List<Department> departments;
-        //private List<string> roles;
-
-        public ClientsForm()
+        private DataBase _dataBase;
+        private List<User> _clients;
+        private List<Division> _divisions;
+        public ClientsForm(DataBase dataBase)
         {
             InitializeComponent();
-            //dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Логин", HeaderText = "Логин" });
-            //dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ФИО", HeaderText = "ФИО" });
-            //dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Подразделение", HeaderText = "Подразделение" });
+            _dataBase = dataBase;
+
             dataGridView1.ReadOnly = true;
             bindingNavigator1.AddNewItem.Enabled = true;
             bindingNavigator1.DeleteItem.Enabled = true;
-            //bindingNavigatorMoveNextItem.Enabled = true;
-            //bindingNavigatorMovePreviousItem.Enabled = true;
-            //bindingNavigatorPositionItem.Enabled = true;
-            //bindingNavigatorCountItem.Enabled = true;
 
-            //bindingNavigator1.BindingSource = bindingSource1;
-            //bindingSource1.CurrentChanged += new System.EventHandler(bindingSource1_CurrentChanged);
-            //bindingSource1.DataSource = new PageOffsetList();
-
-            //this.Load += ClientsForm_Load;
+            this.Load += ClientsForm_Load;
         }
 
         private void ClientsForm_Load(object sender, EventArgs e)
         {
             // Подключение к базе данных
-            dataBase = new DataBaseController();
 
             // Получить данные из базы данных
-            clients = ClientController.GetClients(dataBase.Connection);
-            totalClients = clients.Count;
-            departments = DepartmentController.GetDepartments(dataBase.Connection);
-            //ShowCurrentPage();
+            _clients = _dataBase.userController.GetClients();
+            _divisions = _dataBase.divisionController.GetDepartments();
 
             // Заполнить таблицу данными клиентов
             // Преобразовать список клиентов только с нужными полями в анонимный тип
-            var clientsData = clients.Select(c => new
+            var clientsData = _clients.Select(c => new
             {
                 Login = c.Login,
                 FullName = c.FullName,
                 Email = c.EmailAddress,
-                Department = c.GetDepartmentName(dataBase.Connection, c.DepartmentID)
+                Department = _dataBase.divisionController.GetDepartmentName(c.DepartmentID)
             }).ToList();
 
             // Заполнить таблицу данными клиентов
@@ -71,15 +54,12 @@ namespace References_Administration
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Закрыть подключение к базе данных при закрытии формы
-            Log.WriteLog("Закрыть подключение к базе данных при закрытии формы;");
-            dataBase.CloseConnection();
             base.OnFormClosing(e);
         }
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
         {
-            EditClientForm editForm = new EditClientForm(dataBase);
+            EditClientForm editForm = new EditClientForm(_dataBase);
             Log.WriteLog("Открыта форма для добавления пользователя;");
             editForm.ShowDialog();
             RefreshDataGridView();
@@ -90,8 +70,8 @@ namespace References_Administration
             DataGridViewRow selectedRow = dataGridView1.CurrentRow;
             if (selectedRow != null)
             {
-                Client editClient = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
-                ClientController.Delete(dataBase.Connection, editClient); 
+                User editClient = _dataBase.userController.ReadClient(selectedRow.Cells["Login"].Value.ToString());
+                _dataBase.userController.DeleteClient(editClient);
                 // Обновить данные в dataGridView1
                 RefreshDataGridView();
             }
@@ -102,8 +82,8 @@ namespace References_Administration
             DataGridViewRow selectedRow = dataGridView1.CurrentRow;
             if (selectedRow != null)
             {
-                Client editClient = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
-                EditClientForm editForm = new EditClientForm(editClient, dataBase);
+                User editClient = _dataBase.userController.ReadClient(selectedRow.Cells["Login"].Value.ToString());
+                EditClientForm editForm = new EditClientForm(editClient, _dataBase);
                 editForm.ShowDialog();
                 RefreshDataGridView();
             }
@@ -111,82 +91,26 @@ namespace References_Administration
 
         private void RefreshDataGridView()
         {
-            clients = ClientController.GetClients(dataBase.Connection);
-            totalClients = clients.Count;
-            departments = DepartmentController.GetDepartments(dataBase.Connection);
             // Очистить dataGridView1
             dataGridView1.DataSource = null;
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
 
+            _clients = _dataBase.userController.GetClients();
+            _divisions = _dataBase.divisionController.GetDepartments();
+
             // Заполнить таблицу данными клиентов
             // Преобразовать список клиентов только с нужными полями в анонимный тип
-            var clientsData = clients.Select(c => new
+            var clientsData = _clients.Select(c => new
             {
                 Login = c.Login,
                 FullName = c.FullName,
                 Email = c.EmailAddress,
-                Department = c.GetDepartmentName(dataBase.Connection, c.DepartmentID)
+                Department = _dataBase.divisionController.GetDepartmentName(c.DepartmentID)
             }).ToList();
 
             // Заполнить таблицу данными клиентов
             dataGridView1.DataSource = clientsData;
-        }
-
-        private void ShowCurrentPage()
-        {
-            // Определить индекс первого и последнего элементов текущей страницы
-            int startIndex = (currentPage - 1) * pageSize;
-            int endIndex = Math.Min(startIndex + pageSize - 1, totalClients - 1);
-
-            // Получить подмножество клиентов для текущей страницы
-            var clientsSubset = clients.Skip(startIndex).Take(pageSize).ToList();
-
-            // Преобразовать список клиентов только с нужными полями в анонимный тип
-            var clientsData = clientsSubset.Select(c => new
-            {
-                Login = c.Login,
-                FullName = c.FullName,
-                Department = c.GetDepartmentName(dataBase.Connection, c.DepartmentID)
-            }).ToList();
-
-            // Очистить dataGridView1
-            dataGridView1.DataSource = null;
-            dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();
-
-            // Заполнить таблицу данными клиентов
-            dataGridView1.DataSource = clientsData;
-
-            // Обновить надпись с информацией о текущей странице
-            bindingNavigatorPositionItem.Text = string.Format(" {0}", currentPage);
-            bindingNavigatorCountItem.Text = string.Format("{0}",GetTotalPages());
-        }
-
-        private void bindingNavigatorMoveNextItem_Click(object sender, EventArgs e)
-        {
-            // Перейти к следующей странице, если она существует
-            if (currentPage < GetTotalPages())
-            {
-                currentPage++;
-                ShowCurrentPage();
-            }
-        }
-
-        private void bindingNavigatorMovePreviousItem_Click(object sender, EventArgs e)
-        {
-            // Перейти к предыдущей странице, если она существует
-            if (currentPage > 1)
-            {
-                currentPage--;
-                ShowCurrentPage();
-            }
-        }
-
-        private int GetTotalPages()
-        {
-            // Рассчитать общее число страниц на основе общего числа элементов и размера страницы
-            return (int)Math.Ceiling((double)totalClients / pageSize);
         }
 
         private void buttonEditRole_Click(object sender, EventArgs e)
@@ -195,7 +119,7 @@ namespace References_Administration
             {
                 string lastrole = comboBoxEditRole.SelectedItem.ToString();
                 string newrole = textBoxNewRole.Text;
-                RoleController.Update(dataBase.Connection, lastrole, newrole);
+                _dataBase.roleController.Update(lastrole, newrole);
                 MessageBox.Show("роль обновлена успешно", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 comboBoxEditRole.SelectedItem = null;
                 textBoxNewRole.Text = "";
@@ -208,7 +132,7 @@ namespace References_Administration
             if (comboBoxEditRole.SelectedItem != null)
             {
                 string role = comboBoxEditRole.SelectedItem.ToString();
-                RoleController.Delete(dataBase.Connection, role);
+                _dataBase.roleController.Delete(role);
                 MessageBox.Show("роль удалена", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 comboBoxEditRole.SelectedItem = null;
 
@@ -227,7 +151,7 @@ namespace References_Administration
             {
                 if (newRole != "")
                 {
-                    RoleController.Create(dataBase.Connection, newRole);
+                    _dataBase.roleController.Create(newRole);
                     MessageBox.Show("роль создана", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     RefreshRolesView();
                     textBoxNewRole.Text = "";
@@ -243,7 +167,7 @@ namespace References_Administration
         private void RefreshRolesView()
         {
             comboBoxEditRole.Items.Clear();
-            List<string> roles = RoleController.GetRoles(dataBase.Connection);
+            List<string> roles = _dataBase.roleController.GetRoles();
             // Заполнить ListBox названиями подразделений
             foreach (string role in roles)
             {
@@ -257,7 +181,7 @@ namespace References_Administration
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 // Получаем выбранного клиента из выбранной строки
-                Client selectedClient = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
+                User selectedClient = _dataBase.userController.ReadClient(selectedRow.Cells["Login"].Value.ToString());
 
                 // Вызываем методы RefreshRolesToAddView и RefreshRolesToRemoveView
                 RefreshRolesToAddView(selectedClient);
@@ -265,19 +189,19 @@ namespace References_Administration
             }
         }
 
-        private void RefreshRolesToAddView(Client client)
+        private void RefreshRolesToAddView(User client)
         {
             checkedListBoxDeletedRoles.Items.Clear();
-            List<string> roles = RoleController.GetUserRoles(dataBase.Connection, client);
+            List<string> roles = _dataBase.roleController.GetUserRoles(client);
             foreach (string role in roles)
             {
                 checkedListBoxDeletedRoles.Items.Add(role);
             }
         }
-        private void RefreshRolesToRemoveView(Client client)
+        private void RefreshRolesToRemoveView(User client)
         {
             checkedListBoxAddingRoles.Items.Clear();
-            List<string> roles = RoleController.GetMissingRoles(dataBase.Connection, client);
+            List<string> roles = _dataBase.roleController.GetMissingRoles(client);
             foreach (string role in roles)
             {
                 checkedListBoxAddingRoles.Items.Add(role);
@@ -287,13 +211,13 @@ namespace References_Administration
         private void buttonDeleteUserRole_Click(object sender, EventArgs e)
         {
             DataGridViewRow selectedRow = dataGridView1.CurrentRow;
-            Client client_deleterole = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
+            User client_deleterole = _dataBase.userController.ReadClient(selectedRow.Cells["Login"].Value.ToString());
             //List<string> selectedItems = new List<string>();
             foreach (var item in checkedListBoxDeletedRoles.CheckedItems)
             {
                 string selectedItem = item.ToString();
                 //selectedItems.Add(selectedItem);
-                RoleController.RemoveRoleFromClient(dataBase.Connection, selectedItem, client_deleterole);
+                _dataBase.roleController.RemoveRoleFromClient(selectedItem, client_deleterole);
             }
             RefreshRolesToRemoveView(client_deleterole);
             RefreshRolesToAddView(client_deleterole);
@@ -302,12 +226,12 @@ namespace References_Administration
         private void buttonAddUserRole_Click(object sender, EventArgs e)
         {
             DataGridViewRow selectedRow = dataGridView1.CurrentRow;
-            Client client_addrole = ClientController.Read(dataBase.Connection, selectedRow.Cells["Login"].Value.ToString());
+            User client_addrole = _dataBase.userController.ReadClient(selectedRow.Cells["Login"].Value.ToString());
             foreach (var item in checkedListBoxAddingRoles.CheckedItems)
             {
                 string selectedItem = item.ToString();
                 //selectedItems.Add(selectedItem);
-                RoleController.AddRoleToClient(dataBase.Connection, selectedItem, client_addrole);
+                _dataBase.roleController.AddRoleToClient(selectedItem, client_addrole);
             }
             RefreshRolesToRemoveView(client_addrole);
             RefreshRolesToAddView(client_addrole);
