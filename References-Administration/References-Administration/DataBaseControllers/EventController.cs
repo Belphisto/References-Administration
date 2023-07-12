@@ -27,12 +27,9 @@ namespace References_Administration
                         eventInHoll.StartTime = (DateTime)reader["startdate"];
                         eventInHoll.EndTime = (DateTime)reader["enddate"];
                         eventInHoll.Status = (Status)Enum.Parse(typeof(Status), reader["status"].ToString());
-<<<<<<< Updated upstream
-                        eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["parent_id"]) : null;
-=======
                         eventInHoll.Comment = reader["comment"] != DBNull.Value ? Convert.ToString(reader["comment"]) : null;
                         eventInHoll.UserLogin = reader["client_login"].ToString();
->>>>>>> Stashed changes
+
                         eventsInHoll.Add(eventInHoll);
                     }
                 }

@@ -308,6 +308,7 @@ namespace References_Administration
             this.Controls.Add(this.label2);
             this.Name = "EventsForm";
             this.Text = "EventsForm";
+            this.Load += new System.EventHandler(this.EventsForm_Load);
             this.panelCreateEvent.ResumeLayout(false);
             this.panelCreateEvent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

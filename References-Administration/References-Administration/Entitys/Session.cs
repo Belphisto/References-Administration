@@ -36,6 +36,12 @@ namespace References_Administration
             get { return _roles; }
             set => _roles = value;
         }
+        public string GetRoles()
+        {
+            string roles = "";
+            foreach (var r in _roles) roles += $"{r}, ";
+            return roles;
+        }
 
         public Client User
         {

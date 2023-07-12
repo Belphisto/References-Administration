@@ -18,6 +18,9 @@ namespace References_Administration
         private DataBaseController dataBase;
         private List<Event> events;
         private Session _session;
+        private EmailSenderForm emailSenderForm;
+
+
 
         public EventsForm(Session session)
         {
@@ -47,6 +50,8 @@ namespace References_Administration
             dataGridView1.Columns.Add("EndDateColumn", "End Date");
             dataGridView1.Columns.Add("StatusColumn", "Status");
             dataGridView1.Columns.Add("UserColumn", "User");
+
+            
         }
 
         private void RefreshEvents()
@@ -103,7 +108,32 @@ namespace References_Administration
             {
                 selectedEvent.Comment = textBoxComment.Text;
                 EventController.Update(dataBase.Connection, selectedEvent);
-                MessageBox.Show("Отмена мероприятия прошла успешно. Владельцу отправлено уведомление\n ", "Мероприятие отменено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Holl selectedHoll = HollController.Read(dataBase.Connection, selectedEvent.HollID);
+                List<Equipment> eqs = EventEquipment.GetEquipmentInEvent(dataBase.Connection, selectedEvent);
+                List<int> idsTech = RoleController.GetClientIds(dataBase.Connection, "Техник");
+                List<string> emailsTech = new List<string>();
+                foreach (var id in idsTech) emailsTech.Add(ClientController.GetEmail(dataBase.Connection, id));
+
+                if (_session.Roles.Contains("Техник"))
+                {
+                    string email = ClientController.GetEmail(dataBase.Connection, selectedEvent.UserLogin);
+                    string subjectEmail = _session.User.Login;
+                    subjectEmail += $" { _session.GetRoles()}";
+                    subjectEmail += $": мероприятие {selectedEvent.Note} отменено";
+                    string bodyEmail = selectedEvent.ToString(selectedHoll, eqs);
+                    emailSenderForm.SendEmail(email, subjectEmail, bodyEmail);
+                    foreach (var mailTech in emailsTech) 
+                    {
+                        subjectEmail += "Копия письма";
+                        emailSenderForm.SendEmail(mailTech, subjectEmail, bodyEmail); 
+                    }
+                    MessageBox.Show("Отмена мероприятия прошла успешно. Владельцу отправлено уведомление\n ", "Мероприятие отменено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Отмена мероприятия прошла успешно\n ", "Мероприятие отменено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             else
             {
@@ -119,7 +149,24 @@ namespace References_Administration
             {
                 selectedEvent.Comment = textBoxComment.Text;
                 EventController.Update(dataBase.Connection, selectedEvent);
-                MessageBox.Show("Подтверждение мероприятия прошло успешно. Владельцу отправлено уведомление\n ", "Мероприятие подтверждено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Holl selectedHoll = HollController.Read(dataBase.Connection, selectedEvent.HollID);
+                List<Equipment> eqs = EventEquipment.GetEquipmentInEvent(dataBase.Connection, selectedEvent);
+
+                if (_session.Roles.Contains("Техник"))
+                {
+                    string email = ClientController.GetEmail(dataBase.Connection, selectedEvent.UserLogin);
+                    string subjectEmail = _session.User.Login;
+                    subjectEmail += $" { _session.GetRoles()}";
+                    subjectEmail += $": мероприятие {selectedEvent.Note} подтверждено";
+                    string bodyEmail = selectedEvent.ToString(selectedHoll, eqs);
+                    emailSenderForm.SendEmail(email, subjectEmail, bodyEmail);
+                    MessageBox.Show("Подтверждение мероприятия прошло успешно. Владельцу отправлено уведомление\n ", "Мероприятие подтверждено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Подтверждение мероприятия прошло успешно\n ", "Мероприятие подтверждено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             else
             {
@@ -144,20 +191,40 @@ namespace References_Administration
                 newEvent.StartTime = dateTimePickerStartTime.Value;
                 newEvent.EndTime = dateTimePickerEndTime.Value;
                 newEvent.UserLogin = _session.User.Login;
+                
                 if(checkedListBoxEquipments.CheckedItems.Count != 0) newEvent.Status = Status.Scheduled;
                 else newEvent.Status = Status.Confirmed;
                 if (EventController.IsEventTimeAvailable(newEvent, EventController.GetEvents(dataBase.Connection, selectedHoll)))
                 {
                     EventController.Create(dataBase.Connection, newEvent);
                     newEvent.ID = EventController.GetLastCreatedID(dataBase.Connection);
+
+                    List<Equipment> eqs = new List<Equipment>();
                     foreach(Equipment eq in checkedListBoxEquipments.CheckedItems)
                     {
                         EventEquipment.AddEquipment(dataBase.Connection, newEvent, eq);
                         isEq = true;
+                        eqs.Add(eq);
                     }
                     
                     if (isEq)
                     {
+                        List<int> idsTech = RoleController.GetClientIds(dataBase.Connection, "Техник");
+                        List<string> emailsTech = new List<string>();
+                        foreach (var id in idsTech)
+                        {
+                            emailsTech.Add(ClientController.GetEmail(dataBase.Connection, id));
+                        }
+                        string subjectEmail = _session.User.Login;
+                        subjectEmail += $" { _session.GetRoles()}";
+                        subjectEmail += $": мероприятие {newEvent.Note} запланировано";
+                        string bodyEmail = newEvent.ToString(selectedHoll, eqs);
+                        foreach (var mailTech in emailsTech)
+                        {
+                            subjectEmail += "Копия письма";
+                            emailSenderForm.SendEmail(mailTech, subjectEmail, bodyEmail);
+                            MessageBox.Show($"{mailTech}\n ", "Отправлено технику", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                         MessageBox.Show("После того, как техник проверит оборудование, вам придет ответ по электронной почте !\n ", "Статус мероприятия: запланировано", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     
@@ -233,7 +300,7 @@ namespace References_Administration
                 // Создание объекта MailMessage с информацией о письме
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("aniln0va@yandex.ru");
-                mailMessage.To.Add("reciyo2227@mahmul.com");
+                mailMessage.To.Add("lina.invers.02@mail.ru");
                 mailMessage.Subject = "Тестовое письмо";
                 mailMessage.Body = "Привет, это тестовое письмо из моего приложения WinForms.";
 
@@ -250,6 +317,12 @@ namespace References_Administration
             {
                 MessageBox.Show("Ошибка отправки письма: " + ex.Message);
             }
+        }
+
+        private void EventsForm_Load(object sender, EventArgs e)
+        {
+            IEmailSender emailSender = new EmailSender("aniln0va@yandex.ru", "tuuhnmmsgqvqqven");
+            emailSenderForm = new EmailSenderForm(emailSender);
         }
     }
 }

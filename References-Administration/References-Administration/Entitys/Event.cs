@@ -62,6 +62,7 @@ namespace References_Administration
         public string ToString(Holl holl, List<Equipment> eqs)
         {
             string output = $"Мероприятие: {_note} \n" +
+                $"Инициатор: {UserLogin} \n" +
                 $" В зале: {holl.Name} \n " +
                 $"Время начала: {_startDate} \n" +
                 $" Время завершения: {_endDate} \n " +
@@ -76,6 +77,7 @@ namespace References_Administration
         public string ToString(Holl holl)
         {
             string output = $"Мероприятие: {_note} \n" +
+                $"Инициатор: {UserLogin} \n" +
                 $" В зале: {holl.Name} \n " +
                 $"Время начала: {_startDate} \n" +
                 $" Время завершения: {_endDate} \n " +

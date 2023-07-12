@@ -40,6 +40,26 @@ namespace References_Administration
             string query = "SELECT email FROM client WHERE login = @Login";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@Login", login);
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        email = reader["email"].ToString();
+                    }
+                }
+
+            }
+            return email;
+        }
+
+        public static string GetEmail(NpgsqlConnection connection, int id)
+        {
+            string email = "";
+            string query = "SELECT email FROM client WHERE id = @Id";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
                 using (NpgsqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())

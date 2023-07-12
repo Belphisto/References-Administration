@@ -135,5 +135,23 @@ namespace References_Administration
             }
             return roles;
         }
+        
+        public static List<int> GetClientIds(NpgsqlConnection connection, string role)
+        {
+            var ids = new List<int>();
+            string query = "SELECT c.id FROM client c JOIN userrole ur ON c.id = ur.userid JOIN role r ON ur.roleid = r.id WHERE r.name = @Role;";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Role", role);
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        ids.Add((int)reader["id"]);
+                    }
+                }
+            }
+            return ids;
+        }
     }
 }
