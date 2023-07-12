@@ -123,9 +123,9 @@ namespace References_Administration
                     subjectEmail += $": мероприятие {selectedEvent.Note} отменено";
                     string bodyEmail = selectedEvent.ToString(selectedHoll, eqs);
                     emailSenderForm.SendEmail(email, subjectEmail, bodyEmail);
+                    subjectEmail += "Копия письма";
                     foreach (var mailTech in emailsTech) 
                     {
-                        subjectEmail += "Копия письма";
                         emailSenderForm.SendEmail(mailTech, subjectEmail, bodyEmail); 
                     }
                     MessageBox.Show("Отмена мероприятия прошла успешно. Владельцу отправлено уведомление\n ", "Мероприятие отменено", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -152,15 +152,25 @@ namespace References_Administration
 
                 Holl selectedHoll = HollController.Read(dataBase.Connection, selectedEvent.HollID);
                 List<Equipment> eqs = EventEquipment.GetEquipmentInEvent(dataBase.Connection, selectedEvent);
+                List<int> idsTech = RoleController.GetClientIds(dataBase.Connection, "Техник");
+                List<string> emailsTech = new List<string>();
+                foreach (var id in idsTech) emailsTech.Add(ClientController.GetEmail(dataBase.Connection, id));
 
                 if (_session.Roles.Contains("Техник"))
                 {
                     string email = ClientController.GetEmail(dataBase.Connection, selectedEvent.UserLogin);
                     string subjectEmail = _session.User.Login;
                     subjectEmail += $" { _session.GetRoles()}";
-                    subjectEmail += $": мероприятие {selectedEvent.Note} подтверждено";
+                    subjectEmail += $": мероприятие {selectedEvent.Note} подтверждено для {email}";
                     string bodyEmail = selectedEvent.ToString(selectedHoll, eqs);
                     emailSenderForm.SendEmail(email, subjectEmail, bodyEmail);
+
+                    subjectEmail += "Копия письма";
+                    foreach (var mailTech in emailsTech)
+                    {
+                        emailSenderForm.SendEmail(mailTech, subjectEmail, bodyEmail);
+                    }
+
                     MessageBox.Show("Подтверждение мероприятия прошло успешно. Владельцу отправлено уведомление\n ", "Мероприятие подтверждено", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else

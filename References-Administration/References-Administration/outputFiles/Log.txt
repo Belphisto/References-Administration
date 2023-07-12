@@ -3304,3 +3304,25 @@ LogInfo: 12.07.2023 / 14:34:24 / DataBaseController/DataBaseController()/ сое
 LogInfo: 12.07.2023 / 14:34:25 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
 LogInfo: 12.07.2023 / 14:34:35 / Письмо успешно отправлено.
 LogInfo: 12.07.2023 / 14:35:28 / Работа программы завершена
+LogInfo: 12.07.2023 / 14:39:02 / Программа запущена
+LogInfo: 12.07.2023 / 14:39:10 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 12.07.2023 / 14:39:11 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 12.07.2023 / 14:39:27 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:39:29 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:40:51 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 12.07.2023 / 14:40:57 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 12.07.2023 / 14:41:07 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:41:08 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:41:09 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:41:57 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 12.07.2023 / 14:42:27 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:42:28 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:42:29 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:42:38 / Работа программы завершена
+LogInfo: 12.07.2023 / 14:44:35 / Программа запущена
+LogInfo: 12.07.2023 / 14:44:40 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 12.07.2023 / 14:44:40 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 12.07.2023 / 14:44:48 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:44:49 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:44:50 / Письмо успешно отправлено.
+LogInfo: 12.07.2023 / 14:45:06 / Работа программы завершена
