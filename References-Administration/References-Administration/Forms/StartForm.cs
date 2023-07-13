@@ -21,20 +21,21 @@ namespace References_Administration
             InitializeComponent();
 
             session = Session.GetInstance();
-            _dataBase = new DataBase();
+            DataStorage dataStorage = new DataStorage();
+            _dataBase = new DataBase(dataStorage);
 
             ShowLoginControls(session.IsAuthenticated);
         }
 
         private void Administration_Click(object sender, EventArgs e)
         {
-            var departmentForm = new DepartmentForm(_dataBase);
+            var departmentForm = new DepartmentForm(_dataBase, session);
             departmentForm.ShowDialog(this);
         }
 
         private void Directory_Click(object sender, EventArgs e)
         {
-            var clientsForm = new ClientsForm(_dataBase);
+            var clientsForm = new ClientsForm(_dataBase, session);
             clientsForm.ShowDialog(this);
         }
 
@@ -42,14 +43,14 @@ namespace References_Administration
         {
             string login = LogintextBox.Text;
             //string passwordHash = ClientController.HashPassword(PasswordtextBox.Text);
-            string passwordHash = _dataBase.userController.HashPassword(PasswordtextBox.Text);
+            string passwordHash = _dataBase.UserController.HashPassword(PasswordtextBox.Text);
             //Client currentClient = ClientController.Read(dataBase.Connection, login);
-            User currentUser = _dataBase.userController.ReadClient(login);
+            User currentUser = _dataBase.UserController.ReadClient(login);
 
             if (currentUser != null && currentUser.PasswordHash == passwordHash)
             {
                 //session.Login(currentUser, RoleController.GetUserRoles(dataBase.Connection, currentUser));
-                session.Login(currentUser, _dataBase.roleController.GetUserRoles(currentUser));
+                session.Login(currentUser, _dataBase.RoleController.GetUserRoles(currentUser));
                 ShowLoginControls(session.IsAuthenticated);
                 //session.Roles = RoleController.GetUserRoles(dataBase.Connection, currentClient);
             }
@@ -73,7 +74,7 @@ namespace References_Administration
 
         private void StartForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _dataBase.dataBaseConntection.CloseConnection();
+            _dataBase.DataBaseConntection.CloseConnection();
         }
 
         private void ShowLoginControls(bool isLogin)

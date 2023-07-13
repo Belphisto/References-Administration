@@ -12,16 +12,16 @@ namespace References_Administration
 {
     public partial class CreateHollForm : Form
     {
-        private DataBaseController _dataBase;
-        private List<Department> _departments;
+        private DataBase _dataBase;
+        private List<Division> _departments;
 
-        public CreateHollForm(DataBaseController dataBase)
+        public CreateHollForm(DataBase dataBase)
         {
             InitializeComponent();
             // Подключение к базе данных
             _dataBase = dataBase;
             // Получить данные из базы данных
-            _departments = DepartmentController.GetDepartments(_dataBase.Connection);
+            _departments = _dataBase.DivisionController.GetDepartments();
         }
 
         private void CreateHollForm_Load(object sender, EventArgs e)
@@ -40,21 +40,21 @@ namespace References_Administration
             {
                 Holl newHoll = new Holl();
                 newHoll.Name = textBoxName.Text;
-                HollController.Create(_dataBase.Connection, newHoll);
-                newHoll = HollController.Read(_dataBase.Connection, textBoxName.Text);
+                _dataBase.HollController.Create(newHoll);
+                newHoll = _dataBase.HollController.Read(textBoxName.Text);
 
                 foreach (var item in checkedListBoxDepartments.CheckedItems)
                 {
-                    Department department = item as Department;
+                    Division department = item as Division;
                     if (department != null)
                     {
-                        DepartmentHollController.AddDepatrment(_dataBase.Connection, department, newHoll);
+                        _dataBase.DivisionController.AddDepatrment(department, newHoll);
                     }
                 }
 
                 foreach (var item in checkedListBoxEquipments.CheckedItems)
                 {
-                    EquipmentController.AddEquipment(_dataBase.Connection, item.ToString(), newHoll.ID);
+                    _dataBase.EquipmentController.AddEquipment(item.ToString(), newHoll.ID);
                 }
                 this.Close();
             }

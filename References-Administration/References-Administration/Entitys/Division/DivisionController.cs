@@ -10,11 +10,13 @@ namespace References_Administration
     {
         private readonly IDivisionDataWriter _divisionDataWriter;
         private readonly IDivisionDataReader _divisionDataReader;
+        private readonly IDivisionHollWriter _divisionHollWriter;
 
-        public DivisionController (IDivisionDataWriter divisionDataWriter, IDivisionDataReader divisionDataReader)
+        public DivisionController (IDivisionDataWriter divisionDataWriter, IDivisionDataReader divisionDataReader, IDivisionHollWriter divisionHollWriter)
         {
             _divisionDataReader = divisionDataReader;
             _divisionDataWriter = divisionDataWriter;
+            _divisionHollWriter = divisionHollWriter;
         }
 
         public List<Division> GetDepartments()
@@ -25,6 +27,15 @@ namespace References_Administration
         public string GetDepartmentName(int id)
         {
             return _divisionDataReader.GetDepartmentName(id);
+        }
+        public void RemoveDepartment(Division department, Holl holl)
+        {
+            _divisionHollWriter.RemoveDepartment(department, holl);
+        }
+
+        public void AddDepatrment(Division department, Holl holl)
+        {
+            _divisionHollWriter.AddDepatrment(department, holl);
         }
 
         // CRUD операции

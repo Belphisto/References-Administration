@@ -14,28 +14,33 @@ namespace References_Administration
     public partial class DepartmentForm : Form
     {
         private DataBase _dataBase;
+        private Session _session;
         private List<Division> departments;
         private List<Holl> holls;
 
-        public DepartmentForm()
+        public DepartmentForm( DataBase dataBase, Session session)
         {
+            _dataBase = dataBase;
+            _session = session;
             InitializeComponent();
+            if (_session.Roles != null)
+            {
+                InitializeForm(session.Roles.Contains("Администратор"));
+            }
+            else { InitializeForm(false); }
+            
         }
-
         private void DepartmentForm_Load(object sender, EventArgs e)
         {
-            // Подключение к базе данных
-            dataBase = new DataBaseController();
-
             // Получить данные из базы данных
-            departments = DepartmentController.GetDepartments(dataBase.Connection);
+            departments = _dataBase.DivisionController.GetDepartments();
             // Заполнить TreeView
             FillTreeView(departments);
             FillHolls();
 
         }
 
-        private void FillTreeView(List<Department> departments)
+        private void FillTreeView(List<Division> departments)
         {
             // Очистить TreeView
             treeView.Nodes.Clear();
@@ -52,11 +57,11 @@ namespace References_Administration
         private void FillHolls()
         {
             comboBoxHolls.Items.Clear();
-            holls = HollController.GetHolls(dataBase.Connection);
+            holls = _dataBase.HollController.GetHolls();
             comboBoxHolls.Items.AddRange(holls.ToArray());
         }
 
-        private List<TreeNode> CreateTreeNodes(List<Department> departments, int? parentID = null)
+        private List<TreeNode> CreateTreeNodes(List<Division> departments, int? parentID = null)
         {
             List<TreeNode> nodes = new List<TreeNode>();
 
@@ -81,8 +86,7 @@ namespace References_Administration
             treeView.Nodes.Clear();
 
             // Получить данные из базы данных
-            //var departments = dataBase.GetDepartments();
-            departments = DepartmentController.GetDepartments(dataBase.Connection);
+            departments = _dataBase.DivisionController.GetDepartments();
 
             // Заполнить TreeView
             FillTreeView(departments);
@@ -90,9 +94,6 @@ namespace References_Administration
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Закрыть подключение к базе данных при закрытии формы
-            Log.WriteLog("Закрыть подключение к базе данных при закрытии формы;");
-            dataBase.CloseConnection();
             base.OnFormClosing(e);
         }
 
@@ -106,14 +107,14 @@ namespace References_Administration
             {
                 Log.WriteLog("Элемент выбран");
                 // Получить объект Department из Tag выбранного узла
-                Department selectedDepartment = selectedNode.Tag as Department;
+                Division selectedDepartment = selectedNode.Tag as Division;
 
                 // Проверить, что объект Department не равен null
                 //if (selectedDepartment != null && selectedDepartment.ID != 1)
                 if (selectedDepartment != null)
                 {
                     // Открыть новую форму для редактирования выбранного объекта Department
-                    EditDepartmentForm editForm = new EditDepartmentForm(selectedDepartment, dataBase);
+                    EditDepartmentForm editForm = new EditDepartmentForm(selectedDepartment, _dataBase);
                     Log.WriteLog("selectedDepartment != null;");
                     editForm.ShowDialog();
 
@@ -129,7 +130,7 @@ namespace References_Administration
 
         private void AddDepartmentButton_Click(object sender, EventArgs e)
         {
-            EditDepartmentForm editForm = new EditDepartmentForm(dataBase);
+            EditDepartmentForm editForm = new EditDepartmentForm(_dataBase);
             Log.WriteLog("Открыта форма для добавления подразделения;");
             editForm.ShowDialog();
             // Обновить данные в дереве TreeView после редактирования
@@ -146,7 +147,7 @@ namespace References_Administration
             {
                 Log.WriteLog("Элемент выбран");
                 // Получить объект Department из Tag выбранного узла
-                Department selectedDepartment = selectedNode.Tag as Department;
+                Division selectedDepartment = selectedNode.Tag as Division;
 
                 // Проверить, что объект Department не равен null
                 //if (selectedDepartment != null && selectedDepartment.ID != 1)
@@ -154,7 +155,7 @@ namespace References_Administration
                 {
                     try
                     {
-                        DepartmentController.Delete(dataBase.Connection, selectedDepartment);
+                        _dataBase.DivisionController.Delete(selectedDepartment);
                         // Обновить данные в дереве TreeView после редактирования
                         UpdateTreeView();
                         Log.WriteLog("selectedDepartment = null;");
@@ -170,7 +171,7 @@ namespace References_Administration
 
         private void buttonCreateHoll_Click(object sender, EventArgs e)
         {
-            CreateHollForm editForm = new CreateHollForm(dataBase);
+            CreateHollForm editForm = new CreateHollForm(_dataBase);
             editForm.ShowDialog();
             FillHolls();
         }
@@ -180,11 +181,11 @@ namespace References_Administration
             Holl selected = comboBoxHolls.SelectedItem as Holl;
             if (selected != null)
             {
-                List<Department> departments = HollController.GetDepartments(dataBase.Connection, selected);
+                List<Division> departments = _dataBase.HollController.GetDepartments(selected);
 
                 StringBuilder message = new StringBuilder();
                 message.AppendLine("Подразделения:");
-                foreach (Department department in departments)
+                foreach (Division department in departments)
                 {
                     message.AppendLine(department.Name);
                 }
@@ -201,8 +202,7 @@ namespace References_Administration
             Holl selected = comboBoxHolls.SelectedItem as Holl;
             if (selected != null)
             {
-
-                HollController.Delete(dataBase.Connection, selected);
+                _dataBase.HollController.Delete(selected);
                 MessageBox.Show("Совещательный зал был удален вместе с оборудованием, относящимся к нему, а также мероприятиями", "Удалено", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FillHolls();
             }
@@ -218,7 +218,7 @@ namespace References_Administration
             if (selected != null)
             {
 
-                EditHollForm editForm = new EditHollForm(dataBase, selected) ;
+                EditHollForm editForm = new EditHollForm(_dataBase, selected) ;
                 Log.WriteLog("Открыта форма для добавления подразделения;");
                 editForm.ShowDialog();
             }
@@ -229,6 +229,14 @@ namespace References_Administration
             
         }
 
-
+        private void InitializeForm(bool isEditMode)
+        {
+            EditButton.Enabled = isEditMode;
+            AddDepartmentButton.Enabled = isEditMode;
+            DeleteButton.Enabled = isEditMode;
+            buttonCreateHoll.Enabled = isEditMode;
+            buttonDeleteHoll.Enabled = isEditMode;
+            buttonEditHoll.Enabled = isEditMode;
+        }
     }
 }

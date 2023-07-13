@@ -221,7 +221,6 @@ namespace References_Administration
             this.Controls.Add(this.LoginTextBox);
             this.Name = "EditClientForm";
             this.Text = "EditClientForm";
-            this.Load += new System.EventHandler(this.EditClientForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

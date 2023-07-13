@@ -15,14 +15,14 @@ namespace References_Administration
     public partial class EventsForm : Form
     {
         private List<Holl> holls;
-        private DataBaseController dataBase;
+        private DataBase _dataBase;
         private List<Event> events;
         private Session _session;
         private EmailSenderForm emailSenderForm;
 
 
 
-        public EventsForm(Session session)
+        public EventsForm(Session session, DataBase dataBase)
         {
             InitializeComponent();
             dateTimePickerStartTime.Format = DateTimePickerFormat.Custom;
@@ -37,10 +37,9 @@ namespace References_Administration
             dataGridView1.AllowUserToAddRows = false;
 
             _session = session;
-            // Подключение к базе данных
-            dataBase = new DataBaseController();
-            holls = HollController.GetHolls(dataBase.Connection);
-            events = EventController.GetEvents(dataBase.Connection);
+            _dataBase = dataBase;
+            holls =  _dataBase.HollController.GetHolls();
+            //events = _dataBase.EventController.GetEvents();
             RefreshEvents();
 
             dataGridView1.Columns.Add("NoteColumn", "Note");
@@ -56,7 +55,7 @@ namespace References_Administration
 
         private void RefreshEvents()
         {
-            events = EventController.GetEvents(dataBase.Connection);
+            events = _dataBase.EventController.GetEvents();
             monthCalendar3.RemoveAllBoldedDates();
             foreach (var ev in events)
             {
@@ -78,7 +77,7 @@ namespace References_Administration
         private void ViewListEquipmentInHoll(Holl holl)
         {
             checkedListBoxEquipments.Items.Clear();
-            List <Equipment> equipments = EquipmentController.GetEquipments(dataBase.Connection, holl);
+            List <Equipment> equipments = _dataBase.EquipmentController.GetEquipments(holl);
             foreach(var eq in equipments)
             {
                 checkedListBoxEquipments.Items.Add(eq);
@@ -104,20 +103,21 @@ namespace References_Administration
         {
             Event selectedEvent = comboBoxEventInDay.SelectedItem as Event;
             selectedEvent.Status = Status.Canceled;
+
             if (textBoxComment.Text != "")
             {
                 selectedEvent.Comment = textBoxComment.Text;
-                EventController.Update(dataBase.Connection, selectedEvent);
+                _dataBase.EventController.Update(selectedEvent);
 
-                Holl selectedHoll = HollController.Read(dataBase.Connection, selectedEvent.HollID);
-                List<Equipment> eqs = EventEquipment.GetEquipmentInEvent(dataBase.Connection, selectedEvent);
-                List<int> idsTech = RoleController.GetClientIds(dataBase.Connection, "Техник");
+                Holl selectedHoll = _dataBase.HollController.Read(selectedEvent.HollID);
+                List<Equipment> eqs = _dataBase.EventController.GetEquipmentInEvent(selectedEvent);
+                List<int> idsTech = _dataBase.RoleController.GetClientIds("Техник");
                 List<string> emailsTech = new List<string>();
-                foreach (var id in idsTech) emailsTech.Add(ClientController.GetEmail(dataBase.Connection, id));
+                foreach (var id in idsTech) emailsTech.Add(_dataBase.UserController.GetEmail(id));
 
                 if (_session.Roles.Contains("Техник"))
                 {
-                    string email = ClientController.GetEmail(dataBase.Connection, selectedEvent.UserLogin);
+                    string email = _dataBase.UserController.GetEmail(selectedEvent.UserLogin);
                     string subjectEmail = _session.User.Login;
                     subjectEmail += $" { _session.GetRoles()}";
                     subjectEmail += $": мероприятие {selectedEvent.Note} отменено";
@@ -148,17 +148,17 @@ namespace References_Administration
             if (textBoxComment.Text != "")
             {
                 selectedEvent.Comment = textBoxComment.Text;
-                EventController.Update(dataBase.Connection, selectedEvent);
+                _dataBase.EventController.Update(selectedEvent);
 
-                Holl selectedHoll = HollController.Read(dataBase.Connection, selectedEvent.HollID);
-                List<Equipment> eqs = EventEquipment.GetEquipmentInEvent(dataBase.Connection, selectedEvent);
-                List<int> idsTech = RoleController.GetClientIds(dataBase.Connection, "Техник");
+                Holl selectedHoll = _dataBase.HollController.Read(selectedEvent.HollID);
+                List<Equipment> eqs = _dataBase.EventController.GetEquipmentInEvent(selectedEvent);
+                List<int> idsTech = _dataBase.RoleController.GetClientIds("Техник");
                 List<string> emailsTech = new List<string>();
-                foreach (var id in idsTech) emailsTech.Add(ClientController.GetEmail(dataBase.Connection, id));
+                foreach (var id in idsTech) emailsTech.Add(_dataBase.UserController.GetEmail(id));
 
                 if (_session.Roles.Contains("Техник"))
                 {
-                    string email = ClientController.GetEmail(dataBase.Connection, selectedEvent.UserLogin);
+                    string email = _dataBase.UserController.GetEmail(selectedEvent.UserLogin);
                     string subjectEmail = _session.User.Login;
                     subjectEmail += $" { _session.GetRoles()}";
                     subjectEmail += $": мероприятие {selectedEvent.Note} подтверждено для {email}";
@@ -204,26 +204,26 @@ namespace References_Administration
                 
                 if(checkedListBoxEquipments.CheckedItems.Count != 0) newEvent.Status = Status.Scheduled;
                 else newEvent.Status = Status.Confirmed;
-                if (EventController.IsEventTimeAvailable(newEvent, EventController.GetEvents(dataBase.Connection, selectedHoll)))
+                if (_dataBase.EventController.IsEventTimeAvailable(newEvent, _dataBase.EventController.GetEvents(selectedHoll)))
                 {
-                    EventController.Create(dataBase.Connection, newEvent);
-                    newEvent.ID = EventController.GetLastCreatedID(dataBase.Connection);
+                    _dataBase.EventController.Create(newEvent);
+                    newEvent.ID = _dataBase.EventController.GetLastCreatedID();
 
                     List<Equipment> eqs = new List<Equipment>();
                     foreach(Equipment eq in checkedListBoxEquipments.CheckedItems)
                     {
-                        EventEquipment.AddEquipment(dataBase.Connection, newEvent, eq);
+                        _dataBase.EventController.AddEquipment(newEvent, eq);
                         isEq = true;
                         eqs.Add(eq);
                     }
                     
                     if (isEq)
                     {
-                        List<int> idsTech = RoleController.GetClientIds(dataBase.Connection, "Техник");
+                        List<int> idsTech = _dataBase.RoleController.GetClientIds("Техник");
                         List<string> emailsTech = new List<string>();
                         foreach (var id in idsTech)
                         {
-                            emailsTech.Add(ClientController.GetEmail(dataBase.Connection, id));
+                            emailsTech.Add(_dataBase.UserController.GetEmail(id));
                         }
                         string subjectEmail = _session.User.Login;
                         subjectEmail += $" { _session.GetRoles()}";
@@ -256,7 +256,7 @@ namespace References_Administration
         private void monthCalendar3_DateSelected(object sender, DateRangeEventArgs e)
         {
             DateTime selectedDate = monthCalendar3.SelectionStart.Date;
-            List<Event> eventsSelectedDate = EventController.GetEvents(dataBase.Connection, events, selectedDate);
+            List<Event> eventsSelectedDate = _dataBase.EventController.GetEvents(events, selectedDate);
             dataGridView1.Rows.Clear();
             comboBoxEventInDay.Items.Clear();
             comboBoxEventInDay.DisplayMember = "Note";
@@ -270,7 +270,7 @@ namespace References_Administration
 
                     row.Cells[0].Value = ev.Note;
                     row.Cells[1].Value = ev.Comment;
-                    Holl current = HollController.Read(dataBase.Connection, ev.HollID);
+                    Holl current = _dataBase.HollController.Read(ev.HollID);
                     row.Cells[2].Value = current.Name;
                     row.Cells[3].Value = ev.StartTime;
                     row.Cells[4].Value = ev.EndTime;
@@ -289,44 +289,11 @@ namespace References_Administration
         private void comboBoxEventInDay_SelectionChangeCommitted(object sender, EventArgs e)
         {
             Event selectedEvent = comboBoxEventInDay.SelectedItem as Event;
-            Holl holl = HollController.Read(dataBase.Connection, selectedEvent.HollID);
-            labelEventInfo.Text = selectedEvent.ToString(holl, EventEquipment.GetEquipmentInEvent(dataBase.Connection, selectedEvent));
+            Holl holl = _dataBase.HollController.Read(selectedEvent.HollID);
+            labelEventInfo.Text = selectedEvent.ToString(holl, _dataBase.EventController.GetEquipmentInEvent(selectedEvent));
             if (selectedEvent.Status == Status.Confirmed) { buttonCunfirmEvent.Visible = false; }
             else if (selectedEvent.Status == Status.Canceled) { buttonCancelEvent.Visible = false; }
             else { buttonCunfirmEvent.Visible = true; buttonCancelEvent.Visible = true; }
-        }
-
-        private void buttonSM_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Создание объекта SmtpClient с настройками для сервера Yandex
-                SmtpClient smtpClient = new SmtpClient("smtp.yandex.ru", 587);
-                smtpClient.EnableSsl = true; // Включение SSL для шифрования соединения
-
-                // Аутентификация на сервере Yandex с помощью учетных данных отправителя
-                smtpClient.Credentials = new NetworkCredential("aniln0va@yandex.ru", "tuuhnmmsgqvqqven");
-
-                // Создание объекта MailMessage с информацией о письме
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress("aniln0va@yandex.ru");
-                mailMessage.To.Add("lina.invers.02@mail.ru");
-                mailMessage.Subject = "Тестовое письмо";
-                mailMessage.Body = "Привет, это тестовое письмо из моего приложения WinForms.";
-
-                // Отправка письма
-                smtpClient.Send(mailMessage);
-
-                // Освобождение ресурсов
-                mailMessage.Dispose();
-                smtpClient.Dispose();
-
-                MessageBox.Show("Письмо успешно отправлено.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ошибка отправки письма: " + ex.Message);
-            }
         }
 
         private void EventsForm_Load(object sender, EventArgs e)

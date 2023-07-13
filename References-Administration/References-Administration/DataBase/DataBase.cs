@@ -1,54 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace References_Administration
 {
     public class DataBase
     {
-        public DataBaseConntection dataBaseConntection;
-        public UserController userController;
-        public RoleController roleController;
-        public DivisionController divisionController;
-        public EventController eventController;
-        public EquipmentController equipmentController;
-        public HollController hollController;
+        //private readonly DataStorage _dataStorage;
+        public DataBaseConntection DataBaseConntection { get;}
+        public UserController UserController { get;}
+        public RoleController RoleController { get;}
+        public DivisionController DivisionController { get;}
+        public EventController EventController { get;}
+        public EquipmentController EquipmentController { get;}
+        public HollController HollController { get;}
 
-        public DataBase()
+        public DataBase(DataStorage dataStorage)
         {
-            dataBaseConntection = new DataBaseConntection();
+            //_dataStorage = dataStorage;
 
-            IUserDataReader userDataReader = new UserDataReader(dataBaseConntection);
-            IUserDataWriter userDataWriter = new UserDataWriter(dataBaseConntection);
+            DataBaseConntection = new DataBaseConntection();
+
+            IUserDataReader userDataReader = new UserDataReader(DataBaseConntection);
+            IUserDataWriter userDataWriter = new UserDataWriter(DataBaseConntection);
             IUserDataValid userDataValid = new UserDataValid();
-            userController = new UserController(userDataReader, userDataWriter, userDataValid);
+            UserController = new UserController(userDataReader, userDataWriter, userDataValid);
 
-            IRoleDataReader roleDataReader = new RoleDataReader(dataBaseConntection);
-            IRoleDataWriter roleDataWriter = new RoleDataWriter(dataBaseConntection);
-            roleController = new RoleController(roleDataWriter, roleDataReader);
+            IRoleDataReader roleDataReader = new RoleDataReader(DataBaseConntection);
+            IRoleDataWriter roleDataWriter = new RoleDataWriter(DataBaseConntection);
+            RoleController = new RoleController(roleDataWriter, roleDataReader);
 
-            IDivisionDataReader divisionDataReader = new DivisionDataReader(dataBaseConntection);
-            IDivisionHollWriter divisionHollWriter = new DivisionHollWriter(dataBaseConntection);
-            IDivisionDataWriter divisionDataWriter = new DivisionDataWriter(dataBaseConntection, divisionHollWriter);
-            divisionController = new DivisionController(divisionDataWriter, divisionDataReader);
+            IDivisionDataReader divisionDataReader = new DivisionDataReader(DataBaseConntection);
+            IDivisionHollWriter divisionHollWriter = new DivisionHollWriter(DataBaseConntection);
+            IDivisionDataWriter divisionDataWriter = new DivisionDataWriter(DataBaseConntection, divisionHollWriter);
+            DivisionController = new DivisionController(divisionDataWriter, divisionDataReader,divisionHollWriter);
             
-            IEquipmentDataReader equipmentDataReader = new EquipmentDataReader(dataBaseConntection);
-            IEquipmentDataWriter equipmentDataWriter = new EquipmentDataWriter(dataBaseConntection);
-            equipmentController = new EquipmentController(equipmentDataReader, equipmentDataWriter);
+            IEquipmentDataReader equipmentDataReader = new EquipmentDataReader(DataBaseConntection);
+            IEquipmentDataWriter equipmentDataWriter = new EquipmentDataWriter(DataBaseConntection);
+            EquipmentController = new EquipmentController(equipmentDataReader, equipmentDataWriter);
 
-            IEventDataReader eventDataReader = new EventDataReader(dataBaseConntection);
-            IEventDataWriter eventDataWriter = new EventDataWriter(dataBaseConntection);
-            IEventEquipmentDataReader eventEquipmentDataReader = new EventEquipmentDataReader(dataBaseConntection, equipmentDataReader);
-            IEventEquipmentDataWriter eventEquipmentDataWriter = new EventEquipmentDataWriter(dataBaseConntection);
-            eventController = new EventController(eventDataReader, eventDataWriter, eventEquipmentDataReader, eventEquipmentDataWriter);
+            IEventDataReader eventDataReader = new EventDataReader(DataBaseConntection);
+            IEventDataWriter eventDataWriter = new EventDataWriter(DataBaseConntection);
+            IEventEquipmentDataReader eventEquipmentDataReader = new EventEquipmentDataReader(DataBaseConntection, equipmentDataReader);
+            IEventEquipmentDataWriter eventEquipmentDataWriter = new EventEquipmentDataWriter(DataBaseConntection);
+            EventController = new EventController(eventDataReader, eventDataWriter, eventEquipmentDataReader, eventEquipmentDataWriter);
 
-            IHollDataWriter hollDataWriter = new HollDataWriter(dataBaseConntection);
-            IHollDataReader hollDataReader = new HollDataReader(dataBaseConntection, divisionDataReader);
-            hollController = new HollController(hollDataWriter, hollDataReader, eventDataWriter, divisionHollWriter, equipmentDataWriter);
-
-
+            IHollDataWriter hollDataWriter = new HollDataWriter(DataBaseConntection);
+            IHollDataReader hollDataReader = new HollDataReader(DataBaseConntection, divisionDataReader);
+            HollController = new HollController(hollDataWriter, hollDataReader, eventDataWriter, divisionHollWriter, equipmentDataWriter);
         }
 
     }

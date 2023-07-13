@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="DataBase\DataBase.cs" />
     <Compile Include="DataBase\DataBaseConntection.cs" />
+    <Compile Include="DataBase\DataStorage.cs" />
     <Compile Include="Entitys\Equipment\EquipmentDataReader.cs" />
     <Compile Include="Entitys\Equipment\EquipmentDataWriter.cs" />
     <Compile Include="Entitys\Event\EventEquipmentDataReader.cs" />
@@ -253,6 +254,9 @@
     <EmbeddedResource Include="Forms\StartForm.resx">
       <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Diagrams\ClassDiagramEmail.cd" />
+    <None Include="Diagrams\ClassDiagramDivision.cd" />
+    <None Include="Diagrams\ClassDiagramDataBase.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

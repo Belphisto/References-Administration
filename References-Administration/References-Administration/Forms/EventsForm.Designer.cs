@@ -53,7 +53,6 @@ namespace References_Administration
             this.comboBoxEventInDay = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.buttonSM = new System.Windows.Forms.Button();
             this.panelCreateEvent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -278,22 +277,11 @@ namespace References_Administration
             this.dataGridView1.Size = new System.Drawing.Size(519, 518);
             this.dataGridView1.TabIndex = 15;
             // 
-            // buttonSM
-            // 
-            this.buttonSM.Location = new System.Drawing.Point(391, 20);
-            this.buttonSM.Name = "buttonSM";
-            this.buttonSM.Size = new System.Drawing.Size(164, 46);
-            this.buttonSM.TabIndex = 16;
-            this.buttonSM.Text = "Отправить тестовое сообщение на почту";
-            this.buttonSM.UseVisualStyleBackColor = true;
-            this.buttonSM.Click += new System.EventHandler(this.buttonSM_Click);
-            // 
             // EventsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 611);
-            this.Controls.Add(this.buttonSM);
             this.Controls.Add(this.panelCreateEvent);
             this.Controls.Add(this.comboBoxEventInDay);
             this.Controls.Add(this.labelEventInfo);
@@ -342,6 +330,5 @@ namespace References_Administration
         private System.Windows.Forms.ComboBox comboBoxEventInDay;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button buttonSM;
     }
 }

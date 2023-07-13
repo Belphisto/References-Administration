@@ -12,11 +12,11 @@ namespace References_Administration
 {
     public partial class EditDepartmentForm : Form
     {
-        private Department _department;
-        private DataBaseController _dataBase;
+        private Division _department;
+        private DataBase _dataBase;
 
         //конструктор для формы редактирования объекта
-        public EditDepartmentForm(Department department, DataBaseController dataBase)
+        public EditDepartmentForm(Division department, DataBase dataBase)
         {
             Log.WriteLog($" EditDepartmentForm : Form/EditDepartmentForm(Department department, DataBaseController dataBase)/ Форма для редактирования открыта");
             InitializeComponent();
@@ -28,11 +28,11 @@ namespace References_Administration
         }
 
         // конструктор для формы создания объекта
-        public EditDepartmentForm(DataBaseController dataBase)
+        public EditDepartmentForm(DataBase dataBase)
         {
             Log.WriteLog($"EditDepartmentForm : Form/ EditDepartmentForm(DataBaseController dataBase)/ Форма для создания открыта");
             InitializeComponent();
-            _department = new Department(); 
+            _department = new Division(); 
             _dataBase = dataBase;
             SaveButton.Visible = false; //скрыть кнопку для сохранения редактированного объекта
             this.Load += EditDepartmentForm_Load;
@@ -41,10 +41,10 @@ namespace References_Administration
         private void EditDepartmentForm_Load(object sender, EventArgs e)
         {
             // Загрузить данные всех подразделений
-            List<Department> departments = DepartmentController.GetDepartments(_dataBase.Connection);
+            List<Division> departments =  _dataBase.DivisionController.GetDepartments();
             
             // Заполнить ListBox названиями подразделений
-            foreach (Department department in departments)
+            foreach (Division department in departments)
             {
                 if (department.Name == _department.Name ) continue; //недопустить родительскую ссылку на самого себя
                 else
@@ -71,16 +71,14 @@ namespace References_Administration
                     // Получить выбранное название подразделения
                     string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
 
-                    Department selectedParent = DepartmentController.Read(_dataBase.Connection, selectedDepartmentName);
+                    Division selectedParent =  _dataBase.DivisionController.Read(selectedDepartmentName);
                     _department.ParentID = selectedParent.ID;
                 }
-                DepartmentController.Update(_dataBase.Connection, _department);
-                Log.WriteLog($"EditDepartmentForm : Form/SaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_department} произошло успешно");
+                _dataBase.DivisionController.Update(_department);
                 this.Close();
             }
             else
             {
-                Log.WriteLog($"EditDepartmentForm : Form/SaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_department} не удалось");
                 MessageBox.Show("Название подразделения не может быть пустым!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
@@ -93,13 +91,12 @@ namespace References_Administration
                 if (DepartmentsNameListBox.SelectedItem != null)
                 {
                     string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-                    Department selectedParent = DepartmentController.Read(_dataBase.Connection, selectedDepartmentName);
+                    Division selectedParent =  _dataBase.DivisionController.Read(selectedDepartmentName);
                     _department.ParentID = selectedParent.ID;
                 }
                 _department.Name = NameTextBox.Text;
-                // Получить выбранное название подразделения
 
-                DepartmentController.Create(_dataBase.Connection, _department);
+                _dataBase.DivisionController.Create(_department);
                 Log.WriteLog($"EditDepartmentForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта {_department} произошло успешно");
                 this.Close();
             } 

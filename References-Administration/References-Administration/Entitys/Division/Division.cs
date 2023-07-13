@@ -22,7 +22,7 @@ namespace References_Administration
             if (obj == null || GetType() != obj.GetType())
                 return false;
 
-            Department other = (Department)obj;
+            Division other = (Division)obj;
             return ID == other.ID;
         }
 

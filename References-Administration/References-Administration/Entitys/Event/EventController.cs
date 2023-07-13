@@ -65,7 +65,7 @@ namespace References_Administration
         {
             _eventEquipmentDataWriter.AddEquipment(ev, eq);
         }
-        public List<Equipment> GetEquipmentInEvent(NpgsqlConnection connection, Event ev)
+        public List<Equipment> GetEquipmentInEvent( Event ev)
         {
             return _eventEquipmentDataReader.GetEquipmentInEvent(ev);
         }

@@ -13,9 +13,9 @@ namespace References_Administration
 {
     public partial class EditHollForm : Form
     {
-        private DataBaseController _dataBase;
+        private DataBase _dataBase;
         private Holl _holl;
-        public EditHollForm(DataBaseController dataBase, Holl holl)
+        public EditHollForm(DataBase dataBase, Holl holl)
         {
             InitializeComponent();
             _dataBase = dataBase;
@@ -32,7 +32,7 @@ namespace References_Administration
 
         private void ShowEquipment()
         {
-            List<Equipment> equipment = EquipmentController.GetEquipments(_dataBase.Connection, _holl);
+            List<Equipment> equipment = _dataBase.EquipmentController.GetEquipments(_holl);
 
             checkedListBoxDeleteEquipment.DataSource = null; // Удаление связи с DataSource
             checkedListBoxDeleteEquipment.Items.Clear(); // Очистка коллекции элементов
@@ -48,19 +48,19 @@ namespace References_Administration
 
         private void ShowDepartment()
         {
-            List<Department> allDepartments = DepartmentController.GetDepartments(_dataBase.Connection); // список всех подразделений
-            List<Department> relatedDepartments = HollController.GetDepartments(_dataBase.Connection, _holl); // список подразделений, относящихся к залу
-            List<Department> unrelatedDepartments = allDepartments.Except(relatedDepartments).ToList();
+            List<Division> allDepartments = _dataBase.DivisionController.GetDepartments(); // список всех подразделений
+            List<Division> relatedDepartments = _dataBase.HollController.GetDepartments(_holl); // список подразделений, относящихся к залу
+            List<Division> unrelatedDepartments = allDepartments.Except(relatedDepartments).ToList();
 
             checkedListBoxDepartments.Items.Clear();
             checkedListBoxAddDepartments.Items.Clear();
 
-            foreach (Department department in unrelatedDepartments)
+            foreach (Division department in unrelatedDepartments)
             {
                 checkedListBoxAddDepartments.Items.Add(department);
             }
 
-            foreach (Department department in relatedDepartments)
+            foreach (Division department in relatedDepartments)
             {
                 checkedListBoxDepartments.Items.Add(department);
             }
@@ -75,7 +75,7 @@ namespace References_Administration
             if (textBoxName.Text != "")
             {
                 _holl.Name = textBoxName.Text;
-                HollController.Update(_dataBase.Connection, _holl);
+                _dataBase.HollController.Update(_holl);
             }
             else
             {
@@ -89,12 +89,12 @@ namespace References_Administration
 
             foreach (var item in checkedItems)
             {
-                Department department = item as Department;
+                Division department = item as Division;
                 if (department != null)
                 {
                     if (checkedListBoxDepartments.Items.Count > 1)
                     {
-                        DepartmentHollController.RemoveDepartment(_dataBase.Connection, department, _holl);
+                        _dataBase.DivisionController.RemoveDepartment(department, _holl);
                     }
                     else
                     {
@@ -111,10 +111,10 @@ namespace References_Administration
         {
             foreach (var item in checkedListBoxAddDepartments.CheckedItems)
             {
-                Department department = item as Department;
+                Division department = item as Division;
                 if (department != null)
                 {
-                    DepartmentHollController.AddDepatrment(_dataBase.Connection, department, _holl);
+                    _dataBase.DivisionController.AddDepatrment( department, _holl);
                 }
             }
             ShowDepartment();
@@ -124,7 +124,7 @@ namespace References_Administration
         {
             foreach (var item in checkedListBoxAddEquipments.CheckedItems)
             {
-                EquipmentController.AddEquipment(_dataBase.Connection, item.ToString(), _holl.ID);
+                _dataBase.EquipmentController.AddEquipment(item.ToString(), _holl.ID);
             }
             checkedListBoxAddEquipments.ClearSelected();
             ShowEquipment();
@@ -137,7 +137,7 @@ namespace References_Administration
                 Equipment equipment = item as Equipment;
                 if (equipment != null)
                 {
-                    EquipmentController.DeleteEquipment(_dataBase.Connection, equipment);
+                    _dataBase.EquipmentController.DeleteEquipment(equipment);
                 }
             }
             ShowEquipment();

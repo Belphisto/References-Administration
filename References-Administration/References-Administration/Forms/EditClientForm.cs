@@ -14,6 +14,7 @@ namespace References_Administration
     {
         private User _client;
         private DataBase _dataBase;
+        private bool _editMode;
 
         //конструктор для формы редактирования объекта
         public EditClientForm(User client, DataBase dataBase)
@@ -21,124 +22,91 @@ namespace References_Administration
             InitializeComponent();
             _client = client;
             _dataBase = dataBase;
-            CreateButton.Visible = false; //скрыть кнопку для создания объекта
-            labelLogin.Visible = false;
-            LoginTextBox.Visible = false;
-            labelEmail.Visible = false;
-            textBoxEmail.Visible = false;
+            _editMode = true;
+            //this.Load += EditClientForm_Load;
+            InitializeForm();
 
-            PasswordTextBox.PasswordChar = '*';
-            PasswordRetryTextBox.PasswordChar = '*';
-            LastPasswordTextBox.PasswordChar = '*';
-
-            FullName.Text = _client.FullName;
-
-
-            this.Load += EditClientForm_Load;
         }
 
         public EditClientForm(DataBase dataBase)
         {
             InitializeComponent();
             _client = new User();
+            _editMode = false;
             _dataBase = dataBase;
-            SaveButton.Visible = false; //скрыть кнопку для сохранения редактированного объекта
-            LastPasswordLabel.Visible = false;
-            LastPasswordTextBox.Visible = false;
-            this.Load += EditClientForm_Load;
 
-            PasswordTextBox.PasswordChar = '*';
-            PasswordRetryTextBox.PasswordChar = '*';
-            LastPasswordTextBox.PasswordChar = '*';
-        }
-
-        private void EditClientForm_Load(object sender, EventArgs e)
-        {
-            // Проверить, содержит ли уже список подразделений элементы
-            if (DepartmentsNameListBox.Items.Count == 0)
-            {
-                // Загрузить данные всех подразделений
-                List<Division> departments = _dataBase.divisionController.GetDepartments();
-
-                // Заполнить ListBox названиями подразделений
-                foreach (var department in departments)
-                {
-                    DepartmentsNameListBox.Items.Add(department.Name);
-                }
-            }
+            //this.Load += EditClientForm_Load;
+            InitializeForm();
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            if(_dataBase.userController.HashPassword(LastPasswordTextBox.Text) == _client.PasswordHash)
+
+            if (_dataBase.UserController.HashPassword(LastPasswordTextBox.Text) != _client.PasswordHash)
             {
-                if (FullName.Text != "")
-                {
-                    _client.FullName = FullName.Text;
-                    // Проверить, что выбран элемент в DepartmentsNameListBox
-                    if (DepartmentsNameListBox.SelectedItem != null)
-                    {
-                        // Получить выбранное название подразделения
-                        string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-                        Division selectedParent = _dataBase.divisionController.Read(selectedDepartmentName);
-                        _client.DepartmentID = selectedParent.ID;
-                    }
-                    if (PasswordTextBox.Text != "")
-                    {
-                        if (PasswordRetryTextBox.Text == PasswordTextBox.Text)
-                        {
-                            _client.PasswordHash = _dataBase.userController.HashPassword(PasswordTextBox.Text);
-                        }
-                        else
-                        {
-                            Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_client} не удалось");
-                            MessageBox.Show("Повторное введение нового пароля не совпадает с новым паролем!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                }
-                else
-                {
-                    Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_client} не удалось");
-                    MessageBox.Show("Поле ФИО не может быть пустым!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                _dataBase.userController.UpdateClient(_client);
-                Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_client} произошло успешно");
-                this.Close();
+                MessageBox.Show("Для сохранения изменений введите старый пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (FullName.Text == "")
+            {
+                MessageBox.Show("Поле ФИО не может быть пустым!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            _client.FullName = FullName.Text;
+
+            // Проверить, что выбран элемент в DepartmentsNameListBox
+            if (DepartmentsNameListBox.SelectedItem != null)
+            {
+                // Получить выбранное название подразделения
+                string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
+                Division selectedParent = _dataBase.DivisionController.Read(selectedDepartmentName);
+                _client.DepartmentID = selectedParent.ID;
+             }
+
+            if (!string.IsNullOrEmpty(PasswordTextBox.Text) && PasswordTextBox.Text == PasswordRetryTextBox.Text)
+            {
+                _client.PasswordHash = _dataBase.UserController.HashPassword(PasswordTextBox.Text);
             }
             else
-            {
+             {
                 Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Редактирование объекта {_client} не удалось");
-                MessageBox.Show("Для сохранения изменений введите старый пароль!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                MessageBox.Show("Повторное введение нового пароля не совпадает с новым паролем!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+
+            _dataBase.UserController.UpdateClient(_client);
+             Close();
             
         }
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if ( LoginTextBox.Text != "" && FullName.Text != "" && PasswordTextBox.Text != "" && DepartmentsNameListBox.SelectedItem != null && textBoxEmail.Text != "")
+            if (LoginTextBox.Text == "" || FullName.Text == "" || PasswordTextBox.Text == "" || DepartmentsNameListBox.SelectedItem == null || textBoxEmail.Text == "")
             {
-
-               // Получить выбранное название подразделения
-               string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
-                Division selectedParent = _dataBase.divisionController.Read(selectedDepartmentName);
+                MessageBox.Show("Не все поля заполнены!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+                // Получить выбранное название подразделения
+                string selectedDepartmentName = DepartmentsNameListBox.SelectedItem.ToString();
+                Division selectedParent = _dataBase.DivisionController.Read(selectedDepartmentName);
                _client.DepartmentID = selectedParent.ID;
                 //else { _client.DepartmentID = null; }
                 if (PasswordTextBox.Text == PasswordRetryTextBox.Text)
                 {
                     _client.FullName = FullName.Text;
                     _client.Login = LoginTextBox.Text;
-                    _client.PasswordHash = _dataBase.userController.HashPassword(PasswordRetryTextBox.Text);
-                    if ( _dataBase.userController.ValidEmail(textBoxEmail.Text))
+                    _client.PasswordHash = _dataBase.UserController.HashPassword(PasswordRetryTextBox.Text);
+                    if ( _dataBase.UserController.ValidEmail(textBoxEmail.Text))
                     {
                         _client.EmailAddress = textBoxEmail.Text;
                         try
                         {
-                            _dataBase.userController.CreateClient(_client);
+                            _dataBase.UserController.CreateClient(_client);
                             this.Close();
                         }
                         catch (Npgsql.PostgresException ex)
@@ -165,14 +133,41 @@ namespace References_Administration
                     Log.WriteLog($"EditClientForm : FormSaveButton_Click(object sender, EventArgs e)/ Создание объекта {_client} не удалось");
                     MessageBox.Show("Повторное введение нового пароля не совпадает с новым паролем!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            else
-            {
-                Log.WriteLog($"EditClientForm : Form/CreateButton_Click(object sender, EventArgs e)/ Создание объекта не удалось");
-                MessageBox.Show("Не все поля заполнены!\n ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
+        private void InitializeForm()
+        {
+            // Загрузить данные всех подразделений
+            var _departments = _dataBase.DivisionController.GetDepartments();
 
+            // Заполнить ListBox названиями подразделений
+            foreach (var department in _departments)
+            {
+                DepartmentsNameListBox.Items.Add(department.Name);
+            }
+
+            // Скрыть/показать соответствующие элементы формы в зависимости от сценария использования
+
+
+            CreateButton.Visible = !_editMode;
+            SaveButton.Visible = _editMode;
+            LastPasswordLabel.Visible = _editMode;
+            LastPasswordTextBox.Visible = _editMode;
+            labelLogin.Visible = !_editMode;
+            LoginTextBox.Visible = !_editMode;
+            labelEmail.Visible = !_editMode;
+            textBoxEmail.Visible = !_editMode;
+
+            PasswordTextBox.PasswordChar = '*';
+            PasswordRetryTextBox.PasswordChar = '*';
+            LastPasswordTextBox.PasswordChar = '*';
+
+            if (_editMode)
+            {
+                FullName.Text = _client.FullName;
+                LoginTextBox.Text = _client.Login;
+                textBoxEmail.Text = _client.EmailAddress;
+            }
+        }
     }
 }
