@@ -254,9 +254,11 @@
     <EmbeddedResource Include="Forms\StartForm.resx">
       <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagramForms.cd" />
+    <None Include="Diagrams\ClassDiagramDataBase.cd" />
+    <None Include="Diagrams\ClassDiagramEvent.cd" />
     <None Include="Diagrams\ClassDiagramEmail.cd" />
     <None Include="Diagrams\ClassDiagramDivision.cd" />
-    <None Include="Diagrams\ClassDiagramDataBase.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

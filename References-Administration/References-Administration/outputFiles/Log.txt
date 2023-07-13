@@ -3326,3 +3326,13 @@ LogInfo: 12.07.2023 / 14:44:48 / Письмо успешно отправлен�
 LogInfo: 12.07.2023 / 14:44:49 / Письмо успешно отправлено.
 LogInfo: 12.07.2023 / 14:44:50 / Письмо успешно отправлено.
 LogInfo: 12.07.2023 / 14:45:06 / Работа программы завершена
+LogInfo: 13.07.2023 / 17:19:45 / Программа запущена
+LogInfo: 13.07.2023 / 17:19:46 / DataBaseController/DataBaseController()/ соединение Npgsql.NpgsqlConnection открыто успешно 
+LogInfo: 13.07.2023 / 17:20:22 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 2, Name: Мин. цифры, Parent ID: 1 add to List<Department> departments 
+LogInfo: 13.07.2023 / 17:20:22 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 3, Name: Министерство Экологии, Parent ID: 1 add to List<Department> departments 
+LogInfo: 13.07.2023 / 17:20:22 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 1, Name: Органы исполнительной власти, Parent ID:  add to List<Department> departments 
+LogInfo: 13.07.2023 / 17:20:22 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 5, Name: Министерство экономического развития, Parent ID: 1 add to List<Department> departments 
+LogInfo: 13.07.2023 / 17:20:22 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 6, Name: ОГБУ "ЧРЦНИТ", Parent ID: 2 add to List<Department> departments 
+LogInfo: 13.07.2023 / 17:20:22 / DepartmentController/GetDepartments(NpgsqlConnection connection)/ department Department ID: 8, Name: TestForDeleteChild1_1, Parent ID:  add to List<Department> departments 
+LogInfo: 13.07.2023 / 17:20:29 / DataBaseController/CloseConnection()/ соединение Npgsql.NpgsqlConnection завершено успешно 
+LogInfo: 13.07.2023 / 17:20:29 / Работа программы завершена
