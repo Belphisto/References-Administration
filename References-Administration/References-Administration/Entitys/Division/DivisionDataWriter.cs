@@ -18,23 +18,6 @@ namespace References_Administration
             _divisionHollWriter = divisionHollWriter;
         }
 
-        public void CheckUsers(Division department)
-        {
-            int? parentID = department.ParentID;
-
-            string checkUsersQuery = "SELECT COUNT(*) FROM client WHERE id_department = @DepartmentID";
-            using (NpgsqlCommand checkUsersCommand = new NpgsqlCommand(checkUsersQuery, _connection))
-            {
-                checkUsersCommand.Parameters.AddWithValue("@DepartmentID", department.ID);
-                int usersCount = Convert.ToInt32(checkUsersCommand.ExecuteScalar());
-
-                if (parentID == null && usersCount > 0)
-                {
-                    throw new InvalidOperationException("Невозможно удалить подразделение, так как к нему привязаны пользователи.");
-                }
-            }
-        }
-
         public void Create(Division department)
         {
             string query = "INSERT INTO department (name, parent_id) VALUES (@Name, @ParentID)";
@@ -65,6 +48,23 @@ namespace References_Administration
             RemoveDepartment(department);
         }
 
+        public void CheckUsers(Division department)
+        {
+            int? parentID = department.ParentID;
+
+            string checkUsersQuery = "SELECT COUNT(*) FROM client WHERE id_department = @DepartmentID";
+            using (NpgsqlCommand checkUsersCommand = new NpgsqlCommand(checkUsersQuery, _connection))
+            {
+                checkUsersCommand.Parameters.AddWithValue("@DepartmentID", department.ID);
+                int usersCount = Convert.ToInt32(checkUsersCommand.ExecuteScalar());
+
+                if ( usersCount > 0)
+                {
+                    throw new InvalidOperationException("Невозможно удалить подразделение, так как к нему привязаны пользователи.");
+                }
+            }
+        }
+
         public void RemoveDepartment(Division department)
         {
             string deleteQuery = "DELETE FROM department WHERE id = @DepartmentID";
@@ -83,7 +83,11 @@ namespace References_Administration
             {
                 command.Parameters.AddWithValue("@DepartmentID", department.ID);
                 command.Parameters.AddWithValue("@Name", department.Name);
-                command.Parameters.AddWithValue("@ParentID", department.ParentID);
+                // Проверка значения ParentID
+                if (department.ParentID == null)
+                    command.Parameters.AddWithValue("@ParentID", DBNull.Value);
+                else
+                    command.Parameters.AddWithValue("@ParentID", department.ParentID);
 
                 command.ExecuteNonQuery();
             }
@@ -91,7 +95,15 @@ namespace References_Administration
 
         public void UpdateParentDepartments(Division department)
         {
-            throw new NotImplementedException();
+            int? parentID = department.ParentID;
+
+            string updateQuery = "UPDATE department SET parent_id = @NewParentID WHERE parent_id = @DepartmentID";
+            using (NpgsqlCommand updateCommand = new NpgsqlCommand(updateQuery, _connection))
+            {
+                updateCommand.Parameters.AddWithValue("@NewParentID", parentID);
+                updateCommand.Parameters.AddWithValue("@DepartmentID", department.ID);
+                updateCommand.ExecuteNonQuery();
+            }
         }
     }
 }

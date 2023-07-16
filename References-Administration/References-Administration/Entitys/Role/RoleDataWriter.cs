@@ -60,7 +60,7 @@ namespace References_Administration
 
         public void Update(string lastrole, string newRole)
         {
-            string query = "UPDATE role SET name = @newRole, WHERE name = @lastRole";
+            string query = "UPDATE role SET name = @newRole WHERE name = @lastRole";
             using (NpgsqlCommand command = new NpgsqlCommand(query, _connection))
             {
                 command.Parameters.AddWithValue("@newRole", newRole);

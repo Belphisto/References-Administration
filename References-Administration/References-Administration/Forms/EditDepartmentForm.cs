@@ -86,7 +86,7 @@ namespace References_Administration
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if ( NameTextBox.Text != null)
+            if ( NameTextBox.Text != "")
             {
                 if (DepartmentsNameListBox.SelectedItem != null)
                 {
