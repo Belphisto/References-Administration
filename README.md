@@ -1,7 +1,7 @@
 # References-Administration
-![диаграмма вариантов использования](https://github.com/Belphisto/References-Administration/assets/100871374/dd4ec788-e81b-4b8a-bcb7-c8a1f8ff01d6)
-![Схема данных](https://github.com/Belphisto/References-Administration/assets/100871374/1c396870-be97-42c7-b142-8fd17d03121a)
-![ClassDiagramDataBase](https://github.com/Belphisto/References-Administration/assets/100871374/45ef499e-d6e9-4d11-a98f-9291ae7e9653)
-![ClassDiagramDivision](https://github.com/Belphisto/References-Administration/assets/100871374/9b8e2d2a-5caa-4ba3-8a3b-e1924caaf0b2)
-![ClassDiagramEmail](https://github.com/Belphisto/References-Administration/assets/100871374/c6077182-3473-4e64-890a-4a366dc606f0)
-![ClassDiagramEvent](https://github.com/Belphisto/References-Administration/assets/100871374/15b066a5-e1e8-4dfa-ae1d-037b6d014212)
+![диаграмма вариантов использования](https://github.com/Belphisto/References-Administration/assets/100871374/f2e02283-0100-4d2d-a1f1-9f4019a572ce)
+![Схема данных](https://github.com/Belphisto/References-Administration/assets/100871374/5cbfb956-5651-40f7-b022-ed1075bc9f87)
+![ClassDiagramDataBase](https://github.com/Belphisto/References-Administration/assets/100871374/1f80ed46-22ab-4069-9819-98e76aea0b28)
+![ClassDiagramDivision](https://github.com/Belphisto/References-Administration/assets/100871374/82d81a20-c2f4-4f38-a6de-7f5e453a8f49)
+![ClassDiagramEmail](https://github.com/Belphisto/References-Administration/assets/100871374/33129080-3586-4676-a0f1-802c1aea7a0a)
+![ClassDiagramEvent](https://github.com/Belphisto/References-Administration/assets/100871374/580b36cb-4a5b-4c5d-91b8-c3fec763684e)
